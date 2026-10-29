@@ -1,0 +1,1638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Living Rhythms — Interactive</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+
+            background: #07090a;
+            color: #e3e8e5;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+        }
+
+        canvas {
+            position: absolute;
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            cursor: crosshair;
+        }
+
+        .title {
+            position: fixed;
+            top: 36px;
+            left: 50px;
+
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .title h1 {
+            margin: 0;
+
+            font-size: 25px;
+            font-weight: 500;
+
+            letter-spacing: 0.02em;
+        }
+
+        .subtitle {
+            margin-top: 8px;
+
+            font-family: monospace;
+            font-size: 10px;
+
+            color: #89938f;
+
+            letter-spacing: 0.05em;
+        }
+
+        .finding {
+            margin-top: 20px;
+
+            font-family: monospace;
+            font-size: 10px;
+
+            color: #79e1d3;
+
+            letter-spacing: 0.04em;
+        }
+
+        .instruction {
+            margin-top: 7px;
+
+            font-family: monospace;
+            font-size: 9px;
+
+            line-height: 1.6;
+
+            color: #89938f;
+        }
+
+        .right-panel {
+            position: fixed;
+
+            top: 38px;
+            right: 46px;
+
+            width: 265px;
+
+            z-index: 10;
+
+            font-family: monospace;
+
+            pointer-events: none;
+        }
+
+        .time {
+            font-size: 30px;
+            color: #e3e8e5;
+        }
+
+        .state {
+            margin-top: 7px;
+
+            font-size: 10px;
+            color: #79e1d3;
+
+            letter-spacing: 0.04em;
+        }
+
+        .movement {
+            margin-top: 6px;
+
+            font-size: 9px;
+            color: #89938f;
+
+            line-height: 1.5;
+        }
+
+        .rule {
+            margin-top: 20px;
+
+            height: 1px;
+
+            background: #26302d;
+        }
+
+        .meta {
+            margin-top: 15px;
+
+            font-size: 9px;
+
+            color: #89938f;
+
+            line-height: 1.8;
+        }
+
+        .meta strong {
+            color: #e3e8e5;
+            font-weight: 400;
+        }
+
+        .selected {
+            margin-top: 15px;
+
+            padding-top: 12px;
+
+            border-top:
+                1px solid #26302d;
+
+            color: #79e1d3;
+        }
+
+        .selected strong {
+            display: block;
+
+            margin-top: 5px;
+
+            color: #e3e8e5;
+
+            font-size: 13px;
+        }
+
+        .bottom-left {
+            position: fixed;
+
+            left: 50px;
+            bottom: 35px;
+
+            z-index: 10;
+
+            font-family: monospace;
+            font-size: 9px;
+
+            color: #56615e;
+
+            pointer-events: none;
+
+            line-height: 1.7;
+        }
+
+        .mode {
+            color: #79e1d3;
+        }
+
+        .play-indicator {
+            color: #79e1d3;
+        }
+
+        .tooltip {
+            position: fixed;
+
+            display: none;
+
+            z-index: 20;
+
+            padding: 7px 9px;
+
+            background:
+                rgba(
+                    7,
+                    9,
+                    10,
+                    0.9
+                );
+
+            border:
+                1px solid
+                rgba(
+                    121,
+                    225,
+                    211,
+                    0.35
+                );
+
+            font-family: monospace;
+            font-size: 10px;
+
+            color: #79e1d3;
+
+            pointer-events: none;
+        }
+
+        .hint {
+            position: fixed;
+
+            right: 46px;
+            bottom: 35px;
+
+            z-index: 10;
+
+            max-width: 400px;
+
+            font-family: monospace;
+            font-size: 8px;
+
+            line-height: 1.5;
+
+            color: #56615e;
+
+            text-align: right;
+
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="canvas"></canvas>
+
+    <div class="title">
+        <h1>
+            LIVING RHYTHMS
+        </h1>
+
+        <div class="subtitle">
+            ELEPHANT MOVEMENT / KRUGER / 2007—2009
+        </div>
+
+        <div class="finding">
+            FROM COLLECTIVE RHYTHM TO INDIVIDUAL TRAJECTORY
+        </div>
+
+        <div class="instruction">
+            SCROLL TO ZOOM<br>
+            HOVER TO REVEAL AN INDIVIDUAL<br>
+            SPACE = PLAY / PAUSE
+        </div>
+    </div>
+
+
+    <div class="right-panel">
+
+        <div
+            id="timeText"
+            class="time"
+        >
+            00:00
+        </div>
+
+        <div
+            id="stateText"
+            class="state"
+        >
+            DAILY MOVEMENT
+        </div>
+
+        <div
+            id="movementText"
+            class="movement"
+        >
+            MEDIAN ~30 MIN DISPLACEMENT
+            —
+        </div>
+
+        <div class="rule"></div>
+
+        <div class="meta">
+
+            <div>
+                TRACKED INDIVIDUALS
+                &nbsp;
+                <strong
+                    id="individualCount"
+                >
+                    --
+                </strong>
+            </div>
+
+            <div>
+                VALID ~30 MIN STEPS
+                &nbsp;
+                <strong
+                    id="stepCount"
+                >
+                    --
+                </strong>
+            </div>
+
+            <div>
+                DISPLAY MOVEMENT STEPS
+                &nbsp;
+                <strong
+                    id="displayStepCount"
+                >
+                    --
+                </strong>
+            </div>
+
+            <div class="selected">
+                ACTIVE INDIVIDUAL
+
+                <strong
+                    id="activeId"
+                >
+                    NONE
+                </strong>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="bottom-left">
+
+        VIEW:
+        <span
+            id="modeLabel"
+            class="mode"
+        >
+            MACRO / COLLECTIVE RHYTHM
+        </span>
+
+        &nbsp;&nbsp;/&nbsp;&nbsp;
+
+        ZOOM
+        <span id="zoomValue">
+            1.00×
+        </span>
+
+        &nbsp;&nbsp;/&nbsp;&nbsp;
+
+        <span
+            id="playIndicator"
+            class="play-indicator"
+        >
+            PLAYING
+        </span>
+
+    </div>
+
+
+    <div
+        id="tooltip"
+        class="tooltip"
+    ></div>
+
+
+    <div class="hint">
+        MOVEMENT IS AGGREGATED BY SOUTH AFRICA LOCAL HOUR
+        ACROSS THE FULL STUDY PERIOD.
+        THIS IS NOT ONE REAL DAY.
+    </div>
+
+
+<script>
+
+/* ==========================================================
+   ELEMENTS
+========================================================== */
+
+const canvas =
+    document.getElementById(
+        "canvas"
+    );
+
+const ctx =
+    canvas.getContext(
+        "2d"
+    );
+
+const tooltip =
+    document.getElementById(
+        "tooltip"
+    );
+
+const individualCount =
+    document.getElementById(
+        "individualCount"
+    );
+
+const stepCount =
+    document.getElementById(
+        "stepCount"
+    );
+
+const displayStepCount =
+    document.getElementById(
+        "displayStepCount"
+    );
+
+const activeId =
+    document.getElementById(
+        "activeId"
+    );
+
+const zoomValue =
+    document.getElementById(
+        "zoomValue"
+    );
+
+const modeLabel =
+    document.getElementById(
+        "modeLabel"
+    );
+
+const timeText =
+    document.getElementById(
+        "timeText"
+    );
+
+const stateText =
+    document.getElementById(
+        "stateText"
+    );
+
+const movementText =
+    document.getElementById(
+        "movementText"
+    );
+
+const playIndicator =
+    document.getElementById(
+        "playIndicator"
+    );
+
+
+/* ==========================================================
+   DATA
+========================================================== */
+
+let data = null;
+
+let tracks = [];
+
+let bounds = null;
+
+let rhythm = null;
+
+let hoveredTrack = null;
+
+
+/* ==========================================================
+   CAMERA
+========================================================== */
+
+const camera = {
+    scale: 1,
+    offsetX: 0,
+    offsetY: 0
+};
+
+
+/* ==========================================================
+   MOUSE
+========================================================== */
+
+const mouse = {
+    x: -1000,
+    y: -1000
+};
+
+
+/* ==========================================================
+   TIME
+========================================================== */
+
+/*
+    15-minute visual steps.
+
+    0.00
+    0.25
+    0.50
+    0.75
+    1.00
+*/
+let currentTime = 0;
+
+const timeStep = 0.25;
+
+
+/*
+    One visual step every 100 ms.
+
+    Full 24h cycle:
+    96 steps × 100ms
+    ≈ 9.6 seconds
+*/
+const stepDuration = 100;
+
+
+let playing = true;
+
+let lastStepTime = 0;
+
+
+/* ==========================================================
+   COLOURS
+========================================================== */
+
+const BACKGROUND =
+    "#07090A";
+
+const HISTORICAL =
+    "rgba(203, 200, 193, 0.07)";
+
+const HISTORICAL_ZOOM =
+    "rgba(203, 200, 193, 0.18)";
+
+const TEAL =
+    "50, 199, 181";
+
+const TEAL_BRIGHT =
+    "121, 225, 211";
+
+
+/* ==========================================================
+   CANVAS
+========================================================== */
+
+function resizeCanvas() {
+
+    const dpr =
+        window.devicePixelRatio
+        || 1;
+
+    canvas.width =
+        window.innerWidth
+        * dpr;
+
+    canvas.height =
+        window.innerHeight
+        * dpr;
+
+    canvas.style.width =
+        window.innerWidth
+        + "px";
+
+    canvas.style.height =
+        window.innerHeight
+        + "px";
+
+    ctx.setTransform(
+        dpr,
+        0,
+        0,
+        dpr,
+        0,
+        0
+    );
+}
+
+
+/* ==========================================================
+   TRANSFORM
+========================================================== */
+
+function calculateBaseTransform() {
+
+    const width =
+        window.innerWidth;
+
+    const height =
+        window.innerHeight;
+
+
+    const marginX =
+        width * 0.13;
+
+    const marginY =
+        height * 0.14;
+
+
+    const lonRange =
+        bounds.max_lon
+        - bounds.min_lon;
+
+    const latRange =
+        bounds.max_lat
+        - bounds.min_lat;
+
+
+    const meanLat =
+        (
+            bounds.min_lat
+            + bounds.max_lat
+        ) / 2;
+
+
+    const lonCorrection =
+        Math.cos(
+            meanLat
+            * Math.PI
+            / 180
+        );
+
+
+    const correctedLonRange =
+        lonRange
+        * lonCorrection;
+
+
+    const usableWidth =
+        width
+        - marginX * 2;
+
+    const usableHeight =
+        height
+        - marginY * 2;
+
+
+    const fitScale =
+        Math.min(
+            usableWidth
+            / correctedLonRange,
+
+            usableHeight
+            / latRange
+        );
+
+
+    return {
+        fitScale,
+        lonCorrection,
+
+        centerX:
+            width * 0.48,
+
+        centerY:
+            height * 0.53,
+
+        meanLon:
+            (
+                bounds.min_lon
+                + bounds.max_lon
+            ) / 2,
+
+        meanLat
+    };
+}
+
+
+function worldToScreen(
+    lon,
+    lat
+) {
+
+    const base =
+        calculateBaseTransform();
+
+
+    const xWorld =
+        (
+            lon
+            - base.meanLon
+        )
+        * base.lonCorrection;
+
+
+    const yWorld =
+        (
+            lat
+            - base.meanLat
+        );
+
+
+    const scale =
+        base.fitScale
+        * camera.scale;
+
+
+    return {
+        x:
+            base.centerX
+            + xWorld
+            * scale
+            + camera.offsetX,
+
+        y:
+            base.centerY
+            - yWorld
+            * scale
+            + camera.offsetY
+    };
+}
+
+
+/* ==========================================================
+   BACKGROUND
+========================================================== */
+
+function drawBackground() {
+
+    ctx.fillStyle =
+        BACKGROUND;
+
+    ctx.fillRect(
+        0,
+        0,
+        window.innerWidth,
+        window.innerHeight
+    );
+}
+
+
+/* ==========================================================
+   INDIVIDUAL TRACKS
+========================================================== */
+
+function drawTrack(
+    track,
+    selected = false
+) {
+
+    const points =
+        track.points;
+
+    if (
+        !points
+        || points.length < 2
+    ) {
+        return;
+    }
+
+
+    const zoomStrength =
+        Math.min(
+            Math.max(
+                (
+                    camera.scale
+                    - 1
+                ) / 3,
+                0
+            ),
+            1
+        );
+
+
+    if (selected) {
+
+        ctx.strokeStyle =
+            `rgba(
+                ${TEAL_BRIGHT},
+                0.98
+            )`;
+
+        ctx.lineWidth =
+            1.1
+            + zoomStrength
+            * 0.9;
+
+        ctx.shadowColor =
+            `rgba(
+                ${TEAL_BRIGHT},
+                0.7
+            )`;
+
+        ctx.shadowBlur =
+            5;
+
+    } else {
+
+        const alpha =
+            0.06
+            + zoomStrength
+            * 0.19;
+
+        ctx.strokeStyle =
+            `rgba(
+                203,
+                200,
+                193,
+                ${alpha}
+            )`;
+
+        ctx.lineWidth =
+            0.32
+            + zoomStrength
+            * 0.34;
+
+        ctx.shadowBlur = 0;
+    }
+
+
+    ctx.beginPath();
+
+
+    for (
+        let i = 0;
+        i < points.length;
+        i++
+    ) {
+
+        const p =
+            worldToScreen(
+                points[i].lon,
+                points[i].lat
+            );
+
+
+        if (i === 0) {
+
+            ctx.moveTo(
+                p.x,
+                p.y
+            );
+
+        } else {
+
+            ctx.lineTo(
+                p.x,
+                p.y
+            );
+        }
+    }
+
+
+    ctx.stroke();
+
+    ctx.shadowBlur = 0;
+}
+
+
+/* ==========================================================
+   CURRENT MOVEMENT
+========================================================== */
+
+function drawCurrentMovement() {
+
+    if (!rhythm) {
+        return;
+    }
+
+
+    const hour =
+        Math.floor(
+            currentTime
+        ) % 24;
+
+
+    const segments =
+        rhythm
+            .hourly_segments[
+                String(hour)
+            ];
+
+
+    if (!segments) {
+        return;
+    }
+
+
+    /*
+        Macro movement is strongest
+        when zoomed out.
+
+        It gradually becomes less dominant
+        as individual trajectories emerge.
+    */
+
+    const macroStrength =
+        Math.max(
+            0.20,
+            1
+            - (
+                camera.scale
+                - 1
+            ) / 4
+        );
+
+
+    const p95 =
+        rhythm.visual_p95;
+
+
+    for (const segment of segments) {
+
+        const start =
+            worldToScreen(
+                segment.x1,
+                segment.y1
+            );
+
+        const end =
+            worldToScreen(
+                segment.x2,
+                segment.y2
+            );
+
+
+        const strength =
+            Math.min(
+                segment.movement
+                / p95,
+                1
+            );
+
+
+        const alpha =
+            (
+                0.08
+                + strength
+                * 0.55
+            )
+            * macroStrength;
+
+
+        const width =
+            0.28
+            + strength
+            * 0.8;
+
+
+        ctx.strokeStyle =
+            `rgba(
+                ${TEAL},
+                ${alpha}
+            )`;
+
+        ctx.lineWidth =
+            width;
+
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            start.x,
+            start.y
+        );
+
+        ctx.lineTo(
+            end.x,
+            end.y
+        );
+
+        ctx.stroke();
+    }
+}
+
+
+/* ==========================================================
+   DRAW
+========================================================== */
+
+function draw() {
+
+    if (!data) {
+        return;
+    }
+
+
+    drawBackground();
+
+
+    /*
+        1. Individual trajectory memory
+    */
+
+    for (const track of tracks) {
+
+        if (
+            hoveredTrack
+            && track.id
+            === hoveredTrack.id
+        ) {
+            continue;
+        }
+
+        drawTrack(
+            track,
+            false
+        );
+    }
+
+
+    /*
+        2. Current aggregated movement
+    */
+
+    drawCurrentMovement();
+
+
+    /*
+        3. Hover highlight
+    */
+
+    if (hoveredTrack) {
+
+        drawTrack(
+            hoveredTrack,
+            true
+        );
+    }
+
+
+    updateInterface();
+}
+
+
+/* ==========================================================
+   INTERFACE
+========================================================== */
+
+function updateInterface() {
+
+    const hour =
+        Math.floor(
+            currentTime
+        ) % 24;
+
+
+    const minute =
+        Math.round(
+            (
+                currentTime
+                - Math.floor(
+                    currentTime
+                )
+            )
+            * 60
+        );
+
+
+    timeText.textContent =
+        String(hour)
+            .padStart(
+                2,
+                "0"
+            )
+        + ":"
+        + String(minute)
+            .padStart(
+                2,
+                "0"
+            );
+
+
+    const currentMedian =
+        rhythm
+            .hourly_medians[
+                String(hour)
+            ];
+
+
+    movementText.textContent =
+        "MEDIAN ~30 MIN DISPLACEMENT  "
+        + Number(
+            currentMedian
+        ).toFixed(3)
+        + " KM";
+
+
+    if (
+        hour >= 2
+        && hour < 5
+    ) {
+
+        stateText.textContent =
+            "LOW ACTIVITY";
+
+    } else if (
+        hour >= 5
+        && hour < 8
+    ) {
+
+        stateText.textContent =
+            "MORNING RISE";
+
+    } else if (
+        hour >= 16
+        && hour < 18
+    ) {
+
+        stateText.textContent =
+            "LATE-AFTERNOON PEAK";
+
+    } else {
+
+        stateText.textContent =
+            "DAILY MOVEMENT";
+    }
+
+
+    zoomValue.textContent =
+        camera.scale.toFixed(2)
+        + "×";
+
+
+    if (
+        camera.scale < 1.8
+    ) {
+
+        modeLabel.textContent =
+            "MACRO / COLLECTIVE RHYTHM";
+
+    } else if (
+        camera.scale < 3.5
+    ) {
+
+        modeLabel.textContent =
+            "MESO / INDIVIDUAL STRUCTURE";
+
+    } else {
+
+        modeLabel.textContent =
+            "MICRO / INDIVIDUAL TRAJECTORIES";
+    }
+
+
+    playIndicator.textContent =
+        playing
+        ? "PLAYING"
+        : "PAUSED";
+}
+
+
+/* ==========================================================
+   HOVER
+========================================================== */
+
+function distance(
+    x1,
+    y1,
+    x2,
+    y2
+) {
+
+    const dx =
+        x1 - x2;
+
+    const dy =
+        y1 - y2;
+
+    return Math.sqrt(
+        dx * dx
+        + dy * dy
+    );
+}
+
+
+function findHoveredTrack() {
+
+    /*
+        Only activate hover
+        after some zoom.
+    */
+
+    if (
+        camera.scale < 1.45
+    ) {
+
+        hoveredTrack = null;
+
+        activeId.textContent =
+            "NONE";
+
+        tooltip.style.display =
+            "none";
+
+        return;
+    }
+
+
+    let nearestTrack =
+        null;
+
+    let nearestDistance =
+        Infinity;
+
+
+    const threshold = 13;
+
+
+    for (const track of tracks) {
+
+        const points =
+            track.points;
+
+
+        const hoverStep =
+            Math.max(
+                1,
+                Math.floor(
+                    points.length
+                    / 1500
+                )
+            );
+
+
+        for (
+            let i = 0;
+            i < points.length;
+            i += hoverStep
+        ) {
+
+            const p =
+                worldToScreen(
+                    points[i].lon,
+                    points[i].lat
+                );
+
+
+            const d =
+                distance(
+                    mouse.x,
+                    mouse.y,
+                    p.x,
+                    p.y
+                );
+
+
+            if (
+                d < nearestDistance
+            ) {
+
+                nearestDistance =
+                    d;
+
+                nearestTrack =
+                    track;
+            }
+        }
+    }
+
+
+    if (
+        nearestDistance
+        <= threshold
+    ) {
+
+        hoveredTrack =
+            nearestTrack;
+
+        activeId.textContent =
+            nearestTrack.id;
+
+        tooltip.textContent =
+            nearestTrack.id;
+
+        tooltip.style.display =
+            "block";
+
+        tooltip.style.left =
+            (
+                mouse.x + 15
+            ) + "px";
+
+        tooltip.style.top =
+            (
+                mouse.y + 15
+            ) + "px";
+
+    } else {
+
+        hoveredTrack = null;
+
+        activeId.textContent =
+            "NONE";
+
+        tooltip.style.display =
+            "none";
+    }
+}
+
+
+/* ==========================================================
+   ZOOM
+========================================================== */
+
+canvas.addEventListener(
+    "wheel",
+    event => {
+
+        event.preventDefault();
+
+
+        const oldScale =
+            camera.scale;
+
+
+        const factor =
+            event.deltaY < 0
+            ? 1.16
+            : 1 / 1.16;
+
+
+        const newScale =
+            Math.min(
+                8,
+                Math.max(
+                    1,
+                    oldScale
+                    * factor
+                )
+            );
+
+
+        if (
+            newScale
+            === oldScale
+        ) {
+            return;
+        }
+
+
+        const centerX =
+            window.innerWidth
+            * 0.48;
+
+        const centerY =
+            window.innerHeight
+            * 0.53;
+
+
+        const relativeX =
+            event.clientX
+            - centerX
+            - camera.offsetX;
+
+        const relativeY =
+            event.clientY
+            - centerY
+            - camera.offsetY;
+
+
+        const ratio =
+            newScale
+            / oldScale;
+
+
+        camera.offsetX -=
+            relativeX
+            * (
+                ratio - 1
+            );
+
+        camera.offsetY -=
+            relativeY
+            * (
+                ratio - 1
+            );
+
+
+        camera.scale =
+            newScale;
+
+
+        findHoveredTrack();
+
+        draw();
+    },
+    {
+        passive: false
+    }
+);
+
+
+/* ==========================================================
+   MOUSE
+========================================================== */
+
+canvas.addEventListener(
+    "mousemove",
+    event => {
+
+        mouse.x =
+            event.clientX;
+
+        mouse.y =
+            event.clientY;
+
+
+        findHoveredTrack();
+    }
+);
+
+
+/* ==========================================================
+   RESET
+========================================================== */
+
+canvas.addEventListener(
+    "dblclick",
+    () => {
+
+        camera.scale = 1;
+
+        camera.offsetX = 0;
+        camera.offsetY = 0;
+
+        hoveredTrack = null;
+
+        activeId.textContent =
+            "NONE";
+
+        tooltip.style.display =
+            "none";
+    }
+);
+
+
+/* ==========================================================
+   PLAY / PAUSE
+========================================================== */
+
+window.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.code
+            === "Space"
+        ) {
+
+            event.preventDefault();
+
+            playing =
+                !playing;
+        }
+    }
+);
+
+
+/* ==========================================================
+   ANIMATION LOOP
+========================================================== */
+
+function animate(timestamp) {
+
+    if (
+        playing
+        && (
+            timestamp
+            - lastStepTime
+            >= stepDuration
+        )
+    ) {
+
+        currentTime +=
+            timeStep;
+
+
+        if (
+            currentTime >= 24
+        ) {
+
+            currentTime = 0;
+        }
+
+
+        lastStepTime =
+            timestamp;
+    }
+
+
+    draw();
+
+
+    requestAnimationFrame(
+        animate
+    );
+}
+
+
+/* ==========================================================
+   WINDOW
+========================================================== */
+
+window.addEventListener(
+    "resize",
+    () => {
+
+        resizeCanvas();
+    }
+);
+
+
+/* ==========================================================
+   LOAD DATA
+========================================================== */
+
+async function loadData() {
+
+    try {
+
+        const response =
+            await fetch(
+                "out/interactive_tracks.json"
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Could not load JSON"
+            );
+        }
+
+
+        data =
+            await response.json();
+
+
+        tracks =
+            data.individuals;
+
+        bounds =
+            data.bounds;
+
+        rhythm =
+            data.rhythm;
+
+
+        individualCount.textContent =
+            data
+                .metadata
+                .individual_count;
+
+
+        stepCount.textContent =
+            data
+                .metadata
+                .valid_movement_step_count
+                .toLocaleString();
+
+
+        displayStepCount.textContent =
+            data
+                .metadata
+                .display_movement_step_count
+                .toLocaleString();
+
+
+        resizeCanvas();
+
+
+        requestAnimationFrame(
+            animate
+        );
+
+    } catch (error) {
+
+        console.error(
+            error
+        );
+
+
+        ctx.fillStyle =
+            BACKGROUND;
+
+        ctx.fillRect(
+            0,
+            0,
+            window.innerWidth,
+            window.innerHeight
+        );
+
+
+        ctx.fillStyle =
+            "#E3E8E5";
+
+        ctx.font =
+            "16px monospace";
+
+
+        ctx.fillText(
+            "Could not load interactive_tracks.json",
+            60,
+            100
+        );
+
+
+        ctx.fillStyle =
+            "#89938F";
+
+        ctx.font =
+            "12px monospace";
+
+
+        ctx.fillText(
+            "Run the page through the local HTTP server.",
+            60,
+            130
+        );
+    }
+}
+
+
+loadData();
+
+</script>
+
+</body>
+</html>
