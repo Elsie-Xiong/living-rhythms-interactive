@@ -104,7 +104,7 @@
         .right-panel {
             position: fixed;
 
-            top: 28px;
+            top: 24px;
             right: 38px;
 
             width: 285px;
@@ -140,7 +140,7 @@
         }
 
         .rule {
-            margin-top: 20px;
+            margin-top: 16px;
 
             height: 1px;
 
@@ -148,13 +148,13 @@
         }
 
         .meta {
-            margin-top: 15px;
+            margin-top: 12px;
 
             font-size: 9px;
 
             color: #89938f;
 
-            line-height: 1.8;
+            line-height: 1.7;
         }
 
         .meta strong {
@@ -163,9 +163,8 @@
         }
 
         .selected {
-            margin-top: 15px;
-
-            padding-top: 12px;
+            margin-top: 12px;
+            padding-top: 10px;
 
             border-top:
                 1px solid #26302d;
@@ -184,8 +183,8 @@
         }
 
         .selector {
-            margin-top: 12px;
-            padding-top: 10px;
+            margin-top: 10px;
+            padding-top: 9px;
 
             border-top:
                 1px solid #26302d;
@@ -194,7 +193,7 @@
         }
 
         .selector-label {
-            margin-bottom: 9px;
+            margin-bottom: 8px;
 
             font-family: monospace;
             font-size: 9px;
@@ -273,7 +272,7 @@
         }
 
         .selector-note {
-            margin-top: 8px;
+            margin-top: 7px;
 
             font-size: 8px;
 
@@ -282,16 +281,105 @@
             color: #56615e;
         }
 
+        .timeline {
+            margin-top: 10px;
+            padding-top: 9px;
+
+            border-top:
+                1px solid #26302d;
+
+            pointer-events: auto;
+        }
+
+        .timeline-title {
+            margin-bottom: 7px;
+
+            font-size: 9px;
+
+            color: #79e1d3;
+
+            letter-spacing: 0.04em;
+        }
+
+        .timeline-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .timeline-time {
+            width: 36px;
+
+            font-size: 8px;
+            color: #89938f;
+        }
+
+        #timeSlider {
+            flex: 1;
+
+            appearance: none;
+            -webkit-appearance: none;
+
+            height: 2px;
+
+            background: #26302d;
+
+            outline: none;
+
+            cursor: pointer;
+        }
+
+        #timeSlider::-webkit-slider-thumb {
+            appearance: none;
+            -webkit-appearance: none;
+
+            width: 10px;
+            height: 10px;
+
+            border-radius: 50%;
+
+            background: #79e1d3;
+
+            border: none;
+
+            cursor: pointer;
+        }
+
+        #timeSlider::-moz-range-thumb {
+            width: 10px;
+            height: 10px;
+
+            border-radius: 50%;
+
+            background: #79e1d3;
+
+            border: none;
+
+            cursor: pointer;
+        }
+
+        .timeline-labels {
+            display: flex;
+            justify-content: space-between;
+
+            margin-top: 4px;
+            padding-left: 44px;
+
+            font-size: 7px;
+
+            color: #56615e;
+        }
+
         .comparison {
-            margin-top: 12px;
-            padding-top: 10px;
+            margin-top: 10px;
+            padding-top: 9px;
 
             border-top:
                 1px solid #26302d;
         }
 
         .comparison-title {
-            margin-bottom: 8px;
+            margin-bottom: 7px;
 
             font-size: 9px;
 
@@ -301,7 +389,7 @@
         }
 
         .comparison-placeholder {
-            height: 95px;
+            height: 90px;
 
             display: flex;
             align-items: center;
@@ -516,6 +604,7 @@
 
         <div class="instruction">
             SELECT AN ELEPHANT TO COMPARE<br>
+            DRAG THE TIMELINE TO EXPLORE TIME<br>
             SCROLL TO ZOOM<br>
             HOVER TO REVEAL AN INDIVIDUAL<br>
             SPACE = PLAY / PAUSE
@@ -606,6 +695,42 @@
 
                 <div class="selector-note">
                     CLICK THE ACTIVE ID AGAIN TO RETURN TO THE COLLECTIVE VIEW.
+                </div>
+
+            </div>
+
+            <div class="timeline">
+
+                <div class="timeline-title">
+                    TIME SCRUBBER
+                </div>
+
+                <div class="timeline-row">
+
+                    <div
+                        id="sliderTimeText"
+                        class="timeline-time"
+                    >
+                        00:00
+                    </div>
+
+                    <input
+                        id="timeSlider"
+                        type="range"
+                        min="0"
+                        max="95"
+                        step="1"
+                        value="0"
+                    >
+
+                </div>
+
+                <div class="timeline-labels">
+                    <span>00</span>
+                    <span>06</span>
+                    <span>12</span>
+                    <span>18</span>
+                    <span>24</span>
                 </div>
 
             </div>
@@ -853,6 +978,16 @@ const relationText =
         "relationText"
     );
 
+const timeSlider =
+    document.getElementById(
+        "timeSlider"
+    );
+
+const sliderTimeText =
+    document.getElementById(
+        "sliderTimeText"
+    );
+
 
 /* ==========================================================
    DATA
@@ -919,6 +1054,66 @@ const TEAL =
 
 const TEAL_BRIGHT =
     "121, 225, 211";
+
+
+/* ==========================================================
+   TIME HELPERS
+========================================================== */
+
+function formatTime(
+    time
+) {
+
+    const hour =
+        Math.floor(
+            time
+        ) % 24;
+
+    const minute =
+        Math.round(
+            (
+                time
+                - Math.floor(
+                    time
+                )
+            )
+            * 60
+        );
+
+    return (
+        String(
+            hour
+        ).padStart(
+            2,
+            "0"
+        )
+        + ":"
+        + String(
+            minute
+        ).padStart(
+            2,
+            "0"
+        )
+    );
+}
+
+
+function syncSliderToTime() {
+
+    const sliderIndex =
+        Math.round(
+            currentTime
+            / 0.25
+        ) % 96;
+
+    timeSlider.value =
+        sliderIndex;
+
+    sliderTimeText.textContent =
+        formatTime(
+            currentTime
+        );
+}
 
 
 /* ==========================================================
@@ -1392,29 +1587,12 @@ function updateInterface() {
             currentTime
         ) % 24;
 
-    const minute =
-        Math.round(
-            (
-                currentTime
-                - Math.floor(
-                    currentTime
-                )
-            )
-            * 60
+    timeText.textContent =
+        formatTime(
+            currentTime
         );
 
-    timeText.textContent =
-        String(hour)
-            .padStart(
-                2,
-                "0"
-            )
-        + ":"
-        + String(minute)
-            .padStart(
-                2,
-                "0"
-            );
+    syncSliderToTime();
 
     const currentMedian =
         rhythm
@@ -1630,6 +1808,36 @@ function updateSelectorButtons() {
 
 
 /* ==========================================================
+   TIMELINE
+========================================================== */
+
+timeSlider.addEventListener(
+    "input",
+    () => {
+
+        const sliderIndex =
+            Number(
+                timeSlider.value
+            );
+
+        currentTime =
+            sliderIndex
+            * 0.25;
+
+        playing =
+            false;
+
+        sliderTimeText.textContent =
+            formatTime(
+                currentTime
+            );
+
+        draw();
+    }
+);
+
+
+/* ==========================================================
    COMPARISON
 ========================================================== */
 
@@ -1694,14 +1902,6 @@ function updateComparison() {
     const difference =
         individualMedian
         - collectiveMedian;
-
-    /*
-        "Near" uses a relative tolerance
-        of 15% of the collective median.
-
-        This is only a descriptive UI label,
-        not a statistical significance test.
-    */
 
     const tolerance =
         Math.max(
@@ -1855,10 +2055,6 @@ function drawRhythmChart(
         );
     }
 
-    /*
-        Horizontal guide lines.
-    */
-
     chartCtx.strokeStyle =
         "rgba(137, 147, 143, 0.12)";
 
@@ -1894,10 +2090,6 @@ function drawRhythmChart(
         chartCtx.stroke();
     }
 
-    /*
-        Current hour marker.
-    */
-
     const markerX =
         xForHour(
             currentHour
@@ -1923,10 +2115,6 @@ function drawRhythmChart(
     );
 
     chartCtx.stroke();
-
-    /*
-        Collective line.
-    */
 
     chartCtx.strokeStyle =
         "rgba(137, 147, 143, 0.75)";
@@ -1974,10 +2162,6 @@ function drawRhythmChart(
 
     chartCtx.stroke();
 
-    /*
-        Selected individual line.
-    */
-
     chartCtx.strokeStyle =
         "rgba(121, 225, 211, 0.98)";
 
@@ -2024,10 +2208,6 @@ function drawRhythmChart(
 
     chartCtx.stroke();
 
-    /*
-        Current-hour dots.
-    */
-
     const collectiveY =
         yForValue(
             collectiveValues[
@@ -2071,10 +2251,6 @@ function drawRhythmChart(
     );
 
     chartCtx.fill();
-
-    /*
-        X-axis labels.
-    */
 
     chartCtx.fillStyle =
         "#56615e";
