@@ -41,6 +41,15 @@
             cursor: crosshair;
         }
 
+        #rhythmChart {
+            position: static;
+
+            width: 100%;
+            height: 95px;
+
+            cursor: default;
+        }
+
         .title {
             position: fixed;
             top: 36px;
@@ -95,10 +104,10 @@
         .right-panel {
             position: fixed;
 
-            top: 38px;
-            right: 46px;
+            top: 28px;
+            right: 38px;
 
-            width: 265px;
+            width: 285px;
 
             z-index: 10;
 
@@ -175,8 +184,8 @@
         }
 
         .selector {
-            margin-top: 16px;
-            padding-top: 13px;
+            margin-top: 12px;
+            padding-top: 10px;
 
             border-top:
                 1px solid #26302d;
@@ -266,17 +275,142 @@
         .selector-note {
             margin-top: 8px;
 
-            font-family:
-                monospace;
+            font-size: 8px;
 
-            font-size:
-                8px;
+            line-height: 1.4;
 
-            line-height:
-                1.4;
+            color: #56615e;
+        }
 
-            color:
-                #56615e;
+        .comparison {
+            margin-top: 12px;
+            padding-top: 10px;
+
+            border-top:
+                1px solid #26302d;
+        }
+
+        .comparison-title {
+            margin-bottom: 8px;
+
+            font-size: 9px;
+
+            color: #79e1d3;
+
+            letter-spacing: 0.04em;
+        }
+
+        .comparison-placeholder {
+            height: 95px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border:
+                1px solid
+                rgba(
+                    38,
+                    48,
+                    45,
+                    0.65
+                );
+
+            color: #56615e;
+
+            font-size: 8px;
+
+            text-align: center;
+
+            line-height: 1.6;
+        }
+
+        .chart-wrap {
+            display: none;
+        }
+
+        .comparison-legend {
+            display: flex;
+
+            gap: 15px;
+
+            margin-top: 5px;
+
+            font-size: 8px;
+
+            color: #89938f;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+
+            gap: 5px;
+        }
+
+        .legend-line {
+            width: 14px;
+            height: 1px;
+        }
+
+        .legend-line.individual {
+            background: #79e1d3;
+        }
+
+        .legend-line.collective {
+            background: #89938f;
+        }
+
+        .comparison-values {
+            margin-top: 7px;
+
+            display: grid;
+
+            grid-template-columns:
+                1fr
+                1fr;
+
+            gap: 5px;
+        }
+
+        .comparison-value {
+            padding: 5px;
+
+            border:
+                1px solid
+                #26302d;
+        }
+
+        .comparison-value-label {
+            font-size: 7px;
+
+            color: #56615e;
+
+            letter-spacing: 0.03em;
+        }
+
+        .comparison-value-number {
+            margin-top: 3px;
+
+            font-size: 11px;
+
+            color: #e3e8e5;
+        }
+
+        .relation {
+            grid-column:
+                1 / -1;
+
+            padding-top: 6px;
+
+            border-top:
+                1px solid #26302d;
+
+            font-size: 9px;
+
+            color: #79e1d3;
+
+            letter-spacing: 0.04em;
         }
 
         .bottom-left {
@@ -342,8 +476,8 @@
         .hint {
             position: fixed;
 
-            right: 46px;
-            bottom: 35px;
+            right: 38px;
+            bottom: 18px;
 
             z-index: 10;
 
@@ -381,7 +515,7 @@
         </div>
 
         <div class="instruction">
-            SELECT AN ELEPHANT TO FOLLOW<br>
+            SELECT AN ELEPHANT TO COMPARE<br>
             SCROLL TO ZOOM<br>
             HOVER TO REVEAL AN INDIVIDUAL<br>
             SPACE = PLAY / PAUSE
@@ -471,7 +605,91 @@
                 ></div>
 
                 <div class="selector-note">
-                    CLICK AN ACTIVE ID AGAIN TO RETURN TO THE COLLECTIVE VIEW.
+                    CLICK THE ACTIVE ID AGAIN TO RETURN TO THE COLLECTIVE VIEW.
+                </div>
+
+            </div>
+
+            <div class="comparison">
+
+                <div class="comparison-title">
+                    INDIVIDUAL VS COLLECTIVE / 24H
+                </div>
+
+                <div
+                    id="comparisonPlaceholder"
+                    class="comparison-placeholder"
+                >
+                    SELECT AN ELEPHANT<br>
+                    TO COMPARE ITS DAILY RHYTHM
+                </div>
+
+                <div
+                    id="chartWrap"
+                    class="chart-wrap"
+                >
+
+                    <canvas
+                        id="rhythmChart"
+                        width="285"
+                        height="95"
+                    ></canvas>
+
+                    <div class="comparison-legend">
+
+                        <div class="legend-item">
+                            <div
+                                class="legend-line individual"
+                            ></div>
+                            SELECTED
+                        </div>
+
+                        <div class="legend-item">
+                            <div
+                                class="legend-line collective"
+                            ></div>
+                            COLLECTIVE
+                        </div>
+
+                    </div>
+
+                    <div class="comparison-values">
+
+                        <div class="comparison-value">
+                            <div class="comparison-value-label">
+                                SELECTED MEDIAN
+                            </div>
+
+                            <div
+                                id="individualValue"
+                                class="comparison-value-number"
+                            >
+                                —
+                            </div>
+                        </div>
+
+                        <div class="comparison-value">
+                            <div class="comparison-value-label">
+                                COLLECTIVE MEDIAN
+                            </div>
+
+                            <div
+                                id="collectiveValue"
+                                class="comparison-value-number"
+                            >
+                                —
+                            </div>
+                        </div>
+
+                        <div
+                            id="relationText"
+                            class="relation"
+                        >
+                            SELECT AN ELEPHANT
+                        </div>
+
+                    </div>
+
                 </div>
 
             </div>
@@ -598,6 +816,41 @@ const movementText =
 const playIndicator =
     document.getElementById(
         "playIndicator"
+    );
+
+const comparisonPlaceholder =
+    document.getElementById(
+        "comparisonPlaceholder"
+    );
+
+const chartWrap =
+    document.getElementById(
+        "chartWrap"
+    );
+
+const rhythmChart =
+    document.getElementById(
+        "rhythmChart"
+    );
+
+const chartCtx =
+    rhythmChart.getContext(
+        "2d"
+    );
+
+const individualValue =
+    document.getElementById(
+        "individualValue"
+    );
+
+const collectiveValue =
+    document.getElementById(
+        "collectiveValue"
+    );
+
+const relationText =
+    document.getElementById(
+        "relationText"
     );
 
 
@@ -1072,14 +1325,6 @@ function draw() {
 
     drawBackground();
 
-    /*
-        1. Draw all background tracks.
-
-        Do not draw the selected or hovered
-        track here, because they will be
-        redrawn on top.
-    */
-
     for (
         const track
         of tracks
@@ -1107,15 +1352,7 @@ function draw() {
         );
     }
 
-    /*
-        2. Current aggregated movement.
-    */
-
     drawCurrentMovement();
-
-    /*
-        3. Persistent selected elephant.
-    */
 
     if (selectedTrack) {
 
@@ -1124,13 +1361,6 @@ function draw() {
             true
         );
     }
-
-    /*
-        4. Hover highlight.
-
-        Do not redraw it if it is already
-        the selected track.
-    */
 
     if (
         hoveredTrack
@@ -1261,6 +1491,8 @@ function updateInterface() {
         : "PAUSED";
 
     updateActiveIndividual();
+
+    updateComparison();
 }
 
 
@@ -1269,13 +1501,6 @@ function updateInterface() {
 ========================================================== */
 
 function updateActiveIndividual() {
-
-    /*
-        Persistent selection has priority.
-
-        If nothing is selected,
-        hover can temporarily reveal an ID.
-    */
 
     if (selectedTrack) {
 
@@ -1345,11 +1570,6 @@ function buildSelector() {
             "click",
             () => {
 
-                /*
-                    Clicking the active ID again
-                    returns to collective view.
-                */
-
                 if (
                     selectedTrack
                     && selectedTrack.id
@@ -1368,6 +1588,8 @@ function buildSelector() {
                 updateSelectorButtons();
 
                 updateActiveIndividual();
+
+                updateComparison();
 
                 draw();
             }
@@ -1408,6 +1630,496 @@ function updateSelectorButtons() {
 
 
 /* ==========================================================
+   COMPARISON
+========================================================== */
+
+function updateComparison() {
+
+    if (
+        !selectedTrack
+        || !rhythm
+        || !rhythm
+            .individual_hourly_medians
+    ) {
+
+        comparisonPlaceholder.style.display =
+            "flex";
+
+        chartWrap.style.display =
+            "none";
+
+        return;
+    }
+
+    comparisonPlaceholder.style.display =
+        "none";
+
+    chartWrap.style.display =
+        "block";
+
+    const hour =
+        Math.floor(
+            currentTime
+        ) % 24;
+
+    const id =
+        selectedTrack.id;
+
+    const individualMedian =
+        rhythm
+            .individual_hourly_medians[
+                id
+            ][
+                String(hour)
+            ];
+
+    const collectiveMedian =
+        rhythm
+            .hourly_medians[
+                String(hour)
+            ];
+
+    individualValue.textContent =
+        Number(
+            individualMedian
+        ).toFixed(3)
+        + " KM";
+
+    collectiveValue.textContent =
+        Number(
+            collectiveMedian
+        ).toFixed(3)
+        + " KM";
+
+    const difference =
+        individualMedian
+        - collectiveMedian;
+
+    /*
+        "Near" uses a relative tolerance
+        of 15% of the collective median.
+
+        This is only a descriptive UI label,
+        not a statistical significance test.
+    */
+
+    const tolerance =
+        Math.max(
+            collectiveMedian
+            * 0.15,
+            0.01
+        );
+
+    if (
+        difference
+        > tolerance
+    ) {
+
+        relationText.textContent =
+            id
+            + " / ABOVE COLLECTIVE";
+
+    } else if (
+        difference
+        < -tolerance
+    ) {
+
+        relationText.textContent =
+            id
+            + " / BELOW COLLECTIVE";
+
+    } else {
+
+        relationText.textContent =
+            id
+            + " / NEAR COLLECTIVE";
+    }
+
+    drawRhythmChart(
+        id,
+        hour
+    );
+}
+
+
+/* ==========================================================
+   RHYTHM CHART
+========================================================== */
+
+function drawRhythmChart(
+    elephantId,
+    currentHour
+) {
+
+    const width =
+        rhythmChart.width;
+
+    const height =
+        rhythmChart.height;
+
+    chartCtx.clearRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+    const padding = {
+        left: 22,
+        right: 8,
+        top: 8,
+        bottom: 17
+    };
+
+    const plotWidth =
+        width
+        - padding.left
+        - padding.right;
+
+    const plotHeight =
+        height
+        - padding.top
+        - padding.bottom;
+
+    const collectiveValues =
+        [];
+
+    const individualValues =
+        [];
+
+    for (
+        let hour = 0;
+        hour < 24;
+        hour++
+    ) {
+
+        collectiveValues.push(
+            Number(
+                rhythm
+                    .hourly_medians[
+                        String(hour)
+                    ]
+            )
+        );
+
+        individualValues.push(
+            Number(
+                rhythm
+                    .individual_hourly_medians[
+                        elephantId
+                    ][
+                        String(hour)
+                    ]
+            )
+        );
+    }
+
+    const allValues =
+        collectiveValues.concat(
+            individualValues
+        );
+
+    const maxValue =
+        Math.max(
+            ...allValues,
+            0.01
+        )
+        * 1.10;
+
+    function xForHour(
+        hour
+    ) {
+
+        return (
+            padding.left
+            + (
+                hour
+                / 23
+            )
+            * plotWidth
+        );
+    }
+
+    function yForValue(
+        value
+    ) {
+
+        return (
+            padding.top
+            + plotHeight
+            - (
+                value
+                / maxValue
+            )
+            * plotHeight
+        );
+    }
+
+    /*
+        Horizontal guide lines.
+    */
+
+    chartCtx.strokeStyle =
+        "rgba(137, 147, 143, 0.12)";
+
+    chartCtx.lineWidth =
+        1;
+
+    for (
+        let i = 0;
+        i <= 2;
+        i++
+    ) {
+
+        const y =
+            padding.top
+            + (
+                i / 2
+            )
+            * plotHeight;
+
+        chartCtx.beginPath();
+
+        chartCtx.moveTo(
+            padding.left,
+            y
+        );
+
+        chartCtx.lineTo(
+            width
+            - padding.right,
+            y
+        );
+
+        chartCtx.stroke();
+    }
+
+    /*
+        Current hour marker.
+    */
+
+    const markerX =
+        xForHour(
+            currentHour
+        );
+
+    chartCtx.strokeStyle =
+        "rgba(121, 225, 211, 0.18)";
+
+    chartCtx.lineWidth =
+        1;
+
+    chartCtx.beginPath();
+
+    chartCtx.moveTo(
+        markerX,
+        padding.top
+    );
+
+    chartCtx.lineTo(
+        markerX,
+        height
+        - padding.bottom
+    );
+
+    chartCtx.stroke();
+
+    /*
+        Collective line.
+    */
+
+    chartCtx.strokeStyle =
+        "rgba(137, 147, 143, 0.75)";
+
+    chartCtx.lineWidth =
+        1.1;
+
+    chartCtx.beginPath();
+
+    for (
+        let hour = 0;
+        hour < 24;
+        hour++
+    ) {
+
+        const x =
+            xForHour(
+                hour
+            );
+
+        const y =
+            yForValue(
+                collectiveValues[
+                    hour
+                ]
+            );
+
+        if (
+            hour === 0
+        ) {
+
+            chartCtx.moveTo(
+                x,
+                y
+            );
+
+        } else {
+
+            chartCtx.lineTo(
+                x,
+                y
+            );
+        }
+    }
+
+    chartCtx.stroke();
+
+    /*
+        Selected individual line.
+    */
+
+    chartCtx.strokeStyle =
+        "rgba(121, 225, 211, 0.98)";
+
+    chartCtx.lineWidth =
+        1.7;
+
+    chartCtx.beginPath();
+
+    for (
+        let hour = 0;
+        hour < 24;
+        hour++
+    ) {
+
+        const x =
+            xForHour(
+                hour
+            );
+
+        const y =
+            yForValue(
+                individualValues[
+                    hour
+                ]
+            );
+
+        if (
+            hour === 0
+        ) {
+
+            chartCtx.moveTo(
+                x,
+                y
+            );
+
+        } else {
+
+            chartCtx.lineTo(
+                x,
+                y
+            );
+        }
+    }
+
+    chartCtx.stroke();
+
+    /*
+        Current-hour dots.
+    */
+
+    const collectiveY =
+        yForValue(
+            collectiveValues[
+                currentHour
+            ]
+        );
+
+    chartCtx.fillStyle =
+        "#89938f";
+
+    chartCtx.beginPath();
+
+    chartCtx.arc(
+        markerX,
+        collectiveY,
+        2.3,
+        0,
+        Math.PI * 2
+    );
+
+    chartCtx.fill();
+
+    const individualY =
+        yForValue(
+            individualValues[
+                currentHour
+            ]
+        );
+
+    chartCtx.fillStyle =
+        "#79e1d3";
+
+    chartCtx.beginPath();
+
+    chartCtx.arc(
+        markerX,
+        individualY,
+        3,
+        0,
+        Math.PI * 2
+    );
+
+    chartCtx.fill();
+
+    /*
+        X-axis labels.
+    */
+
+    chartCtx.fillStyle =
+        "#56615e";
+
+    chartCtx.font =
+        "8px monospace";
+
+    chartCtx.textAlign =
+        "center";
+
+    const axisHours =
+        [
+            0,
+            6,
+            12,
+            18,
+            23
+        ];
+
+    for (
+        const hour
+        of axisHours
+    ) {
+
+        const label =
+            hour === 23
+            ? "24"
+            : String(hour)
+                .padStart(
+                    2,
+                    "0"
+                );
+
+        chartCtx.fillText(
+            label,
+            xForHour(
+                hour
+            ),
+            height - 4
+        );
+    }
+}
+
+
+/* ==========================================================
    HOVER
 ========================================================== */
 
@@ -1433,13 +2145,9 @@ function distance(
 
 function findHoveredTrack() {
 
-    /*
-        Only activate hover
-        after some zoom.
-    */
-
     if (
-        camera.scale < 1.45
+        camera.scale
+        < 1.45
     ) {
 
         hoveredTrack =
@@ -1807,12 +2515,6 @@ async function loadData() {
                 .metadata
                 .display_movement_step_count
                 .toLocaleString();
-
-        /*
-            Build the Assignment 3 selector
-            directly from the actual track IDs
-            in the dataset.
-        */
 
         buildSelector();
 
