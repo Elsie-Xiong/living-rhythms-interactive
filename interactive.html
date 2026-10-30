@@ -174,6 +174,111 @@
             font-size: 13px;
         }
 
+        .selector {
+            margin-top: 16px;
+            padding-top: 13px;
+
+            border-top:
+                1px solid #26302d;
+
+            pointer-events: auto;
+        }
+
+        .selector-label {
+            margin-bottom: 9px;
+
+            font-family: monospace;
+            font-size: 9px;
+
+            color: #79e1d3;
+
+            letter-spacing: 0.04em;
+        }
+
+        .selector-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 5px;
+        }
+
+        .elephant-button {
+            padding:
+                5px
+                3px;
+
+            background:
+                transparent;
+
+            border:
+                1px solid
+                #26302d;
+
+            color:
+                #89938f;
+
+            font-family:
+                monospace;
+
+            font-size:
+                8px;
+
+            cursor:
+                pointer;
+
+            transition:
+                border-color 0.15s ease,
+                color 0.15s ease,
+                background 0.15s ease;
+        }
+
+        .elephant-button:hover {
+            border-color:
+                rgba(
+                    121,
+                    225,
+                    211,
+                    0.6
+                );
+
+            color:
+                #79e1d3;
+        }
+
+        .elephant-button.active {
+            background:
+                rgba(
+                    121,
+                    225,
+                    211,
+                    0.10
+                );
+
+            border-color:
+                #79e1d3;
+
+            color:
+                #e3e8e5;
+        }
+
+        .selector-note {
+            margin-top: 8px;
+
+            font-family:
+                monospace;
+
+            font-size:
+                8px;
+
+            line-height:
+                1.4;
+
+            color:
+                #56615e;
+        }
+
         .bottom-left {
             position: fixed;
 
@@ -276,6 +381,7 @@
         </div>
 
         <div class="instruction">
+            SELECT AN ELEPHANT TO FOLLOW<br>
             SCROLL TO ZOOM<br>
             HOVER TO REVEAL AN INDIVIDUAL<br>
             SPACE = PLAY / PAUSE
@@ -303,8 +409,7 @@
             id="movementText"
             class="movement"
         >
-            MEDIAN ~30 MIN DISPLACEMENT
-            —
+            MEDIAN ~30 MIN DISPLACEMENT —
         </div>
 
         <div class="rule"></div>
@@ -314,6 +419,7 @@
             <div>
                 TRACKED INDIVIDUALS
                 &nbsp;
+
                 <strong
                     id="individualCount"
                 >
@@ -324,6 +430,7 @@
             <div>
                 VALID ~30 MIN STEPS
                 &nbsp;
+
                 <strong
                     id="stepCount"
                 >
@@ -334,6 +441,7 @@
             <div>
                 DISPLAY MOVEMENT STEPS
                 &nbsp;
+
                 <strong
                     id="displayStepCount"
                 >
@@ -351,6 +459,23 @@
                 </strong>
             </div>
 
+            <div class="selector">
+
+                <div class="selector-label">
+                    SELECT ELEPHANT
+                </div>
+
+                <div
+                    id="selectorGrid"
+                    class="selector-grid"
+                ></div>
+
+                <div class="selector-note">
+                    CLICK AN ACTIVE ID AGAIN TO RETURN TO THE COLLECTIVE VIEW.
+                </div>
+
+            </div>
+
         </div>
     </div>
 
@@ -358,6 +483,7 @@
     <div class="bottom-left">
 
         VIEW:
+
         <span
             id="modeLabel"
             class="mode"
@@ -368,6 +494,7 @@
         &nbsp;&nbsp;/&nbsp;&nbsp;
 
         ZOOM
+
         <span id="zoomValue">
             1.00×
         </span>
@@ -438,6 +565,11 @@ const activeId =
         "activeId"
     );
 
+const selectorGrid =
+    document.getElementById(
+        "selectorGrid"
+    );
+
 const zoomValue =
     document.getElementById(
         "zoomValue"
@@ -483,6 +615,8 @@ let rhythm = null;
 
 let hoveredTrack = null;
 
+let selectedTrack = null;
+
 
 /* ==========================================================
    CAMERA
@@ -509,29 +643,11 @@ const mouse = {
    TIME
 ========================================================== */
 
-/*
-    15-minute visual steps.
-
-    0.00
-    0.25
-    0.50
-    0.75
-    1.00
-*/
 let currentTime = 0;
 
 const timeStep = 0.25;
 
-
-/*
-    One visual step every 100 ms.
-
-    Full 24h cycle:
-    96 steps × 100ms
-    ≈ 9.6 seconds
-*/
 const stepDuration = 100;
-
 
 let playing = true;
 
@@ -544,12 +660,6 @@ let lastStepTime = 0;
 
 const BACKGROUND =
     "#07090A";
-
-const HISTORICAL =
-    "rgba(203, 200, 193, 0.07)";
-
-const HISTORICAL_ZOOM =
-    "rgba(203, 200, 193, 0.18)";
 
 const TEAL =
     "50, 199, 181";
@@ -607,13 +717,11 @@ function calculateBaseTransform() {
     const height =
         window.innerHeight;
 
-
     const marginX =
         width * 0.13;
 
     const marginY =
         height * 0.14;
-
 
     const lonRange =
         bounds.max_lon
@@ -623,13 +731,11 @@ function calculateBaseTransform() {
         bounds.max_lat
         - bounds.min_lat;
 
-
     const meanLat =
         (
             bounds.min_lat
             + bounds.max_lat
         ) / 2;
-
 
     const lonCorrection =
         Math.cos(
@@ -638,11 +744,9 @@ function calculateBaseTransform() {
             / 180
         );
 
-
     const correctedLonRange =
         lonRange
         * lonCorrection;
-
 
     const usableWidth =
         width
@@ -652,7 +756,6 @@ function calculateBaseTransform() {
         height
         - marginY * 2;
 
-
     const fitScale =
         Math.min(
             usableWidth
@@ -661,7 +764,6 @@ function calculateBaseTransform() {
             usableHeight
             / latRange
         );
-
 
     return {
         fitScale,
@@ -692,7 +794,6 @@ function worldToScreen(
     const base =
         calculateBaseTransform();
 
-
     const xWorld =
         (
             lon
@@ -700,18 +801,15 @@ function worldToScreen(
         )
         * base.lonCorrection;
 
-
     const yWorld =
         (
             lat
             - base.meanLat
         );
 
-
     const scale =
         base.fitScale
         * camera.scale;
-
 
     return {
         x:
@@ -766,7 +864,6 @@ function drawTrack(
         return;
     }
 
-
     const zoomStrength =
         Math.min(
             Math.max(
@@ -778,7 +875,6 @@ function drawTrack(
             ),
             1
         );
-
 
     if (selected) {
 
@@ -822,12 +918,11 @@ function drawTrack(
             + zoomStrength
             * 0.34;
 
-        ctx.shadowBlur = 0;
+        ctx.shadowBlur =
+            0;
     }
 
-
     ctx.beginPath();
-
 
     for (
         let i = 0;
@@ -840,7 +935,6 @@ function drawTrack(
                 points[i].lon,
                 points[i].lat
             );
-
 
         if (i === 0) {
 
@@ -858,10 +952,10 @@ function drawTrack(
         }
     }
 
-
     ctx.stroke();
 
-    ctx.shadowBlur = 0;
+    ctx.shadowBlur =
+        0;
 }
 
 
@@ -875,12 +969,10 @@ function drawCurrentMovement() {
         return;
     }
 
-
     const hour =
         Math.floor(
             currentTime
         ) % 24;
-
 
     const segments =
         rhythm
@@ -888,19 +980,9 @@ function drawCurrentMovement() {
                 String(hour)
             ];
 
-
     if (!segments) {
         return;
     }
-
-
-    /*
-        Macro movement is strongest
-        when zoomed out.
-
-        It gradually becomes less dominant
-        as individual trajectories emerge.
-    */
 
     const macroStrength =
         Math.max(
@@ -912,12 +994,13 @@ function drawCurrentMovement() {
             ) / 4
         );
 
-
     const p95 =
         rhythm.visual_p95;
 
-
-    for (const segment of segments) {
+    for (
+        const segment
+        of segments
+    ) {
 
         const start =
             worldToScreen(
@@ -931,14 +1014,12 @@ function drawCurrentMovement() {
                 segment.y2
             );
 
-
         const strength =
             Math.min(
                 segment.movement
                 / p95,
                 1
             );
-
 
         const alpha =
             (
@@ -948,12 +1029,10 @@ function drawCurrentMovement() {
             )
             * macroStrength;
 
-
         const width =
             0.28
             + strength
             * 0.8;
-
 
         ctx.strokeStyle =
             `rgba(
@@ -963,7 +1042,6 @@ function drawCurrentMovement() {
 
         ctx.lineWidth =
             width;
-
 
         ctx.beginPath();
 
@@ -992,15 +1070,28 @@ function draw() {
         return;
     }
 
-
     drawBackground();
 
-
     /*
-        1. Individual trajectory memory
+        1. Draw all background tracks.
+
+        Do not draw the selected or hovered
+        track here, because they will be
+        redrawn on top.
     */
 
-    for (const track of tracks) {
+    for (
+        const track
+        of tracks
+    ) {
+
+        if (
+            selectedTrack
+            && track.id
+            === selectedTrack.id
+        ) {
+            continue;
+        }
 
         if (
             hoveredTrack
@@ -1016,26 +1107,45 @@ function draw() {
         );
     }
 
-
     /*
-        2. Current aggregated movement
+        2. Current aggregated movement.
     */
 
     drawCurrentMovement();
 
-
     /*
-        3. Hover highlight
+        3. Persistent selected elephant.
     */
 
-    if (hoveredTrack) {
+    if (selectedTrack) {
+
+        drawTrack(
+            selectedTrack,
+            true
+        );
+    }
+
+    /*
+        4. Hover highlight.
+
+        Do not redraw it if it is already
+        the selected track.
+    */
+
+    if (
+        hoveredTrack
+        && (
+            !selectedTrack
+            || hoveredTrack.id
+            !== selectedTrack.id
+        )
+    ) {
 
         drawTrack(
             hoveredTrack,
             true
         );
     }
-
 
     updateInterface();
 }
@@ -1052,7 +1162,6 @@ function updateInterface() {
             currentTime
         ) % 24;
 
-
     const minute =
         Math.round(
             (
@@ -1063,7 +1172,6 @@ function updateInterface() {
             )
             * 60
         );
-
 
     timeText.textContent =
         String(hour)
@@ -1078,13 +1186,11 @@ function updateInterface() {
                 "0"
             );
 
-
     const currentMedian =
         rhythm
             .hourly_medians[
                 String(hour)
             ];
-
 
     movementText.textContent =
         "MEDIAN ~30 MIN DISPLACEMENT  "
@@ -1092,7 +1198,6 @@ function updateInterface() {
             currentMedian
         ).toFixed(3)
         + " KM";
-
 
     if (
         hour >= 2
@@ -1124,18 +1229,18 @@ function updateInterface() {
             "DAILY MOVEMENT";
     }
 
-
     zoomValue.textContent =
         camera.scale.toFixed(2)
         + "×";
-
 
     if (
         camera.scale < 1.8
     ) {
 
         modeLabel.textContent =
-            "MACRO / COLLECTIVE RHYTHM";
+            selectedTrack
+            ? "MACRO / SELECTED INDIVIDUAL"
+            : "MACRO / COLLECTIVE RHYTHM";
 
     } else if (
         camera.scale < 3.5
@@ -1150,11 +1255,155 @@ function updateInterface() {
             "MICRO / INDIVIDUAL TRAJECTORIES";
     }
 
-
     playIndicator.textContent =
         playing
         ? "PLAYING"
         : "PAUSED";
+
+    updateActiveIndividual();
+}
+
+
+/* ==========================================================
+   ACTIVE INDIVIDUAL
+========================================================== */
+
+function updateActiveIndividual() {
+
+    /*
+        Persistent selection has priority.
+
+        If nothing is selected,
+        hover can temporarily reveal an ID.
+    */
+
+    if (selectedTrack) {
+
+        activeId.textContent =
+            selectedTrack.id;
+
+        return;
+    }
+
+    if (hoveredTrack) {
+
+        activeId.textContent =
+            hoveredTrack.id;
+
+        return;
+    }
+
+    activeId.textContent =
+        "NONE";
+}
+
+
+/* ==========================================================
+   SELECTOR
+========================================================== */
+
+function buildSelector() {
+
+    selectorGrid.innerHTML =
+        "";
+
+    const sortedTracks =
+        [...tracks].sort(
+            (a, b) =>
+                a.id.localeCompare(
+                    b.id,
+                    undefined,
+                    {
+                        numeric: true
+                    }
+                )
+        );
+
+    for (
+        const track
+        of sortedTracks
+    ) {
+
+        const button =
+            document.createElement(
+                "button"
+            );
+
+        button.type =
+            "button";
+
+        button.className =
+            "elephant-button";
+
+        button.textContent =
+            track.id;
+
+        button.dataset.id =
+            track.id;
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                /*
+                    Clicking the active ID again
+                    returns to collective view.
+                */
+
+                if (
+                    selectedTrack
+                    && selectedTrack.id
+                    === track.id
+                ) {
+
+                    selectedTrack =
+                        null;
+
+                } else {
+
+                    selectedTrack =
+                        track;
+                }
+
+                updateSelectorButtons();
+
+                updateActiveIndividual();
+
+                draw();
+            }
+        );
+
+        selectorGrid.appendChild(
+            button
+        );
+    }
+}
+
+
+function updateSelectorButtons() {
+
+    const buttons =
+        selectorGrid.querySelectorAll(
+            ".elephant-button"
+        );
+
+    for (
+        const button
+        of buttons
+    ) {
+
+        const isActive =
+            selectedTrack
+            && button.dataset.id
+            === selectedTrack.id;
+
+        button.classList.toggle(
+            "active",
+            Boolean(
+                isActive
+            )
+        );
+    }
 }
 
 
@@ -1193,17 +1442,16 @@ function findHoveredTrack() {
         camera.scale < 1.45
     ) {
 
-        hoveredTrack = null;
-
-        activeId.textContent =
-            "NONE";
+        hoveredTrack =
+            null;
 
         tooltip.style.display =
             "none";
 
+        updateActiveIndividual();
+
         return;
     }
-
 
     let nearestTrack =
         null;
@@ -1211,15 +1459,16 @@ function findHoveredTrack() {
     let nearestDistance =
         Infinity;
 
+    const threshold =
+        13;
 
-    const threshold = 13;
-
-
-    for (const track of tracks) {
+    for (
+        const track
+        of tracks
+    ) {
 
         const points =
             track.points;
-
 
         const hoverStep =
             Math.max(
@@ -1229,7 +1478,6 @@ function findHoveredTrack() {
                     / 1500
                 )
             );
-
 
         for (
             let i = 0;
@@ -1243,7 +1491,6 @@ function findHoveredTrack() {
                     points[i].lat
                 );
 
-
             const d =
                 distance(
                     mouse.x,
@@ -1252,9 +1499,9 @@ function findHoveredTrack() {
                     p.y
                 );
 
-
             if (
-                d < nearestDistance
+                d
+                < nearestDistance
             ) {
 
                 nearestDistance =
@@ -1266,7 +1513,6 @@ function findHoveredTrack() {
         }
     }
 
-
     if (
         nearestDistance
         <= threshold
@@ -1274,9 +1520,6 @@ function findHoveredTrack() {
 
         hoveredTrack =
             nearestTrack;
-
-        activeId.textContent =
-            nearestTrack.id;
 
         tooltip.textContent =
             nearestTrack.id;
@@ -1286,24 +1529,28 @@ function findHoveredTrack() {
 
         tooltip.style.left =
             (
-                mouse.x + 15
-            ) + "px";
+                mouse.x
+                + 15
+            )
+            + "px";
 
         tooltip.style.top =
             (
-                mouse.y + 15
-            ) + "px";
+                mouse.y
+                + 15
+            )
+            + "px";
 
     } else {
 
-        hoveredTrack = null;
-
-        activeId.textContent =
-            "NONE";
+        hoveredTrack =
+            null;
 
         tooltip.style.display =
             "none";
     }
+
+    updateActiveIndividual();
 }
 
 
@@ -1317,16 +1564,13 @@ canvas.addEventListener(
 
         event.preventDefault();
 
-
         const oldScale =
             camera.scale;
-
 
         const factor =
             event.deltaY < 0
             ? 1.16
             : 1 / 1.16;
-
 
         const newScale =
             Math.min(
@@ -1338,14 +1582,12 @@ canvas.addEventListener(
                 )
             );
 
-
         if (
             newScale
             === oldScale
         ) {
             return;
         }
-
 
         const centerX =
             window.innerWidth
@@ -1354,7 +1596,6 @@ canvas.addEventListener(
         const centerY =
             window.innerHeight
             * 0.53;
-
 
         const relativeX =
             event.clientX
@@ -1366,11 +1607,9 @@ canvas.addEventListener(
             - centerY
             - camera.offsetY;
 
-
         const ratio =
             newScale
             / oldScale;
-
 
         camera.offsetX -=
             relativeX
@@ -1384,10 +1623,8 @@ canvas.addEventListener(
                 ratio - 1
             );
 
-
         camera.scale =
             newScale;
-
 
         findHoveredTrack();
 
@@ -1413,7 +1650,6 @@ canvas.addEventListener(
         mouse.y =
             event.clientY;
 
-
         findHoveredTrack();
     }
 );
@@ -1427,18 +1663,22 @@ canvas.addEventListener(
     "dblclick",
     () => {
 
-        camera.scale = 1;
+        camera.scale =
+            1;
 
-        camera.offsetX = 0;
-        camera.offsetY = 0;
+        camera.offsetX =
+            0;
 
-        hoveredTrack = null;
+        camera.offsetY =
+            0;
 
-        activeId.textContent =
-            "NONE";
+        hoveredTrack =
+            null;
 
         tooltip.style.display =
             "none";
+
+        updateActiveIndividual();
     }
 );
 
@@ -1469,7 +1709,9 @@ window.addEventListener(
    ANIMATION LOOP
 ========================================================== */
 
-function animate(timestamp) {
+function animate(
+    timestamp
+) {
 
     if (
         playing
@@ -1483,22 +1725,20 @@ function animate(timestamp) {
         currentTime +=
             timeStep;
 
-
         if (
-            currentTime >= 24
+            currentTime
+            >= 24
         ) {
 
-            currentTime = 0;
+            currentTime =
+                0;
         }
-
 
         lastStepTime =
             timestamp;
     }
 
-
     draw();
-
 
     requestAnimationFrame(
         animate
@@ -1532,7 +1772,6 @@ async function loadData() {
                 "out/interactive_tracks.json"
             );
 
-
         if (!response.ok) {
 
             throw new Error(
@@ -1540,10 +1779,8 @@ async function loadData() {
             );
         }
 
-
         data =
             await response.json();
-
 
         tracks =
             data.individuals;
@@ -1554,12 +1791,10 @@ async function loadData() {
         rhythm =
             data.rhythm;
 
-
         individualCount.textContent =
             data
                 .metadata
                 .individual_count;
-
 
         stepCount.textContent =
             data
@@ -1567,16 +1802,21 @@ async function loadData() {
                 .valid_movement_step_count
                 .toLocaleString();
 
-
         displayStepCount.textContent =
             data
                 .metadata
                 .display_movement_step_count
                 .toLocaleString();
 
+        /*
+            Build the Assignment 3 selector
+            directly from the actual track IDs
+            in the dataset.
+        */
+
+        buildSelector();
 
         resizeCanvas();
-
 
         requestAnimationFrame(
             animate
@@ -1588,7 +1828,6 @@ async function loadData() {
             error
         );
 
-
         ctx.fillStyle =
             BACKGROUND;
 
@@ -1599,13 +1838,11 @@ async function loadData() {
             window.innerHeight
         );
 
-
         ctx.fillStyle =
             "#E3E8E5";
 
         ctx.font =
             "16px monospace";
-
 
         ctx.fillText(
             "Could not load interactive_tracks.json",
@@ -1613,13 +1850,11 @@ async function loadData() {
             100
         );
 
-
         ctx.fillStyle =
             "#89938F";
 
         ctx.font =
             "12px monospace";
-
 
         ctx.fillText(
             "Run the page through the local HTTP server.",
