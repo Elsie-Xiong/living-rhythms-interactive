@@ -2,6 +2,7 @@
 # requires-python = ">=3.10"
 # ///
 
+
 import csv
 import json
 import math
@@ -238,6 +239,11 @@ def build_sampled_tracks(
 def build_hourly_movements(
     tracks,
 ):
+
+    # --------------------------------------------------------
+    # Collective movement
+    # --------------------------------------------------------
+
     hourly_segments = {
         str(hour): []
         for hour in range(24)
@@ -248,11 +254,27 @@ def build_hourly_movements(
         for hour in range(24)
     }
 
+    # --------------------------------------------------------
+    # Individual movement
+    # --------------------------------------------------------
+
+    individual_hourly_values = {
+        elephant_id: {
+            hour: []
+            for hour in range(24)
+        }
+        for elephant_id in tracks
+    }
+
     valid_step_count = 0
     stored_step_count = 0
     movement_index = 0
 
     all_movements = []
+
+    # --------------------------------------------------------
+    # Process every elephant separately
+    # --------------------------------------------------------
 
     for elephant_id in sorted(
         tracks
@@ -315,7 +337,23 @@ def build_hourly_movements(
 
             hour = midpoint_local.hour
 
+            # ------------------------------------------------
+            # Collective hourly values
+            # ------------------------------------------------
+
             hourly_values[
+                hour
+            ].append(
+                movement
+            )
+
+            # ------------------------------------------------
+            # Individual hourly values
+            # ------------------------------------------------
+
+            individual_hourly_values[
+                elephant_id
+            ][
                 hour
             ].append(
                 movement
@@ -325,8 +363,15 @@ def build_hourly_movements(
                 movement
             )
 
-            # Systematic sampling only for
-            # browser animation performance
+            # ------------------------------------------------
+            # Systematic sampling only for browser animation
+            # performance.
+            #
+            # IMPORTANT:
+            # The analytical medians above use ALL valid
+            # ~30 minute movement steps.
+            # ------------------------------------------------
+
             if (
                 movement_index
                 % MOVEMENT_SAMPLE_EVERY
@@ -364,6 +409,10 @@ def build_hourly_movements(
 
             movement_index += 1
 
+    # --------------------------------------------------------
+    # Collective hourly medians
+    # --------------------------------------------------------
+
     hourly_medians = {
         str(hour):
             round(
@@ -378,6 +427,59 @@ def build_hourly_movements(
         for hour in range(24)
     }
 
+    # --------------------------------------------------------
+    # Individual hourly medians
+    # --------------------------------------------------------
+
+    individual_hourly_medians = {}
+
+    individual_hourly_counts = {}
+
+    for elephant_id in sorted(
+        individual_hourly_values
+    ):
+
+        individual_hourly_medians[
+            elephant_id
+        ] = {}
+
+        individual_hourly_counts[
+            elephant_id
+        ] = {}
+
+        for hour in range(24):
+
+            values = (
+                individual_hourly_values[
+                    elephant_id
+                ][
+                    hour
+                ]
+            )
+
+            individual_hourly_medians[
+                elephant_id
+            ][
+                str(hour)
+            ] = round(
+                median(
+                    values
+                ),
+                5,
+            )
+
+            individual_hourly_counts[
+                elephant_id
+            ][
+                str(hour)
+            ] = len(
+                values
+            )
+
+    # --------------------------------------------------------
+    # Visual scaling
+    # --------------------------------------------------------
+
     visual_p95 = percentile(
         all_movements,
         0.95,
@@ -389,6 +491,12 @@ def build_hourly_movements(
 
         "hourly_medians":
             hourly_medians,
+
+        "individual_hourly_medians":
+            individual_hourly_medians,
+
+        "individual_hourly_counts":
+            individual_hourly_counts,
 
         "valid_step_count":
             valid_step_count,
@@ -490,7 +598,7 @@ def main():
     )
 
     # --------------------------------------------------------
-    # 24-hour macro animation layer
+    # 24-hour movement layer
     # --------------------------------------------------------
 
     print()
@@ -522,7 +630,7 @@ def main():
     print()
 
     print(
-        "Hourly median displacement:"
+        "Collective hourly median displacement:"
     )
 
     for hour in range(24):
@@ -535,6 +643,54 @@ def main():
                 str(hour)
             ],
             "km",
+        )
+
+    # --------------------------------------------------------
+    # Check one individual example
+    # --------------------------------------------------------
+
+    print()
+
+    print(
+        "Individual rhythm example:"
+    )
+
+    example_id = sorted(
+        tracks
+    )[0]
+
+    print(
+        "Example elephant:",
+        example_id,
+    )
+
+    for hour in range(24):
+
+        median_value = (
+            movement_data[
+                "individual_hourly_medians"
+            ][
+                example_id
+            ][
+                str(hour)
+            ]
+        )
+
+        count_value = (
+            movement_data[
+                "individual_hourly_counts"
+            ][
+                example_id
+            ][
+                str(hour)
+            ]
+        )
+
+        print(
+            f"{hour:02d}:00",
+            median_value,
+            "km",
+            f"({count_value} steps)",
         )
 
     # --------------------------------------------------------
@@ -587,11 +743,21 @@ def main():
                     "across the full study period."
                 ),
 
+            "comparison_definition":
+                (
+                    "Collective and individual hourly "
+                    "rhythms use median straight-line "
+                    "displacement from all valid "
+                    "29–31 minute movement steps."
+                ),
+
             "note":
                 (
                     "Interactive trajectory and "
                     "movement layers use systematic "
                     "downsampling for browser performance. "
+                    "Analytical hourly medians are calculated "
+                    "from all valid movement steps. "
                     "The original dataset remains unchanged."
                 ),
         },
@@ -623,6 +789,16 @@ def main():
             "hourly_medians":
                 movement_data[
                     "hourly_medians"
+                ],
+
+            "individual_hourly_medians":
+                movement_data[
+                    "individual_hourly_medians"
+                ],
+
+            "individual_hourly_counts":
+                movement_data[
+                    "individual_hourly_counts"
                 ],
 
             "visual_p95":
