@@ -1,774 +1,747 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Living Rhythms — A Day Inside the Herd</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        html,
-        body {
-            margin: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-
-            background: #040607;
-            color: #edf2ef;
-
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif;
-        }
-
-        body {
-            --accent: #79e1d3;
-            --muted: #74807b;
-            --dim: #404a47;
-        }
-
-        button {
-            font: inherit;
-        }
-
-        #world {
-            position: fixed;
-            inset: 0;
-
-            overflow: hidden;
-
-            background: #040607;
-        }
-
-        #canvas {
-            position: absolute;
-            inset: 0;
-
-            width: 100%;
-            height: 100%;
-
-            cursor: grab;
-        }
-
-        #canvas.dragging {
-            cursor: grabbing;
-        }
-
-        #canvas.encounter-ready {
-            cursor: pointer;
-        }
-
-        #atmosphere {
-            position: absolute;
-            inset: 0;
-
-            pointer-events: none;
-
-            opacity: 1;
-
-            transition:
-                background 1.8s ease,
-                opacity 1.8s ease;
-
-            background:
-                radial-gradient(
-                    circle at 55% 48%,
-                    rgba(61, 130, 119, 0.045),
-                    rgba(4, 6, 7, 0) 42%
-                );
-        }
-
-        #grid {
-            position: absolute;
-            inset: 0;
-
-            pointer-events: none;
-
-            opacity: 0.18;
-
-            background-image:
-                linear-gradient(
-                    rgba(121, 225, 211, 0.025) 1px,
-                    transparent 1px
-                ),
-                linear-gradient(
-                    90deg,
-                    rgba(121, 225, 211, 0.025) 1px,
-                    transparent 1px
-                );
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Living Rhythms — A Day Inside the Herd</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #040607;
+    color: #edf2ef;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    --accent: #79e1d3;
+}
+
+button {
+    font: inherit;
+}
+
+/* =========================================================
+   WORLD
+========================================================= */
+
+#world {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    background: #040607;
+}
+
+#canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+}
+
+#canvas.dragging {
+    cursor: grabbing;
+}
+
+#canvas.encounter-ready {
+    cursor: pointer;
+}
+
+#atmosphere {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    transition:
+        background 1.8s ease,
+        opacity 1.8s ease;
+
+    background:
+        radial-gradient(
+            circle at 55% 48%,
+            rgba(61, 130, 119, 0.045),
+            rgba(4, 6, 7, 0) 42%
+        );
+}
+
+#grid {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.16;
+
+    background-image:
+        linear-gradient(
+            rgba(121, 225, 211, 0.022) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(121, 225, 211, 0.022) 1px,
+            transparent 1px
+        );
+
+    background-size: 56px 56px;
+
+    mask-image:
+        radial-gradient(
+            circle at center,
+            black,
+            transparent 78%
+        );
+}
+
+#vignette {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 38%,
+            rgba(0, 0, 0, 0.16) 64%,
+            rgba(0, 0, 0, 0.66) 100%
+        );
+}
+
+/* =========================================================
+   OPENING
+========================================================= */
+
+#opening {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(4, 6, 7, 0.84);
+    backdrop-filter: blur(6px);
+
+    transition:
+        opacity 1.3s ease,
+        visibility 1.3s ease;
+}
+
+#opening.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.opening-inner {
+    width: min(660px, calc(100vw - 80px));
+    text-align: center;
+}
+
+.opening-kicker {
+    font-family: monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.14em;
+}
+
+.opening-title {
+    margin-top: 18px;
+    font-size: clamp(40px, 6vw, 76px);
+    font-weight: 400;
+    letter-spacing: -0.03em;
+}
+
+.opening-subtitle {
+    margin: 22px auto 0;
+    max-width: 510px;
+
+    font-family: monospace;
+    font-size: 11px;
+    line-height: 1.85;
+
+    color: #8b9692;
+}
+
+#enterButton {
+    margin-top: 34px;
+    padding: 11px 22px;
+
+    border: 1px solid rgba(121, 225, 211, 0.55);
+    background: rgba(121, 225, 211, 0.05);
+
+    color: var(--accent);
+
+    font-family: monospace;
+    font-size: 10px;
+    letter-spacing: 0.09em;
+
+    cursor: pointer;
+
+    transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+#enterButton:hover {
+    background: rgba(121, 225, 211, 0.13);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+#header {
+    position: fixed;
+    top: 38px;
+    left: 48px;
+    z-index: 20;
+    pointer-events: none;
+
+    transition:
+        opacity 0.5s ease,
+        filter 0.5s ease;
+}
+
+#brand {
+    font-size: 23px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+#study {
+    margin-top: 7px;
+
+    font-family: monospace;
+    font-size: 9px;
+    color: #67716e;
+    letter-spacing: 0.06em;
+}
+
+#chapterLabel {
+    margin-top: 25px;
+
+    font-family: monospace;
+    font-size: 9px;
+    color: var(--accent);
+    letter-spacing: 0.10em;
+}
+
+#chapterNarrative {
+    margin-top: 8px;
+    width: 330px;
+
+    font-family: monospace;
+    font-size: 9px;
+    line-height: 1.65;
+
+    color: #7b8682;
+}
+
+/* =========================================================
+   TIME
+========================================================= */
+
+#timeHud {
+    position: fixed;
+    top: 38px;
+    right: 47px;
+
+    z-index: 20;
+
+    text-align: right;
+    pointer-events: none;
+
+    transition:
+        opacity 0.5s ease,
+        filter 0.5s ease;
+}
+
+#timeText {
+    font-family: monospace;
+    font-size: 25px;
+    color: #e9efec;
+    letter-spacing: 0.05em;
+}
+
+#timePhase {
+    margin-top: 5px;
+
+    font-family: monospace;
+    font-size: 8px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+}
+
+/* =========================================================
+   CHAPTER TRANSITION
+========================================================= */
+
+#chapterTransition {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background: rgba(4, 6, 7, 0);
+    backdrop-filter: blur(0px);
+
+    transition:
+        opacity 0.55s ease,
+        background 0.8s ease,
+        backdrop-filter 0.8s ease;
+}
+
+#chapterTransition.show {
+    opacity: 1;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(4, 6, 7, 0.50),
+            rgba(4, 6, 7, 0.78)
+        );
+
+    backdrop-filter: blur(2px);
+}
+
+.chapter-transition-inner {
+    text-align: center;
+    transform: translateY(-8px);
+}
+
+#transitionTime {
+    font-family: monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.13em;
+}
+
+#transitionTitle {
+    margin-top: 10px;
+
+    font-size: clamp(36px, 4.5vw, 62px);
+    font-weight: 400;
+    letter-spacing: -0.025em;
+}
+
+#transitionSentence {
+    margin-top: 14px;
+
+    font-family: monospace;
+    font-size: 10px;
+    color: #89938f;
+}
+
+/* =========================================================
+   STORY EVENT
+========================================================= */
+
+#storyEvent {
+    position: fixed;
+
+    left: 50%;
+    top: 50%;
+
+    width: 440px;
+
+    transform:
+        translate(
+            -50%,
+            -48%
+        );
+
+    z-index: 36;
+
+    text-align: center;
+    pointer-events: none;
+
+    opacity: 0;
+
+    transition:
+        opacity 0.75s ease,
+        transform 1.15s ease;
+}
+
+#storyEvent.show {
+    opacity: 1;
+
+    transform:
+        translate(
+            -50%,
+            -56%
+        );
+}
 
-            background-size:
-                56px 56px;
+#storyEventTime {
+    font-family: monospace;
+    font-size: 9px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+}
+
+#storyEventTitle {
+    margin-top: 9px;
+
+    font-size: 28px;
+    font-weight: 400;
+}
+
+#storyEventText {
+    margin: 10px auto 0;
+    max-width: 370px;
+
+    font-family: monospace;
+    font-size: 9px;
+    line-height: 1.7;
+
+    color: #7f8985;
+}
+
+/* =========================================================
+   HOVER
+========================================================= */
+
+#hoverLabel {
+    position: fixed;
+
+    z-index: 45;
+
+    display: none;
+
+    pointer-events: none;
+
+    padding: 7px 9px;
+
+    background: rgba(4, 6, 7, 0.88);
+
+    border-left:
+        1px solid
+        var(--accent);
+
+    font-family: monospace;
+    font-size: 9px;
+    color: var(--accent);
+}
+
+#hoverSub {
+    display: block;
+    margin-top: 3px;
+
+    font-size: 7px;
+    color: #727d79;
+}
+
+/* =========================================================
+   ENCOUNTER
+========================================================= */
+
+#encounterLayer {
+    position: fixed;
+    inset: 0;
+
+    z-index: 30;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    transition:
+        opacity 0.55s ease;
+}
+
+#encounterLayer.active {
+    opacity: 1;
+}
+
+#encounterLayer.suppressed {
+    opacity: 0 !important;
+}
+
+#encounterStory {
+    position: absolute;
+
+    width: 310px;
+
+    padding: 16px 17px;
+
+    background: rgba(4, 6, 7, 0.84);
+
+    border:
+        1px solid
+        rgba(121, 225, 211, 0.16);
+
+    backdrop-filter: blur(6px);
+}
+
+#encounterKicker {
+    font-family: monospace;
+    font-size: 8px;
+    color: var(--accent);
+    letter-spacing: 0.09em;
+}
 
-            mask-image:
-                radial-gradient(
-                    circle at center,
-                    black,
-                    transparent 78%
-                );
-        }
+#encounterName {
+    margin-top: 7px;
+
+    font-size: 27px;
+    font-weight: 400;
+}
 
-        #vignette {
-            position: absolute;
-            inset: 0;
-
-            pointer-events: none;
-
-            background:
-                radial-gradient(
-                    ellipse at center,
-                    transparent 38%,
-                    rgba(0, 0, 0, 0.18) 65%,
-                    rgba(0, 0, 0, 0.64) 100%
-                );
-        }
-
-        #opening {
-            position: fixed;
-            inset: 0;
-
-            z-index: 100;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
+#encounterMoment {
+    margin-top: 4px;
 
-            background:
-                rgba(4, 6, 7, 0.78);
+    font-family: monospace;
+    font-size: 8px;
+    color: #68726f;
+}
 
-            backdrop-filter: blur(5px);
+.encounter-divider {
+    height: 1px;
+    margin: 13px 0;
 
-            transition:
-                opacity 1.4s ease,
-                visibility 1.4s ease;
-        }
-
-        #opening.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        .opening-inner {
-            width: min(
-                640px,
-                calc(100vw - 80px)
-            );
-
-            text-align: center;
-        }
+    background:
+        rgba(
+            121,
+            225,
+            211,
+            0.12
+        );
+}
 
-        .opening-kicker {
-            font-family: monospace;
-            font-size: 10px;
+#encounterNarrative {
+    font-family: monospace;
+    font-size: 9px;
+    line-height: 1.7;
 
-            color: var(--accent);
+    color: #c0c8c4;
+}
 
-            letter-spacing: 0.14em;
-        }
+#encounterNarrative strong {
+    color: var(--accent);
+    font-weight: 400;
+}
 
-        .opening-title {
-            margin-top: 18px;
+#encounterComparison {
+    margin-top: 14px;
 
-            font-size: clamp(
-                38px,
-                6vw,
-                76px
-            );
+    display: grid;
+    grid-template-columns:
+        1fr 1fr;
 
-            font-weight: 400;
+    gap: 8px;
+}
 
-            letter-spacing: -0.03em;
-        }
+.comparison-cell {
+    padding-top: 7px;
 
-        .opening-subtitle {
-            margin:
-                22px auto
-                0;
+    border-top:
+        1px solid
+        rgba(121, 225, 211, 0.10);
+}
 
-            max-width: 490px;
+.comparison-label {
+    font-family: monospace;
+    font-size: 7px;
+    color: #5e6965;
+}
 
-            font-family: monospace;
-            font-size: 11px;
+.comparison-number {
+    margin-top: 4px;
 
-            line-height: 1.8;
+    font-family: monospace;
+    font-size: 11px;
+    color: #dfe6e2;
+}
 
-            color: #8b9692;
-        }
+#encounterExit {
+    margin-top: 14px;
 
-        #enterButton {
-            margin-top: 34px;
+    font-family: monospace;
+    font-size: 7px;
+    line-height: 1.5;
 
-            padding:
-                11px
-                22px;
+    color: #58625f;
+}
 
-            border:
-                1px solid
-                rgba(
-                    121,
-                    225,
-                    211,
-                    0.55
-                );
+/* =========================================================
+   BOTTOM HUD
+========================================================= */
 
-            background:
-                rgba(
-                    121,
-                    225,
-                    211,
-                    0.05
-                );
+#bottomHud {
+    position: fixed;
 
-            color:
-                var(--accent);
+    left: 48px;
+    right: 47px;
+    bottom: 27px;
 
-            font-family:
-                monospace;
+    z-index: 20;
 
-            font-size: 10px;
+    display: grid;
 
-            letter-spacing: 0.09em;
+    grid-template-columns:
+        220px
+        1fr
+        220px;
 
-            cursor: pointer;
+    align-items: end;
 
-            transition:
-                background 0.2s ease,
-                color 0.2s ease;
-        }
+    gap: 28px;
 
-        #enterButton:hover {
-            background:
-                rgba(
-                    121,
-                    225,
-                    211,
-                    0.13
-                );
+    pointer-events: none;
 
-            color: white;
-        }
+    transition:
+        opacity 0.5s ease,
+        filter 0.5s ease;
+}
 
-        #header {
-            position: fixed;
+#modeText {
+    font-family: monospace;
+    font-size: 8px;
 
-            top: 38px;
-            left: 48px;
+    color: var(--accent);
 
-            z-index: 20;
+    letter-spacing: 0.06em;
+}
 
-            pointer-events: none;
+#timelineBar {
+    position: relative;
 
-            transition:
-                opacity 0.6s ease;
-        }
+    height: 1px;
 
-        #brand {
-            font-size: 23px;
-            font-weight: 500;
+    background:
+        rgba(
+            121,
+            225,
+            211,
+            0.14
+        );
+}
 
-            letter-spacing: 0.02em;
-        }
+#timelineProgress {
+    position: absolute;
 
-        #study {
-            margin-top: 7px;
+    left: 0;
+    top: 0;
 
-            font-family: monospace;
-            font-size: 9px;
+    width: 0%;
+    height: 1px;
 
-            color: #67716e;
+    background:
+        var(--accent);
+}
 
-            letter-spacing: 0.06em;
-        }
+#timelineMarker {
+    position: absolute;
 
-        #chapterLabel {
-            margin-top: 25px;
+    top: 50%;
+    left: 0%;
 
-            font-family: monospace;
-            font-size: 9px;
+    width: 7px;
+    height: 7px;
 
-            color: var(--accent);
+    border-radius: 50%;
 
-            letter-spacing: 0.1em;
-        }
+    background:
+        var(--accent);
 
-        #chapterNarrative {
-            margin-top: 8px;
+    transform:
+        translate(
+            -50%,
+            -50%
+        );
 
-            width: 320px;
+    box-shadow:
+        0 0 8px
+        rgba(
+            121,
+            225,
+            211,
+            0.6
+        );
+}
 
-            font-family: monospace;
-            font-size: 9px;
+#chapterTicks {
+    display: grid;
 
-            color: #7b8682;
+    grid-template-columns:
+        repeat(
+            5,
+            1fr
+        );
 
-            line-height: 1.65;
-        }
+    margin-top: 8px;
+}
 
-        #chapterTransition {
-            position: fixed;
+.chapter-tick {
+    font-family: monospace;
+    font-size: 7px;
 
-            inset: 0;
+    text-align: center;
 
-            z-index: 40;
+    color: #4f5956;
+}
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+.chapter-tick.active {
+    color: var(--accent);
+}
 
-            pointer-events: none;
+#controlHint {
+    text-align: right;
 
-            opacity: 0;
+    font-family: monospace;
+    font-size: 7px;
+    line-height: 1.55;
 
-            transition:
-                opacity 0.7s ease;
-        }
+    color: #58625f;
+}
 
-        #chapterTransition.show {
-            opacity: 1;
-        }
+/* =========================================================
+   PAUSE
+========================================================= */
 
-        .chapter-transition-inner {
-            text-align: center;
+#pauseBadge {
+    position: fixed;
 
-            transform: translateY(-10px);
-        }
+    left: 50%;
+    top: 27px;
 
-        #transitionTime {
-            font-family: monospace;
-            font-size: 11px;
+    transform:
+        translateX(-50%);
 
-            color: var(--accent);
+    z-index: 25;
 
-            letter-spacing: 0.12em;
-        }
+    display: none;
 
-        #transitionTitle {
-            margin-top: 10px;
+    font-family: monospace;
+    font-size: 8px;
+    color: var(--accent);
 
-            font-size: clamp(
-                30px,
-                4vw,
-                54px
-            );
+    letter-spacing: 0.08em;
+}
 
-            font-weight: 400;
+#pauseBadge.show {
+    display: block;
+}
 
-            letter-spacing: -0.02em;
-        }
-
-        #transitionSentence {
-            margin-top: 13px;
-
-            font-family: monospace;
-            font-size: 10px;
-
-            color: #8a9691;
-
-            letter-spacing: 0.03em;
-        }
-
-        #timeHud {
-            position: fixed;
-
-            top: 38px;
-            right: 47px;
-
-            z-index: 20;
-
-            text-align: right;
-
-            pointer-events: none;
-        }
-
-        #timeText {
-            font-family: monospace;
-
-            font-size: 25px;
-
-            color: #e9efec;
-
-            letter-spacing: 0.05em;
-        }
-
-        #timePhase {
-            margin-top: 5px;
-
-            font-family: monospace;
-
-            font-size: 8px;
-
-            color: var(--accent);
-
-            letter-spacing: 0.08em;
-        }
-
-        #hoverLabel {
-            position: fixed;
-
-            z-index: 45;
-
-            display: none;
-
-            pointer-events: none;
-
-            padding:
-                7px
-                9px;
-
-            background:
-                rgba(
-                    4,
-                    6,
-                    7,
-                    0.86
-                );
-
-            border-left:
-                1px solid
-                var(--accent);
-
-            font-family: monospace;
-
-            font-size: 9px;
-
-            color: var(--accent);
-
-            letter-spacing: 0.04em;
-        }
-
-        #hoverSub {
-            display: block;
-
-            margin-top: 3px;
-
-            font-size: 7px;
-
-            color: #727d79;
-        }
-
-        #encounterLayer {
-            position: fixed;
-            inset: 0;
-
-            z-index: 30;
-
-            pointer-events: none;
-
-            opacity: 0;
-
-            transition:
-                opacity 0.65s ease;
-        }
-
-        #encounterLayer.active {
-            opacity: 1;
-        }
-
-        #encounterStory {
-            position: absolute;
-
-            width: 310px;
-
-            padding:
-                16px
-                17px;
-
-            background:
-                rgba(
-                    4,
-                    6,
-                    7,
-                    0.82
-                );
-
-            border:
-                1px solid
-                rgba(
-                    121,
-                    225,
-                    211,
-                    0.16
-                );
-
-            backdrop-filter: blur(5px);
-
-            transition:
-                left 0.3s ease,
-                top 0.3s ease;
-        }
-
-        #encounterKicker {
-            font-family: monospace;
-            font-size: 8px;
-
-            color: var(--accent);
-
-            letter-spacing: 0.09em;
-        }
-
-        #encounterName {
-            margin-top: 7px;
-
-            font-size: 27px;
-
-            font-weight: 400;
-        }
-
-        #encounterMoment {
-            margin-top: 4px;
-
-            font-family: monospace;
-            font-size: 8px;
-
-            color: #68726f;
-        }
-
-        .encounter-divider {
-            margin:
-                13px
-                0;
-
-            height: 1px;
-
-            background:
-                rgba(
-                    121,
-                    225,
-                    211,
-                    0.12
-                );
-        }
-
-        #encounterNarrative {
-            font-family: monospace;
-            font-size: 9px;
-
-            line-height: 1.7;
-
-            color: #c0c8c4;
-        }
-
-        #encounterNarrative strong {
-            color: var(--accent);
-            font-weight: 400;
-        }
-
-        #encounterComparison {
-            margin-top: 14px;
-
-            display: grid;
-
-            grid-template-columns:
-                1fr 1fr;
-
-            gap: 8px;
-        }
-
-        .comparison-cell {
-            padding-top: 7px;
-
-            border-top:
-                1px solid
-                rgba(
-                    121,
-                    225,
-                    211,
-                    0.10
-                );
-        }
-
-        .comparison-label {
-            font-family: monospace;
-            font-size: 7px;
-
-            color: #5e6965;
-        }
-
-        .comparison-number {
-            margin-top: 4px;
-
-            font-family: monospace;
-            font-size: 11px;
-
-            color: #dfe6e2;
-        }
-
-        #encounterExit {
-            margin-top: 14px;
-
-            font-family: monospace;
-            font-size: 7px;
-
-            line-height: 1.5;
-
-            color: #58625f;
-        }
-
-        #bottomHud {
-            position: fixed;
-
-            left: 48px;
-            right: 47px;
-            bottom: 27px;
-
-            z-index: 20;
-
-            display: grid;
-
-            grid-template-columns:
-                220px
-                1fr
-                220px;
-
-            align-items: end;
-
-            gap: 28px;
-
-            pointer-events: none;
-        }
-
-        #modeText {
-            font-family: monospace;
-            font-size: 8px;
-
-            color: var(--accent);
-
-            letter-spacing: 0.06em;
-        }
-
-        #timeline {
-            min-width: 0;
-        }
-
-        #timelineBar {
-            position: relative;
-
-            height: 1px;
-
-            background:
-                rgba(
-                    121,
-                    225,
-                    211,
-                    0.14
-                );
-        }
-
-        #timelineProgress {
-            position: absolute;
-
-            left: 0;
-            top: 0;
-
-            height: 1px;
-
-            width: 0%;
-
-            background:
-                var(--accent);
-        }
-
-        #timelineMarker {
-            position: absolute;
-
-            top: 50%;
-            left: 0%;
-
-            width: 7px;
-            height: 7px;
-
-            border-radius: 50%;
-
-            background:
-                var(--accent);
-
-            transform:
-                translate(
-                    -50%,
-                    -50%
-                );
-
-            box-shadow:
-                0 0 8px
-                rgba(
-                    121,
-                    225,
-                    211,
-                    0.6
-                );
-        }
-
-        #chapterTicks {
-            display: grid;
-
-            grid-template-columns:
-                repeat(5, 1fr);
-
-            margin-top: 8px;
-        }
-
-        .chapter-tick {
-            font-family: monospace;
-
-            font-size: 7px;
-
-            color: #4f5956;
-
-            text-align: center;
-        }
-
-        .chapter-tick.active {
-            color: var(--accent);
-        }
-
-        #controlHint {
-            text-align: right;
-
-            font-family: monospace;
-
-            font-size: 7px;
-
-            line-height: 1.55;
-
-            color: #58625f;
-        }
-
-        #pauseBadge {
-            position: fixed;
-
-            left: 50%;
-            top: 30px;
-
-            transform:
-                translateX(-50%);
-
-            z-index: 25;
-
-            display: none;
-
-            font-family: monospace;
-            font-size: 8px;
-
-            color: var(--accent);
-
-            letter-spacing: 0.08em;
-        }
-
-        #pauseBadge.show {
-            display: block;
-        }
-    </style>
+</style>
 </head>
 
 <body>
@@ -783,6 +756,10 @@
 
 </div>
 
+
+<!-- =======================================================
+     OPENING
+======================================================= -->
 
 <div id="opening">
 
@@ -813,6 +790,10 @@
 </div>
 
 
+<!-- =======================================================
+     HEADER
+======================================================= -->
+
 <div id="header">
 
     <div id="brand">
@@ -834,6 +815,10 @@
 </div>
 
 
+<!-- =======================================================
+     TIME
+======================================================= -->
+
 <div id="timeHud">
 
     <div id="timeText">
@@ -846,6 +831,10 @@
 
 </div>
 
+
+<!-- =======================================================
+     CHAPTER TRANSITION
+======================================================= -->
 
 <div id="chapterTransition">
 
@@ -868,6 +857,31 @@
 </div>
 
 
+<!-- =======================================================
+     STORY EVENT
+======================================================= -->
+
+<div id="storyEvent">
+
+    <div id="storyEventTime">
+        05:15
+    </div>
+
+    <div id="storyEventTitle">
+        FIRST MOVEMENT
+    </div>
+
+    <div id="storyEventText">
+        Small traces begin to spread across the landscape.
+    </div>
+
+</div>
+
+
+<!-- =======================================================
+     HOVER
+======================================================= -->
+
 <div id="hoverLabel">
 
     <span id="hoverMain">
@@ -880,6 +894,10 @@
 
 </div>
 
+
+<!-- =======================================================
+     ENCOUNTER
+======================================================= -->
 
 <div id="encounterLayer">
 
@@ -947,6 +965,10 @@
 </div>
 
 
+<!-- =======================================================
+     BOTTOM
+======================================================= -->
+
 <div id="bottomHud">
 
     <div id="modeText">
@@ -965,38 +987,23 @@
 
         <div id="chapterTicks">
 
-            <div
-                class="chapter-tick"
-                data-index="0"
-            >
+            <div class="chapter-tick" data-index="0">
                 QUIET
             </div>
 
-            <div
-                class="chapter-tick"
-                data-index="1"
-            >
+            <div class="chapter-tick" data-index="1">
                 MORNING
             </div>
 
-            <div
-                class="chapter-tick"
-                data-index="2"
-            >
+            <div class="chapter-tick" data-index="2">
                 MIDDAY
             </div>
 
-            <div
-                class="chapter-tick"
-                data-index="3"
-            >
+            <div class="chapter-tick" data-index="3">
                 PEAK
             </div>
 
-            <div
-                class="chapter-tick"
-                data-index="4"
-            >
+            <div class="chapter-tick" data-index="4">
                 NIGHT
             </div>
 
@@ -1019,135 +1026,104 @@
 
 <script>
 
+/* =========================================================
+   DOM
+========================================================= */
+
 const canvas =
-    document.getElementById(
-        "canvas"
-    );
+    document.getElementById("canvas");
 
 const ctx =
     canvas.getContext(
-        "2d"
+        "2d",
+        {
+            alpha: false
+        }
     );
 
 const opening =
-    document.getElementById(
-        "opening"
-    );
+    document.getElementById("opening");
 
 const enterButton =
-    document.getElementById(
-        "enterButton"
-    );
+    document.getElementById("enterButton");
 
 const atmosphere =
-    document.getElementById(
-        "atmosphere"
-    );
+    document.getElementById("atmosphere");
 
 const chapterLabel =
-    document.getElementById(
-        "chapterLabel"
-    );
+    document.getElementById("chapterLabel");
 
 const chapterNarrative =
-    document.getElementById(
-        "chapterNarrative"
-    );
+    document.getElementById("chapterNarrative");
 
 const chapterTransition =
-    document.getElementById(
-        "chapterTransition"
-    );
+    document.getElementById("chapterTransition");
 
 const transitionTime =
-    document.getElementById(
-        "transitionTime"
-    );
+    document.getElementById("transitionTime");
 
 const transitionTitle =
-    document.getElementById(
-        "transitionTitle"
-    );
+    document.getElementById("transitionTitle");
 
 const transitionSentence =
-    document.getElementById(
-        "transitionSentence"
-    );
+    document.getElementById("transitionSentence");
+
+const storyEvent =
+    document.getElementById("storyEvent");
+
+const storyEventTime =
+    document.getElementById("storyEventTime");
+
+const storyEventTitle =
+    document.getElementById("storyEventTitle");
+
+const storyEventText =
+    document.getElementById("storyEventText");
 
 const timeText =
-    document.getElementById(
-        "timeText"
-    );
+    document.getElementById("timeText");
 
 const timePhase =
-    document.getElementById(
-        "timePhase"
-    );
+    document.getElementById("timePhase");
 
 const hoverLabel =
-    document.getElementById(
-        "hoverLabel"
-    );
+    document.getElementById("hoverLabel");
 
 const hoverMain =
-    document.getElementById(
-        "hoverMain"
-    );
+    document.getElementById("hoverMain");
 
 const encounterLayer =
-    document.getElementById(
-        "encounterLayer"
-    );
+    document.getElementById("encounterLayer");
 
 const encounterStory =
-    document.getElementById(
-        "encounterStory"
-    );
+    document.getElementById("encounterStory");
 
 const encounterName =
-    document.getElementById(
-        "encounterName"
-    );
+    document.getElementById("encounterName");
 
 const encounterMoment =
-    document.getElementById(
-        "encounterMoment"
-    );
+    document.getElementById("encounterMoment");
 
 const encounterNarrative =
-    document.getElementById(
-        "encounterNarrative"
-    );
+    document.getElementById("encounterNarrative");
 
 const individualValue =
-    document.getElementById(
-        "individualValue"
-    );
+    document.getElementById("individualValue");
 
 const collectiveValue =
-    document.getElementById(
-        "collectiveValue"
-    );
+    document.getElementById("collectiveValue");
 
 const modeText =
-    document.getElementById(
-        "modeText"
-    );
+    document.getElementById("modeText");
 
 const timelineProgress =
-    document.getElementById(
-        "timelineProgress"
-    );
+    document.getElementById("timelineProgress");
 
 const timelineMarker =
-    document.getElementById(
-        "timelineMarker"
-    );
+    document.getElementById("timelineMarker");
 
 const pauseBadge =
-    document.getElementById(
-        "pauseBadge"
-    );
+    document.getElementById("pauseBadge");
 
 const chapterTicks =
     [
@@ -1156,6 +1132,10 @@ const chapterTicks =
         )
     ];
 
+
+/* =========================================================
+   DATA
+========================================================= */
 
 let data = null;
 
@@ -1171,28 +1151,51 @@ let selectedTrack = null;
 
 let featuredTrack = null;
 
+let temporaryStoryTrack = null;
 
-let experienceStarted =
-    false;
 
-let playing =
-    false;
+/* =========================================================
+   PERFORMANCE GEOMETRY CACHE
+========================================================= */
 
-let currentTime =
-    2;
+const geometry =
+    new Map();
 
-let previousChapterIndex =
-    -1;
+let meanLatitude = 0;
+let meanLongitude = 0;
+let longitudeCorrection = 1;
 
-let currentChapter =
-    null;
+let canvasDpr = 1;
 
-let chapterTransitionTimeout =
-    null;
 
-let userCameraOverrideUntil =
-    0;
+/* =========================================================
+   EXPERIENCE STATE
+========================================================= */
 
+let experienceStarted = false;
+
+let playing = false;
+
+let currentTime = 2;
+
+let previousTime = 2;
+
+let previousChapterIndex = -1;
+
+let currentChapter = null;
+
+let transitionActive = false;
+
+let chapterTransitionTimeout = null;
+
+let storyEventTimeout = null;
+
+let userCameraOverrideUntil = 0;
+
+
+/* =========================================================
+   ANIMATION
+========================================================= */
 
 const TIME_STEP =
     0.25;
@@ -1207,41 +1210,70 @@ let visualTimestamp =
     0;
 
 
+/* =========================================================
+   CAMERA
+========================================================= */
+
 const camera = {
 
-    scale: 1,
+    scale:
+        1,
 
-    offsetX: 0,
+    offsetX:
+        0,
 
-    offsetY: 0,
+    offsetY:
+        0,
 
-    targetScale: 1,
+    targetScale:
+        1,
 
-    targetOffsetX: 0,
+    targetOffsetX:
+        0,
 
-    targetOffsetY: 0
+    targetOffsetY:
+        0
 };
 
+
+/* =========================================================
+   POINTER
+========================================================= */
 
 const pointer = {
 
-    x: -1000,
+    x:
+        -1000,
 
-    y: -1000,
+    y:
+        -1000,
 
-    isDown: false,
+    isDown:
+        false,
 
-    dragging: false,
+    dragging:
+        false,
 
-    downX: 0,
+    downX:
+        0,
 
-    downY: 0,
+    downY:
+        0,
 
-    previousX: 0,
+    previousX:
+        0,
 
-    previousY: 0
+    previousY:
+        0
 };
 
+let hoverFrameRequested =
+    false;
+
+
+/* =========================================================
+   CHAPTERS
+========================================================= */
 
 const chapters = [
 
@@ -1249,10 +1281,10 @@ const chapters = [
         index: 0,
 
         start: 2,
-
         end: 5,
 
-        time: "02:00",
+        time:
+            "02:00",
 
         label:
             "CHAPTER 01 / QUIET HOURS",
@@ -1270,7 +1302,7 @@ const chapters = [
             "Before sunrise, movement falls to its lowest point. The landscape contracts into small, quiet traces.",
 
         atmosphere:
-            "radial-gradient(circle at 54% 50%, rgba(58, 95, 91, 0.035), rgba(4,6,7,0) 40%)",
+            "radial-gradient(circle at 54% 50%, rgba(58,95,91,0.035), rgba(4,6,7,0) 40%)",
 
         cameraScale:
             1.05
@@ -1280,10 +1312,10 @@ const chapters = [
         index: 1,
 
         start: 5,
-
         end: 9,
 
-        time: "05:00",
+        time:
+            "05:00",
 
         label:
             "CHAPTER 02 / MORNING RISE",
@@ -1301,7 +1333,7 @@ const chapters = [
             "Movement rises rapidly after dawn. Separate paths begin to animate across the shared landscape.",
 
         atmosphere:
-            "radial-gradient(circle at 52% 48%, rgba(65, 150, 135, 0.075), rgba(4,6,7,0) 48%)",
+            "radial-gradient(circle at 52% 48%, rgba(65,150,135,0.075), rgba(4,6,7,0) 48%)",
 
         cameraScale:
             1.35
@@ -1311,10 +1343,10 @@ const chapters = [
         index: 2,
 
         start: 9,
-
         end: 15,
 
-        time: "09:00",
+        time:
+            "09:00",
 
         label:
             "CHAPTER 03 / MIDDAY DRIFT",
@@ -1332,20 +1364,20 @@ const chapters = [
             "Through the middle of the day, movement becomes steadier. The herd shares a rhythm, but individual paths remain distinct.",
 
         atmosphere:
-            "radial-gradient(circle at 55% 47%, rgba(81, 165, 149, 0.065), rgba(4,6,7,0) 52%)",
+            "radial-gradient(circle at 55% 47%, rgba(81,165,149,0.065), rgba(4,6,7,0) 52%)",
 
         cameraScale:
-            1.58
+            1.52
     },
 
     {
         index: 3,
 
         start: 15,
-
         end: 19,
 
-        time: "15:00",
+        time:
+            "15:00",
 
         label:
             "CHAPTER 04 / AFTERNOON PEAK",
@@ -1363,20 +1395,20 @@ const chapters = [
             "Late afternoon produces the strongest collective movement. The landscape expands into its most active state.",
 
         atmosphere:
-            "radial-gradient(circle at 52% 48%, rgba(77, 190, 169, 0.11), rgba(4,6,7,0) 58%)",
+            "radial-gradient(circle at 52% 48%, rgba(77,190,169,0.11), rgba(4,6,7,0) 58%)",
 
         cameraScale:
-            1.40
+            1.36
     },
 
     {
         index: 4,
 
         start: 19,
-
         end: 26,
 
-        time: "19:00",
+        time:
+            "19:00",
 
         label:
             "CHAPTER 05 / NIGHT RETURN",
@@ -1394,7 +1426,7 @@ const chapters = [
             "Movement gradually decreases after sunset. Individual paths disappear again into the larger pattern of the herd.",
 
         atmosphere:
-            "radial-gradient(circle at 50% 50%, rgba(47, 102, 94, 0.045), rgba(4,6,7,0) 44%)",
+            "radial-gradient(circle at 50% 50%, rgba(47,102,94,0.045), rgba(4,6,7,0) 44%)",
 
         cameraScale:
             1.12
@@ -1402,19 +1434,151 @@ const chapters = [
 ];
 
 
+/* =========================================================
+   MORNING STORY EVENTS
+========================================================= */
+
+const morningEvents = [
+
+    {
+        id:
+            "first-movement",
+
+        time:
+            5.25,
+
+        label:
+            "05:15",
+
+        title:
+            "FIRST MOVEMENT",
+
+        text:
+            "Small traces begin to spread across the landscape. The collective rhythm is starting to rise.",
+
+        duration:
+            2200,
+
+        cameraScale:
+            1.38,
+
+        highlightIndividual:
+            false
+    },
+
+    {
+        id:
+            "spreading-paths",
+
+        time:
+            6,
+
+        label:
+            "06:00",
+
+        title:
+            "SPREADING PATHS",
+
+        text:
+            "Movement expands across several trajectories. Activity begins to spread through the field.",
+
+        duration:
+            2400,
+
+        cameraScale:
+            1.50,
+
+        highlightIndividual:
+            false
+    },
+
+    {
+        id:
+            "individual-divergence",
+
+        time:
+            7.25,
+
+        label:
+            "07:15",
+
+        title:
+            "INDIVIDUAL DIVERGENCE",
+
+        text:
+            "One path begins to separate from the collective rhythm. An individual pattern becomes visible inside the herd.",
+
+        duration:
+            3000,
+
+        cameraScale:
+            1.78,
+
+        highlightIndividual:
+            true
+    },
+
+    {
+        id:
+            "shared-pace",
+
+        time:
+            8.50,
+
+        label:
+            "08:30",
+
+        title:
+            "SHARED PACE",
+
+        text:
+            "The strongest contrast begins to soften. Individual paths dissolve again into the larger collective rhythm.",
+
+        duration:
+            2400,
+
+        cameraScale:
+            1.38,
+
+        highlightIndividual:
+            false
+    }
+];
+
+const firedStoryEvents =
+    new Set();
+
+
+/* =========================================================
+   CANVAS
+========================================================= */
+
 function resizeCanvas() {
 
-    const dpr =
-        window.devicePixelRatio
-        || 1;
+    /*
+        Retina screens can otherwise create 4×
+        the number of physical pixels.
+
+        1.5 is still sharp, but significantly lighter.
+    */
+
+    canvasDpr =
+        Math.min(
+            window.devicePixelRatio || 1,
+            1.5
+        );
 
     canvas.width =
-        window.innerWidth
-        * dpr;
+        Math.round(
+            window.innerWidth
+            * canvasDpr
+        );
 
     canvas.height =
-        window.innerHeight
-        * dpr;
+        Math.round(
+            window.innerHeight
+            * canvasDpr
+        );
 
     canvas.style.width =
         window.innerWidth
@@ -1423,64 +1587,219 @@ function resizeCanvas() {
     canvas.style.height =
         window.innerHeight
         + "px";
+}
 
-    ctx.setTransform(
-        dpr,
-        0,
-        0,
-        dpr,
-        0,
-        0
+
+/* =========================================================
+   WORLD GEOMETRY
+========================================================= */
+
+function longitudeToWorld(
+    longitude
+) {
+
+    return (
+        longitude
+        - meanLongitude
+    )
+    * longitudeCorrection;
+}
+
+
+function latitudeToWorld(
+    latitude
+) {
+
+    return (
+        latitude
+        - meanLatitude
     );
 }
 
 
-function getBaseTransform() {
+function buildGeometryCache() {
 
-    const width =
-        window.innerWidth;
-
-    const height =
-        window.innerHeight;
-
-    const longitudeRange =
-        bounds.max_lon
-        - bounds.min_lon;
-
-    const latitudeRange =
-        bounds.max_lat
-        - bounds.min_lat;
-
-    const meanLatitude =
+    meanLatitude =
         (
             bounds.min_lat
             + bounds.max_lat
-        ) / 2;
+        )
+        / 2;
 
-    const meanLongitude =
+    meanLongitude =
         (
             bounds.min_lon
             + bounds.max_lon
-        ) / 2;
+        )
+        / 2;
 
-    const longitudeCorrection =
+    longitudeCorrection =
         Math.cos(
             meanLatitude
             * Math.PI
             / 180
         );
 
-    const correctedLongitudeRange =
-        longitudeRange
+    geometry.clear();
+
+    for (
+        const track
+        of tracks
+    ) {
+
+        const path =
+            new Path2D();
+
+        let centroidX =
+            0;
+
+        let centroidY =
+            0;
+
+        let centroidCount =
+            0;
+
+        const samples =
+            [];
+
+        const sampleStep =
+            Math.max(
+                1,
+                Math.floor(
+                    track.points.length
+                    / 280
+                )
+            );
+
+        const centroidStep =
+            Math.max(
+                1,
+                Math.floor(
+                    track.points.length
+                    / 700
+                )
+            );
+
+        for (
+            let index = 0;
+            index < track.points.length;
+            index++
+        ) {
+
+            const point =
+                track.points[
+                    index
+                ];
+
+            const wx =
+                longitudeToWorld(
+                    point.lon
+                );
+
+            const wy =
+                latitudeToWorld(
+                    point.lat
+                );
+
+            if (
+                index === 0
+            ) {
+
+                path.moveTo(
+                    wx,
+                    wy
+                );
+
+            } else {
+
+                path.lineTo(
+                    wx,
+                    wy
+                );
+            }
+
+            if (
+                index
+                % sampleStep
+                === 0
+            ) {
+
+                samples.push(
+                    {
+                        x:
+                            wx,
+
+                        y:
+                            wy
+                    }
+                );
+            }
+
+            if (
+                index
+                % centroidStep
+                === 0
+            ) {
+
+                centroidX +=
+                    wx;
+
+                centroidY +=
+                    wy;
+
+                centroidCount++;
+            }
+        }
+
+        geometry.set(
+            track.id,
+            {
+                path,
+
+                samples,
+
+                centroid:
+                    {
+                        x:
+                            centroidX
+                            / centroidCount,
+
+                        y:
+                            centroidY
+                            / centroidCount
+                    }
+            }
+        );
+    }
+}
+
+
+/* =========================================================
+   CAMERA TRANSFORM
+========================================================= */
+
+function getBaseTransform() {
+
+    const longitudeRange =
+        (
+            bounds.max_lon
+            - bounds.min_lon
+        )
         * longitudeCorrection;
+
+    const latitudeRange =
+        bounds.max_lat
+        - bounds.min_lat;
 
     const fitScale =
         Math.min(
 
-            width * 0.56
-            / correctedLongitudeRange,
+            window.innerWidth
+            * 0.56
+            / longitudeRange,
 
-            height * 0.70
+            window.innerHeight
+            * 0.70
             / latitudeRange
         );
 
@@ -1488,39 +1807,34 @@ function getBaseTransform() {
 
         fitScale,
 
-        longitudeCorrection,
-
-        meanLatitude,
-
-        meanLongitude,
-
         centerX:
-            width * 0.51,
+            window.innerWidth
+            * 0.51,
 
         centerY:
-            height * 0.51
+            window.innerHeight
+            * 0.51
     };
 }
 
 
+function getScreenScale() {
+
+    return (
+        getBaseTransform()
+            .fitScale
+        * camera.scale
+    );
+}
+
+
 function worldToScreen(
-    longitude,
-    latitude
+    wx,
+    wy
 ) {
 
     const base =
         getBaseTransform();
-
-    const worldX =
-        (
-            longitude
-            - base.meanLongitude
-        )
-        * base.longitudeCorrection;
-
-    const worldY =
-        latitude
-        - base.meanLatitude;
 
     const scale =
         base.fitScale
@@ -1530,18 +1844,103 @@ function worldToScreen(
 
         x:
             base.centerX
-            + worldX
-            * scale
-            + camera.offsetX,
+            + camera.offsetX
+            + wx
+            * scale,
 
         y:
             base.centerY
-            - worldY
-            * scale
             + camera.offsetY
+            - wy
+            * scale
     };
 }
 
+
+function screenToWorld(
+    x,
+    y
+) {
+
+    const base =
+        getBaseTransform();
+
+    const scale =
+        base.fitScale
+        * camera.scale;
+
+    return {
+
+        x:
+            (
+                x
+                - base.centerX
+                - camera.offsetX
+            )
+            / scale,
+
+        y:
+            -(
+                y
+                - base.centerY
+                - camera.offsetY
+            )
+            / scale
+    };
+}
+
+
+function setWorldCanvasTransform() {
+
+    const base =
+        getBaseTransform();
+
+    const scale =
+        base.fitScale
+        * camera.scale;
+
+    ctx.setTransform(
+        canvasDpr
+        * scale,
+
+        0,
+
+        0,
+
+        -canvasDpr
+        * scale,
+
+        canvasDpr
+        * (
+            base.centerX
+            + camera.offsetX
+        ),
+
+        canvasDpr
+        * (
+            base.centerY
+            + camera.offsetY
+        )
+    );
+}
+
+
+function resetCanvasTransform() {
+
+    ctx.setTransform(
+        canvasDpr,
+        0,
+        0,
+        canvasDpr,
+        0,
+        0
+    );
+}
+
+
+/* =========================================================
+   TIME
+========================================================= */
 
 function normaliseHour(
     time
@@ -1554,7 +1953,8 @@ function normaliseHour(
         value < 0
     ) {
 
-        value += 24;
+        value +=
+            24;
     }
 
     return value;
@@ -1612,6 +2012,10 @@ function formatTime(
 }
 
 
+/* =========================================================
+   CHAPTER
+========================================================= */
+
 function getChapterFromTime() {
 
     let hour =
@@ -1623,7 +2027,8 @@ function getChapterFromTime() {
         hour < 2
     ) {
 
-        hour += 24;
+        hour +=
+            24;
     }
 
     for (
@@ -1632,8 +2037,11 @@ function getChapterFromTime() {
     ) {
 
         if (
-            hour >= chapter.start
-            && hour < chapter.end
+            hour
+            >= chapter.start
+
+            && hour
+            < chapter.end
         ) {
 
             return chapter;
@@ -1646,70 +2054,13 @@ function getChapterFromTime() {
 }
 
 
-function getTrackCentroid(
-    track
-) {
-
-    if (
-        !track
-        || !track.points.length
-    ) {
-
-        return null;
-    }
-
-    let longitude =
-        0;
-
-    let latitude =
-        0;
-
-    let count =
-        0;
-
-    const step =
-        Math.max(
-            1,
-            Math.floor(
-                track.points.length
-                / 700
-            )
-        );
-
-    for (
-        let index = 0;
-        index < track.points.length;
-        index += step
-    ) {
-
-        longitude +=
-            track.points[
-                index
-            ].lon;
-
-        latitude +=
-            track.points[
-                index
-            ].lat;
-
-        count++;
-    }
-
-    return {
-
-        lon:
-            longitude
-            / count,
-
-        lat:
-            latitude
-            / count
-    };
-}
-
+/* =========================================================
+   FEATURED TRACK
+========================================================= */
 
 function findFeaturedTrack(
-    chapter
+    startHour,
+    endHour
 ) {
 
     if (
@@ -1750,48 +2101,50 @@ function findFeaturedTrack(
         let count =
             0;
 
-        const startHour =
-            Math.floor(
-                chapter.start
-            );
-
-        const endHour =
-            Math.min(
-                24,
-                Math.ceil(
-                    chapter.end
-                )
-            );
-
         for (
             let hour = startHour;
             hour < endHour;
             hour++
         ) {
 
-            const individualValue =
+            const key =
+                String(
+                    hour
+                    % 24
+                );
+
+            const individualMovement =
                 Number(
                     individual[
-                        String(
-                            hour % 24
-                        )
+                        key
                     ]
                 );
 
-            const collectiveValue =
+            const collectiveMovement =
                 Number(
                     rhythm
                         .hourly_medians[
-                            String(
-                                hour % 24
-                            )
+                            key
                         ]
                 );
 
+            if (
+                !Number.isFinite(
+                    individualMovement
+                )
+
+                || !Number.isFinite(
+                    collectiveMovement
+                )
+            ) {
+
+                continue;
+            }
+
             score +=
                 Math.abs(
-                    individualValue
-                    - collectiveValue
+                    individualMovement
+                    - collectiveMovement
                 );
 
             count++;
@@ -1822,6 +2175,72 @@ function findFeaturedTrack(
 }
 
 
+function findChapterFeaturedTrack(
+    chapter
+) {
+
+    return findFeaturedTrack(
+        Math.floor(
+            chapter.start
+        ),
+
+        Math.min(
+            24,
+            Math.ceil(
+                chapter.end
+            )
+        )
+    );
+}
+
+
+/* =========================================================
+   CAMERA
+========================================================= */
+
+function focusCameraOnTrack(
+    track,
+    targetScale
+) {
+
+    const cached =
+        geometry.get(
+            track.id
+        );
+
+    if (
+        !cached
+    ) {
+
+        return;
+    }
+
+    const base =
+        getBaseTransform();
+
+    const screenScale =
+        base.fitScale
+        * targetScale;
+
+    camera.targetScale =
+        targetScale;
+
+    camera.targetOffsetX =
+        window.innerWidth
+        * 0.55
+        - base.centerX
+        - cached.centroid.x
+        * screenScale;
+
+    camera.targetOffsetY =
+        window.innerHeight
+        * 0.51
+        - base.centerY
+        + cached.centroid.y
+        * screenScale;
+}
+
+
 function setChapterCamera(
     chapter
 ) {
@@ -1835,13 +2254,20 @@ function setChapterCamera(
     }
 
     featuredTrack =
-        findFeaturedTrack(
+        findChapterFeaturedTrack(
             chapter
         );
 
     if (
-        !featuredTrack
+        featuredTrack
     ) {
+
+        focusCameraOnTrack(
+            featuredTrack,
+            chapter.cameraScale
+        );
+
+    } else {
 
         camera.targetScale =
             chapter.cameraScale;
@@ -1851,72 +2277,19 @@ function setChapterCamera(
 
         camera.targetOffsetY =
             0;
-
-        return;
     }
-
-    const centroid =
-        getTrackCentroid(
-            featuredTrack
-        );
-
-    if (
-        !centroid
-    ) {
-
-        return;
-    }
-
-    const base =
-        getBaseTransform();
-
-    const worldX =
-        (
-            centroid.lon
-            - base.meanLongitude
-        )
-        * base.longitudeCorrection;
-
-    const worldY =
-        centroid.lat
-        - base.meanLatitude;
-
-    const targetScale =
-        chapter.cameraScale;
-
-    const pixelScale =
-        base.fitScale
-        * targetScale;
-
-    const targetX =
-        window.innerWidth
-        * 0.55;
-
-    const targetY =
-        window.innerHeight
-        * 0.51;
-
-    camera.targetScale =
-        targetScale;
-
-    camera.targetOffsetX =
-        targetX
-        - base.centerX
-        - worldX
-        * pixelScale;
-
-    camera.targetOffsetY =
-        targetY
-        - base.centerY
-        + worldY
-        * pixelScale;
 }
 
 
 function updateCamera() {
 
+    /*
+        Lower smoothing = slower, more cinematic.
+        Path2D means this can now stay smooth.
+    */
+
     const smoothing =
-        0.025;
+        0.032;
 
     camera.scale +=
         (
@@ -1941,6 +2314,10 @@ function updateCamera() {
 }
 
 
+/* =========================================================
+   CHAPTER TRANSITION
+========================================================= */
+
 function enterChapter(
     chapter
 ) {
@@ -1950,6 +2327,24 @@ function enterChapter(
 
     previousChapterIndex =
         chapter.index;
+
+    temporaryStoryTrack =
+        null;
+
+    hoverLabel.style.display =
+        "none";
+
+    hoveredTrack =
+        null;
+
+    transitionActive =
+        true;
+
+    encounterLayer
+        .classList
+        .add(
+            "suppressed"
+        );
 
     chapterLabel.textContent =
         chapter.label;
@@ -1977,6 +2372,7 @@ function enterChapter(
 
             tick.classList.toggle(
                 "active",
+
                 Number(
                     tick.dataset.index
                 )
@@ -1985,13 +2381,24 @@ function enterChapter(
         }
     );
 
-    chapterTransition.classList.add(
-        "show"
-    );
+    chapterTransition
+        .classList
+        .add(
+            "show"
+        );
 
     clearTimeout(
         chapterTransitionTimeout
     );
+
+    if (
+        !selectedTrack
+    ) {
+
+        setChapterCamera(
+            chapter
+        );
+    }
 
     chapterTransitionTimeout =
         setTimeout(
@@ -2003,22 +2410,210 @@ function enterChapter(
                         "show"
                     );
 
+                transitionActive =
+                    false;
+
+                encounterLayer
+                    .classList
+                    .remove(
+                        "suppressed"
+                    );
+
             },
             1700
         );
+}
+
+
+/* =========================================================
+   MORNING STORY EVENTS
+========================================================= */
+
+function showStoryEvent(
+    event
+) {
 
     if (
-        !selectedTrack
+        transitionActive
     ) {
 
-        setChapterCamera(
-            chapter
+        return;
+    }
+
+    storyEventTime.textContent =
+        event.label;
+
+    storyEventTitle.textContent =
+        event.title;
+
+    storyEventText.textContent =
+        event.text;
+
+    storyEvent
+        .classList
+        .add(
+            "show"
         );
+
+    clearTimeout(
+        storyEventTimeout
+    );
+
+    if (
+        event.highlightIndividual
+    ) {
+
+        temporaryStoryTrack =
+            findFeaturedTrack(
+                6,
+                9
+            );
+
+        if (
+            temporaryStoryTrack
+            && !selectedTrack
+        ) {
+
+            focusCameraOnTrack(
+                temporaryStoryTrack,
+                event.cameraScale
+            );
+        }
+
+    } else {
+
+        temporaryStoryTrack =
+            null;
+
+        if (
+            !selectedTrack
+        ) {
+
+            camera.targetScale =
+                event.cameraScale;
+        }
+    }
+
+    storyEventTimeout =
+        setTimeout(
+            () => {
+
+                storyEvent
+                    .classList
+                    .remove(
+                        "show"
+                    );
+
+                if (
+                    event.id
+                    === "individual-divergence"
+                ) {
+
+                    setTimeout(
+                        () => {
+
+                            temporaryStoryTrack =
+                                null;
+
+                            if (
+                                currentChapter
+                                && !selectedTrack
+                            ) {
+
+                                setChapterCamera(
+                                    currentChapter
+                                );
+                            }
+
+                        },
+                        600
+                    );
+                }
+
+            },
+            event.duration
+        );
+}
+
+
+function checkMorningStoryEvents() {
+
+    if (
+        currentTime < 5
+        || currentTime >= 9
+    ) {
+
+        return;
+    }
+
+    for (
+        const event
+        of morningEvents
+    ) {
+
+        if (
+            firedStoryEvents
+                .has(
+                    event.id
+                )
+        ) {
+
+            continue;
+        }
+
+        if (
+            previousTime
+            < event.time
+
+            && currentTime
+            >= event.time
+        ) {
+
+            firedStoryEvents
+                .add(
+                    event.id
+                );
+
+            /*
+                If chapter transition is still ending,
+                delay slightly instead of overlapping it.
+            */
+
+            if (
+                transitionActive
+            ) {
+
+                setTimeout(
+                    () => {
+
+                        showStoryEvent(
+                            event
+                        );
+
+                    },
+                    800
+                );
+
+            } else {
+
+                showStoryEvent(
+                    event
+                );
+            }
+
+            break;
+        }
     }
 }
 
 
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
 function drawBackground() {
+
+    resetCanvasTransform();
 
     ctx.fillStyle =
         "#040607";
@@ -2032,14 +2627,22 @@ function drawBackground() {
 }
 
 
+/* =========================================================
+   CACHED TRACK DRAWING
+========================================================= */
+
 function drawTrack(
     track,
     style
 ) {
 
+    const cached =
+        geometry.get(
+            track.id
+        );
+
     if (
-        !track
-        || track.points.length < 2
+        !cached
     ) {
 
         return;
@@ -2048,27 +2651,44 @@ function drawTrack(
     let opacity =
         0.045;
 
-    let lineWidth =
+    let lineWidthPx =
         0.34;
+
+    let colour =
+        "177,187,183";
 
     let glow =
         0;
-
-    let colour =
-        "177, 187, 183";
 
     if (
         style === "featured"
     ) {
 
         opacity =
-            0.19;
+            0.18;
 
-        lineWidth =
+        lineWidthPx =
             0.65;
 
         colour =
-            "121, 225, 211";
+            "121,225,211";
+    }
+
+    if (
+        style === "story"
+    ) {
+
+        opacity =
+            0.90;
+
+        lineWidthPx =
+            1.25;
+
+        colour =
+            "121,225,211";
+
+        glow =
+            7;
     }
 
     if (
@@ -2076,16 +2696,16 @@ function drawTrack(
     ) {
 
         opacity =
-            0.82;
+            0.78;
 
-        lineWidth =
-            1.15;
-
-        glow =
-            6;
+        lineWidthPx =
+            1.10;
 
         colour =
-            "121, 225, 211";
+            "121,225,211";
+
+        glow =
+            5;
     }
 
     if (
@@ -2093,16 +2713,16 @@ function drawTrack(
     ) {
 
         opacity =
-            1;
+            0.96;
 
-        lineWidth =
-            1.6;
-
-        glow =
-            10;
+        lineWidthPx =
+            1.45;
 
         colour =
-            "121, 225, 211";
+            "121,225,211";
+
+        glow =
+            8;
     }
 
     if (
@@ -2114,66 +2734,69 @@ function drawTrack(
             0.012;
     }
 
+    if (
+        transitionActive
+        && (
+            style === "selected"
+            || style === "story"
+        )
+    ) {
+
+        opacity *=
+            0.25;
+
+        glow =
+            0;
+    }
+
+    const screenScale =
+        getScreenScale();
+
+    setWorldCanvasTransform();
+
     ctx.strokeStyle =
         `rgba(
             ${colour},
             ${opacity}
         )`;
 
+    /*
+        Because the canvas is scaled into world coordinates,
+        divide by screenScale to maintain constant pixel width.
+    */
+
     ctx.lineWidth =
-        lineWidth;
+        lineWidthPx
+        / screenScale;
+
+    ctx.lineJoin =
+        "round";
+
+    ctx.lineCap =
+        "round";
 
     ctx.shadowColor =
         glow > 0
-        ? "rgba(121,225,211,0.6)"
+        ? "rgba(121,225,211,0.55)"
         : "transparent";
 
     ctx.shadowBlur =
         glow;
 
-    ctx.beginPath();
-
-    for (
-        let index = 0;
-        index < track.points.length;
-        index++
-    ) {
-
-        const point =
-            track.points[
-                index
-            ];
-
-        const screen =
-            worldToScreen(
-                point.lon,
-                point.lat
-            );
-
-        if (
-            index === 0
-        ) {
-
-            ctx.moveTo(
-                screen.x,
-                screen.y
-            );
-
-        } else {
-
-            ctx.lineTo(
-                screen.x,
-                screen.y
-            );
-        }
-    }
-
-    ctx.stroke();
+    ctx.stroke(
+        cached.path
+    );
 
     ctx.shadowBlur =
         0;
+
+    resetCanvasTransform();
 }
 
+
+/* =========================================================
+   MOVEMENT FIELD
+========================================================= */
 
 function drawMovementField() {
 
@@ -2223,15 +2846,20 @@ function drawMovementField() {
     const p95 =
         rhythm.visual_p95;
 
-    const maximumParticles =
-        1500;
+    /*
+        Reduced from 1500.
+        Still visually dense but much cheaper.
+    */
+
+    const maxSegments =
+        900;
 
     const stride =
         Math.max(
             1,
             Math.ceil(
                 segments.length
-                / maximumParticles
+                / maxSegments
             )
         );
 
@@ -2244,6 +2872,8 @@ function drawMovementField() {
             + 1
         )
         / 2;
+
+    resetCanvasTransform();
 
     for (
         let index = 0;
@@ -2265,47 +2895,77 @@ function drawMovementField() {
             continue;
         }
 
+        const wx1 =
+            longitudeToWorld(
+                segment.x1
+            );
+
+        const wy1 =
+            latitudeToWorld(
+                segment.y1
+            );
+
+        const wx2 =
+            longitudeToWorld(
+                segment.x2
+            );
+
+        const wy2 =
+            latitudeToWorld(
+                segment.y2
+            );
+
         const start =
             worldToScreen(
-                segment.x1,
-                segment.y1
+                wx1,
+                wy1
             );
 
         const end =
             worldToScreen(
-                segment.x2,
-                segment.y2
+                wx2,
+                wy2
             );
 
-        const movementStrength =
+        const strength =
             Math.min(
                 segment.movement
                 / p95,
                 1
             );
 
-        const alpha =
-            0.08
-            + movementStrength
-            * 0.48
+        let alpha =
+            0.07
+            + strength
+            * 0.42
             + intensity
-            * 0.12;
+            * 0.10;
 
-        const lineWidth =
-            0.35
-            + movementStrength
-            * 1.15;
+        if (
+            temporaryStoryTrack
+            && segment.id
+            === temporaryStoryTrack.id
+        ) {
+
+            alpha +=
+                0.28;
+        }
 
         ctx.strokeStyle =
             `rgba(
                 71,
                 205,
                 187,
-                ${alpha}
+                ${Math.min(
+                    alpha,
+                    0.90
+                )}
             )`;
 
         ctx.lineWidth =
-            lineWidth;
+            0.35
+            + strength
+            * 1.05;
 
         ctx.beginPath();
 
@@ -2321,21 +2981,21 @@ function drawMovementField() {
 
         ctx.stroke();
 
+        /*
+            Only strongest movements receive a particle.
+            This significantly reduces circle drawing.
+        */
+
         if (
-            movementStrength >
-            0.48
+            strength > 0.62
         ) {
 
-            const interpolation =
+            const position =
                 (
-                    (
-                        visualTimestamp
-                        * 0.00022
-                    )
-                    + (
-                        index
-                        * 0.071
-                    )
+                    visualTimestamp
+                    * 0.00020
+                    + index
+                    * 0.067
                 )
                 % 1;
 
@@ -2345,7 +3005,7 @@ function drawMovementField() {
                     end.x
                     - start.x
                 )
-                * interpolation;
+                * position;
 
             const particleY =
                 start.y
@@ -2353,21 +3013,35 @@ function drawMovementField() {
                     end.y
                     - start.y
                 )
-                * interpolation;
+                * position;
+
+            let particleAlpha =
+                (
+                    0.12
+                    + pulse
+                    * 0.28
+                )
+                * intensity;
+
+            if (
+                temporaryStoryTrack
+                && segment.id
+                === temporaryStoryTrack.id
+            ) {
+
+                particleAlpha +=
+                    0.30;
+            }
 
             ctx.fillStyle =
                 `rgba(
                     121,
                     225,
                     211,
-                    ${
-                        (
-                            0.15
-                            + pulse
-                            * 0.32
-                        )
-                        * intensity
-                    }
+                    ${Math.min(
+                        particleAlpha,
+                        0.88
+                    )}
                 )`;
 
             ctx.beginPath();
@@ -2375,9 +3049,9 @@ function drawMovementField() {
             ctx.arc(
                 particleX,
                 particleY,
-                0.7
-                + movementStrength
-                * 1.4,
+                0.65
+                + strength
+                * 1.15,
                 0,
                 Math.PI
                 * 2
@@ -2389,23 +3063,32 @@ function drawMovementField() {
 }
 
 
+/* =========================================================
+   FEATURE PULSE
+========================================================= */
+
 function drawFeaturedPulse() {
+
+    const track =
+        temporaryStoryTrack
+        || featuredTrack;
 
     if (
         selectedTrack
-        || !featuredTrack
+        || !track
+        || transitionActive
     ) {
 
         return;
     }
 
-    const centroid =
-        getTrackCentroid(
-            featuredTrack
+    const cached =
+        geometry.get(
+            track.id
         );
 
     if (
-        !centroid
+        !cached
     ) {
 
         return;
@@ -2413,8 +3096,8 @@ function drawFeaturedPulse() {
 
     const screen =
         worldToScreen(
-            centroid.lon,
-            centroid.lat
+            cached.centroid.x,
+            cached.centroid.y
         );
 
     const pulse =
@@ -2428,9 +3111,15 @@ function drawFeaturedPulse() {
         / 2;
 
     const radius =
-        12
-        + pulse
-        * 9;
+        temporaryStoryTrack
+        ? 16
+            + pulse
+            * 14
+        : 11
+            + pulse
+            * 8;
+
+    resetCanvasTransform();
 
     ctx.strokeStyle =
         `rgba(
@@ -2438,9 +3127,13 @@ function drawFeaturedPulse() {
             225,
             211,
             ${
-                0.06
-                + pulse
-                * 0.11
+                temporaryStoryTrack
+                ? 0.15
+                    + pulse
+                    * 0.24
+                : 0.05
+                    + pulse
+                    * 0.10
             }
         )`;
 
@@ -2462,6 +3155,10 @@ function drawFeaturedPulse() {
 }
 
 
+/* =========================================================
+   DRAW LOOP
+========================================================= */
+
 function draw() {
 
     if (
@@ -2474,6 +3171,11 @@ function draw() {
     updateCamera();
 
     drawBackground();
+
+    /*
+        These 14 paths are now cached Path2D objects.
+        JavaScript no longer loops through every GPS point.
+    */
 
     for (
         const track
@@ -2498,15 +3200,28 @@ function draw() {
             continue;
         }
 
-        const style =
-            (
-                !selectedTrack
-                && featuredTrack
-                && featuredTrack.id
-                === track.id
-            )
-            ? "featured"
-            : "background";
+        let style =
+            "background";
+
+        if (
+            temporaryStoryTrack
+            && temporaryStoryTrack.id
+            === track.id
+        ) {
+
+            style =
+                "story";
+
+        } else if (
+            !selectedTrack
+            && featuredTrack
+            && featuredTrack.id
+            === track.id
+        ) {
+
+            style =
+                "featured";
+        }
 
         drawTrack(
             track,
@@ -2547,88 +3262,89 @@ function draw() {
 }
 
 
-function distance(
-    x1,
-    y1,
-    x2,
-    y2
-) {
-
-    const dx =
-        x1 - x2;
-
-    const dy =
-        y1 - y2;
-
-    return Math.sqrt(
-        dx * dx
-        + dy * dy
-    );
-}
-
+/* =========================================================
+   HIT TEST — OPTIMISED
+========================================================= */
 
 function findTrackNearPointer(
     x,
     y
 ) {
 
+    const pointerWorld =
+        screenToWorld(
+            x,
+            y
+        );
+
+    const screenScale =
+        getScreenScale();
+
+    const thresholdPx =
+        camera.scale < 1.25
+        ? 8
+        : 14;
+
+    const thresholdWorld =
+        thresholdPx
+        / screenScale;
+
+    const thresholdSquared =
+        thresholdWorld
+        * thresholdWorld;
+
     let bestTrack =
         null;
 
-    let bestDistance =
+    let bestDistanceSquared =
         Infinity;
-
-    const threshold =
-        camera.scale < 1.25
-        ? 8
-        : 15;
 
     for (
         const track
         of tracks
     ) {
 
-        const step =
-            Math.max(
-                1,
-                Math.floor(
-                    track.points.length
-                    / 1600
-                )
+        const cached =
+            geometry.get(
+                track.id
             );
 
-        for (
-            let index = 0;
-            index < track.points.length;
-            index += step
+        if (
+            !cached
         ) {
 
-            const point =
-                track.points[
-                    index
-                ];
+            continue;
+        }
 
-            const screen =
-                worldToScreen(
-                    point.lon,
-                    point.lat
-                );
+        /*
+            Only roughly 280 samples per elephant,
+            rather than thousands of GPS points.
+        */
 
-            const currentDistance =
-                distance(
-                    x,
-                    y,
-                    screen.x,
-                    screen.y
-                );
+        for (
+            const sample
+            of cached.samples
+        ) {
+
+            const dx =
+                pointerWorld.x
+                - sample.x;
+
+            const dy =
+                pointerWorld.y
+                - sample.y;
+
+            const distanceSquared =
+                dx * dx
+                + dy * dy;
 
             if (
-                currentDistance
-                < bestDistance
+                distanceSquared
+                < bestDistanceSquared
             ) {
 
-                bestDistance =
-                    currentDistance;
+                bestDistanceSquared =
+                    distanceSquared;
 
                 bestTrack =
                     track;
@@ -2637,8 +3353,8 @@ function findTrackNearPointer(
     }
 
     if (
-        bestDistance
-        <= threshold
+        bestDistanceSquared
+        <= thresholdSquared
     ) {
 
         return bestTrack;
@@ -2648,11 +3364,19 @@ function findTrackNearPointer(
 }
 
 
+/* =========================================================
+   HOVER
+========================================================= */
+
 function updateHover() {
+
+    hoverFrameRequested =
+        false;
 
     if (
         pointer.dragging
         || !experienceStarted
+        || transitionActive
     ) {
 
         return;
@@ -2712,6 +3436,28 @@ function updateHover() {
 }
 
 
+function requestHoverUpdate() {
+
+    if (
+        hoverFrameRequested
+    ) {
+
+        return;
+    }
+
+    hoverFrameRequested =
+        true;
+
+    requestAnimationFrame(
+        updateHover
+    );
+}
+
+
+/* =========================================================
+   INDIVIDUAL DATA
+========================================================= */
+
 function getCurrentComparison(
     elephantId
 ) {
@@ -2767,6 +3513,10 @@ function getCurrentComparison(
 }
 
 
+/* =========================================================
+   INDIVIDUAL STORY
+========================================================= */
+
 function buildIndividualNarrative(
     elephantId
 ) {
@@ -2776,12 +3526,24 @@ function buildIndividualNarrative(
             elephantId
         );
 
+    if (
+        !Number.isFinite(
+            comparison.individual
+        )
+    ) {
+
+        return (
+            "No valid movement step is available "
+            + "for this individual during this hourly period."
+        );
+    }
+
     const absolutePercentage =
         Math.abs(
             comparison.percentage
         );
 
-    const time =
+    const hourLabel =
         String(
             comparison.hour
         ).padStart(
@@ -2791,29 +3553,28 @@ function buildIndividualNarrative(
         + ":00";
 
     if (
-        absolutePercentage <
-        12
+        absolutePercentage
+        < 12
     ) {
 
         return (
             "At <strong>"
-            + time
-            + "</strong>, this path is moving almost with the herd. "
-            + "Its rhythm is close to the collective median, "
-            + "temporarily disappearing into the larger pattern."
+            + hourLabel
+            + "</strong>, this path is moving close to the herd median. "
+            + "For this hour, its rhythm temporarily blends into the larger collective pattern."
         );
     }
 
     if (
-        comparison.percentage >
-        0
+        comparison.percentage
+        > 0
     ) {
 
         return (
             "At <strong>"
-            + time
+            + hourLabel
             + "</strong>, this path begins to separate from the herd. "
-            + "Its movement is approximately <strong>"
+            + "Its median movement is approximately <strong>"
             + absolutePercentage.toFixed(
                 0
             )
@@ -2823,9 +3584,9 @@ function buildIndividualNarrative(
 
     return (
         "At <strong>"
-        + time
-        + "</strong>, this path falls behind the collective pulse. "
-        + "Its movement is approximately <strong>"
+        + hourLabel
+        + "</strong>, this path falls below the collective pulse. "
+        + "Its median movement is approximately <strong>"
         + absolutePercentage.toFixed(
             0
         )
@@ -2834,12 +3595,26 @@ function buildIndividualNarrative(
 }
 
 
+/* =========================================================
+   ENCOUNTER
+========================================================= */
+
 function enterEncounter(
     track
 ) {
 
+    if (
+        transitionActive
+    ) {
+
+        return;
+    }
+
     selectedTrack =
         track;
+
+    temporaryStoryTrack =
+        null;
 
     hoveredTrack =
         null;
@@ -2860,60 +3635,20 @@ function enterEncounter(
 
     updateEncounterNarrative();
 
-    encounterLayer.classList.add(
-        "active"
-    );
-
-    const centroid =
-        getTrackCentroid(
-            track
+    encounterLayer
+        .classList
+        .add(
+            "active"
         );
 
-    if (
-        centroid
-    ) {
+    focusCameraOnTrack(
+        track,
 
-        const base =
-            getBaseTransform();
-
-        const targetScale =
-            Math.max(
-                1.8,
-                camera.scale
-            );
-
-        const worldX =
-            (
-                centroid.lon
-                - base.meanLongitude
-            )
-            * base.longitudeCorrection;
-
-        const worldY =
-            centroid.lat
-            - base.meanLatitude;
-
-        const pixelScale =
-            base.fitScale
-            * targetScale;
-
-        camera.targetScale =
-            targetScale;
-
-        camera.targetOffsetX =
-            window.innerWidth
-            * 0.50
-            - base.centerX
-            - worldX
-            * pixelScale;
-
-        camera.targetOffsetY =
-            window.innerHeight
-            * 0.53
-            - base.centerY
-            + worldY
-            * pixelScale;
-    }
+        Math.max(
+            1.75,
+            camera.scale
+        )
+    );
 }
 
 
@@ -2922,9 +3657,11 @@ function exitEncounter() {
     selectedTrack =
         null;
 
-    encounterLayer.classList.remove(
-        "active"
-    );
+    encounterLayer
+        .classList
+        .remove(
+            "active"
+        );
 
     modeText.textContent =
         "COLLECTIVE FIELD";
@@ -2932,6 +3669,9 @@ function exitEncounter() {
     if (
         currentChapter
     ) {
+
+        userCameraOverrideUntil =
+            0;
 
         setChapterCamera(
             currentChapter
@@ -2944,6 +3684,7 @@ function updateEncounterNarrative() {
 
     if (
         !selectedTrack
+        || !currentChapter
     ) {
 
         return;
@@ -2967,18 +3708,26 @@ function updateEncounterNarrative() {
         );
 
     individualValue.textContent =
-        comparison.individual
+        Number.isFinite(
+            comparison.individual
+        )
+        ? comparison.individual
             .toFixed(
                 3
             )
-        + " KM";
+            + " KM"
+        : "NO DATA";
 
     collectiveValue.textContent =
-        comparison.collective
+        Number.isFinite(
+            comparison.collective
+        )
+        ? comparison.collective
             .toFixed(
                 3
             )
-        + " KM";
+            + " KM"
+        : "NO DATA";
 }
 
 
@@ -2991,13 +3740,13 @@ function updateEncounterPosition() {
         return;
     }
 
-    const centroid =
-        getTrackCentroid(
-            selectedTrack
+    const cached =
+        geometry.get(
+            selectedTrack.id
         );
 
     if (
-        !centroid
+        !cached
     ) {
 
         return;
@@ -3005,8 +3754,8 @@ function updateEncounterPosition() {
 
     const screen =
         worldToScreen(
-            centroid.lon,
-            centroid.lat
+            cached.centroid.x,
+            cached.centroid.y
         );
 
     const cardWidth =
@@ -3017,7 +3766,7 @@ function updateEncounterPosition() {
 
     let left =
         screen.x
-        + 80;
+        + 75;
 
     let top =
         screen.y
@@ -3033,27 +3782,31 @@ function updateEncounterPosition() {
         left =
             screen.x
             - cardWidth
-            - 80;
+            - 75;
     }
 
     left =
         Math.max(
             30,
+
             Math.min(
                 window.innerWidth
                 - cardWidth
                 - 30,
+
                 left
             )
         );
 
     top =
         Math.max(
-            120,
+            115,
+
             Math.min(
                 window.innerHeight
                 - cardHeight
                 - 70,
+
                 top
             )
         );
@@ -3067,6 +3820,10 @@ function updateEncounterPosition() {
         + "px";
 }
 
+
+/* =========================================================
+   HUD
+========================================================= */
 
 function updateHud() {
 
@@ -3097,19 +3854,17 @@ function updateHud() {
 
     if (
         selectedTrack
+        && !transitionActive
     ) {
 
         updateEncounterNarrative();
     }
 
-    const dayPosition =
+    const percentage =
         normaliseHour(
             currentTime
         )
-        / 24;
-
-    const percentage =
-        dayPosition
+        / 24
         * 100;
 
     timelineProgress.style.width =
@@ -3120,12 +3875,18 @@ function updateHud() {
         percentage
         + "%";
 
-    pauseBadge.classList.toggle(
-        "show",
-        !playing
-    );
+    pauseBadge
+        .classList
+        .toggle(
+            "show",
+            !playing
+        );
 }
 
+
+/* =========================================================
+   POINTER
+========================================================= */
 
 canvas.addEventListener(
     "pointermove",
@@ -3149,12 +3910,18 @@ canvas.addEventListener(
                 event.clientY
                 - pointer.previousY;
 
+            const totalDx =
+                event.clientX
+                - pointer.downX;
+
+            const totalDy =
+                event.clientY
+                - pointer.downY;
+
             const moved =
-                distance(
-                    event.clientX,
-                    event.clientY,
-                    pointer.downX,
-                    pointer.downY
+                Math.sqrt(
+                    totalDx * totalDx
+                    + totalDy * totalDy
                 );
 
             if (
@@ -3199,7 +3966,7 @@ canvas.addEventListener(
             return;
         }
 
-        updateHover();
+        requestHoverUpdate();
     }
 );
 
@@ -3210,6 +3977,7 @@ canvas.addEventListener(
 
         if (
             !experienceStarted
+            || transitionActive
         ) {
 
             return;
@@ -3246,7 +4014,11 @@ canvas.addEventListener(
 
         if (
             !experienceStarted
+            || transitionActive
         ) {
+
+            pointer.isDown =
+                false;
 
             return;
         }
@@ -3265,7 +4037,7 @@ canvas.addEventListener(
             pointer.dragging =
                 false;
 
-            updateHover();
+            requestHoverUpdate();
 
             return;
         }
@@ -3291,10 +4063,14 @@ canvas.addEventListener(
             exitEncounter();
         }
 
-        updateHover();
+        requestHoverUpdate();
     }
 );
 
+
+/* =========================================================
+   ZOOM
+========================================================= */
 
 canvas.addEventListener(
     "wheel",
@@ -3302,6 +4078,7 @@ canvas.addEventListener(
 
         if (
             !experienceStarted
+            || transitionActive
         ) {
 
             return;
@@ -3314,14 +4091,15 @@ canvas.addEventListener(
 
         const factor =
             event.deltaY < 0
-            ? 1.14
-            : 1 / 1.14;
+            ? 1.13
+            : 1 / 1.13;
 
         const newScale =
             Math.max(
                 1,
+
                 Math.min(
-                    7,
+                    6,
                     oldScale
                     * factor
                 )
@@ -3372,14 +4150,19 @@ canvas.addEventListener(
             Date.now()
             + 7000;
 
-        updateHover();
+        requestHoverUpdate();
 
     },
     {
-        passive: false
+        passive:
+            false
     }
 );
 
+
+/* =========================================================
+   KEYBOARD
+========================================================= */
 
 window.addEventListener(
     "keydown",
@@ -3407,6 +4190,7 @@ window.addEventListener(
             event.key
             === "Escape"
             && selectedTrack
+            && !transitionActive
         ) {
 
             exitEncounter();
@@ -3415,31 +4199,33 @@ window.addEventListener(
         if (
             event.key.toLowerCase()
             === "r"
+            && currentChapter
         ) {
 
-            if (
+            userCameraOverrideUntil =
+                0;
+
+            setChapterCamera(
                 currentChapter
-            ) {
-
-                userCameraOverrideUntil =
-                    0;
-
-                setChapterCamera(
-                    currentChapter
-                );
-            }
+            );
         }
     }
 );
 
 
+/* =========================================================
+   START
+========================================================= */
+
 enterButton.addEventListener(
     "click",
     () => {
 
-        opening.classList.add(
-            "hidden"
-        );
+        opening
+            .classList
+            .add(
+                "hidden"
+            );
 
         experienceStarted =
             true;
@@ -3450,13 +4236,25 @@ enterButton.addEventListener(
         currentTime =
             2;
 
+        previousTime =
+            2;
+
         previousChapterIndex =
             -1;
+
+        firedStoryEvents.clear();
+
+        lastStepTimestamp =
+            performance.now();
 
         updateHud();
     }
 );
 
+
+/* =========================================================
+   ANIMATION LOOP
+========================================================= */
 
 function animate(
     timestamp
@@ -3475,19 +4273,33 @@ function animate(
         )
     ) {
 
+        previousTime =
+            currentTime;
+
         currentTime +=
             TIME_STEP;
 
         if (
-            currentTime >= 24
+            currentTime
+            >= 24
         ) {
 
             currentTime =
                 2;
 
+            previousTime =
+                2;
+
             previousChapterIndex =
                 -1;
+
+            firedStoryEvents.clear();
+
+            temporaryStoryTrack =
+                null;
         }
+
+        checkMorningStoryEvents();
 
         lastStepTimestamp =
             timestamp;
@@ -3507,6 +4319,10 @@ function animate(
     );
 }
 
+
+/* =========================================================
+   DATA LOAD
+========================================================= */
 
 async function loadData() {
 
@@ -3540,8 +4356,15 @@ async function loadData() {
 
         resizeCanvas();
 
+        /*
+            Major optimisation happens here:
+            all full trajectories become cached Path2D objects.
+        */
+
+        buildGeometryCache();
+
         featuredTrack =
-            findFeaturedTrack(
+            findChapterFeaturedTrack(
                 chapters[0]
             );
 
@@ -3558,6 +4381,8 @@ async function loadData() {
         );
 
         resizeCanvas();
+
+        resetCanvasTransform();
 
         ctx.fillStyle =
             "#040607";
@@ -3584,9 +4409,16 @@ async function loadData() {
 }
 
 
+/* =========================================================
+   RESIZE
+========================================================= */
+
 window.addEventListener(
     "resize",
-    resizeCanvas
+    () => {
+
+        resizeCanvas();
+    }
 );
 
 
