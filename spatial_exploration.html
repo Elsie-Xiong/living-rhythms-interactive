@@ -6,6 +6,7 @@
 <title>Living Rhythms — A Day Inside the Herd</title>
 
 <style>
+
 * {
     box-sizing: border-box;
 }
@@ -16,9 +17,14 @@ body {
     width: 100%;
     height: 100%;
     overflow: hidden;
+
     background: #040607;
     color: #edf2ef;
-    font-family: Arial, Helvetica, sans-serif;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 }
 
 body {
@@ -36,15 +42,19 @@ button {
 #world {
     position: fixed;
     inset: 0;
+
     overflow: hidden;
+
     background: #040607;
 }
 
 #canvas {
     position: absolute;
     inset: 0;
+
     width: 100%;
     height: 100%;
+
     cursor: grab;
 }
 
@@ -59,24 +69,45 @@ button {
 #atmosphere {
     position: absolute;
     inset: 0;
+
     pointer-events: none;
-    transition:
-        background 1.8s ease,
-        opacity 1.8s ease;
+
+    opacity: 1;
 
     background:
         radial-gradient(
-            circle at 55% 48%,
-            rgba(61, 130, 119, 0.045),
-            rgba(4, 6, 7, 0) 42%
+            circle at 52% 48%,
+            rgba(73, 160, 145, 0.06),
+            rgba(4, 6, 7, 0) 55%
+        );
+
+    transition:
+        opacity 1.8s ease;
+}
+
+#peakGlow {
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    background:
+        radial-gradient(
+            circle at 52% 48%,
+            rgba(105, 235, 208, 0.13),
+            rgba(4, 6, 7, 0) 64%
         );
 }
 
 #grid {
     position: absolute;
     inset: 0;
+
     pointer-events: none;
-    opacity: 0.16;
+
+    opacity: 0.15;
 
     background-image:
         linear-gradient(
@@ -89,7 +120,8 @@ button {
             transparent 1px
         );
 
-    background-size: 56px 56px;
+    background-size:
+        56px 56px;
 
     mask-image:
         radial-gradient(
@@ -102,14 +134,15 @@ button {
 #vignette {
     position: absolute;
     inset: 0;
+
     pointer-events: none;
 
     background:
         radial-gradient(
             ellipse at center,
-            transparent 38%,
-            rgba(0, 0, 0, 0.16) 64%,
-            rgba(0, 0, 0, 0.66) 100%
+            transparent 40%,
+            rgba(0, 0, 0, 0.15) 67%,
+            rgba(0, 0, 0, 0.62) 100%
         );
 }
 
@@ -120,14 +153,18 @@ button {
 #opening {
     position: fixed;
     inset: 0;
+
     z-index: 100;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    background: rgba(4, 6, 7, 0.84);
-    backdrop-filter: blur(6px);
+    background:
+        rgba(4, 6, 7, 0.84);
+
+    backdrop-filter:
+        blur(6px);
 
     transition:
         opacity 1.3s ease,
@@ -141,30 +178,51 @@ button {
 }
 
 .opening-inner {
-    width: min(660px, calc(100vw - 80px));
+    width:
+        min(
+            660px,
+            calc(100vw - 80px)
+        );
+
     text-align: center;
 }
 
 .opening-kicker {
     font-family: monospace;
+
     font-size: 10px;
+
     color: var(--accent);
+
     letter-spacing: 0.14em;
 }
 
 .opening-title {
     margin-top: 18px;
-    font-size: clamp(40px, 6vw, 76px);
+
+    font-size:
+        clamp(
+            40px,
+            6vw,
+            76px
+        );
+
     font-weight: 400;
+
     letter-spacing: -0.03em;
 }
 
 .opening-subtitle {
-    margin: 22px auto 0;
-    max-width: 510px;
+    margin:
+        22px auto
+        0;
+
+    max-width: 520px;
 
     font-family: monospace;
+
     font-size: 11px;
+
     line-height: 1.85;
 
     color: #8b9692;
@@ -172,29 +230,53 @@ button {
 
 #enterButton {
     margin-top: 34px;
-    padding: 11px 22px;
 
-    border: 1px solid rgba(121, 225, 211, 0.55);
-    background: rgba(121, 225, 211, 0.05);
+    padding:
+        11px 22px;
+
+    border:
+        1px solid
+        rgba(
+            121,
+            225,
+            211,
+            0.55
+        );
+
+    background:
+        rgba(
+            121,
+            225,
+            211,
+            0.05
+        );
 
     color: var(--accent);
 
     font-family: monospace;
+
     font-size: 10px;
+
     letter-spacing: 0.09em;
 
     cursor: pointer;
 
     transition:
         background 0.25s ease,
-        color 0.25s ease,
         transform 0.25s ease;
 }
 
 #enterButton:hover {
-    background: rgba(121, 225, 211, 0.13);
-    color: white;
-    transform: translateY(-2px);
+    background:
+        rgba(
+            121,
+            225,
+            211,
+            0.13
+        );
+
+    transform:
+        translateY(-2px);
 }
 
 /* =========================================================
@@ -203,19 +285,20 @@ button {
 
 #header {
     position: fixed;
+
     top: 38px;
     left: 48px;
-    z-index: 20;
-    pointer-events: none;
 
-    transition:
-        opacity 0.5s ease,
-        filter 0.5s ease;
+    z-index: 20;
+
+    pointer-events: none;
 }
 
 #brand {
     font-size: 23px;
+
     font-weight: 500;
+
     letter-spacing: 0.02em;
 }
 
@@ -223,8 +306,11 @@ button {
     margin-top: 7px;
 
     font-family: monospace;
+
     font-size: 9px;
+
     color: #67716e;
+
     letter-spacing: 0.06em;
 }
 
@@ -232,18 +318,24 @@ button {
     margin-top: 25px;
 
     font-family: monospace;
+
     font-size: 9px;
+
     color: var(--accent);
+
     letter-spacing: 0.10em;
 }
 
 #chapterNarrative {
     margin-top: 8px;
-    width: 330px;
+
+    width: 340px;
 
     font-family: monospace;
+
     font-size: 9px;
-    line-height: 1.65;
+
+    line-height: 1.7;
 
     color: #7b8682;
 }
@@ -254,23 +346,24 @@ button {
 
 #timeHud {
     position: fixed;
+
     top: 38px;
     right: 47px;
 
     z-index: 20;
 
     text-align: right;
-    pointer-events: none;
 
-    transition:
-        opacity 0.5s ease,
-        filter 0.5s ease;
+    pointer-events: none;
 }
 
 #timeText {
     font-family: monospace;
+
     font-size: 25px;
+
     color: #e9efec;
+
     letter-spacing: 0.05em;
 }
 
@@ -278,9 +371,24 @@ button {
     margin-top: 5px;
 
     font-family: monospace;
+
     font-size: 8px;
+
     color: var(--accent);
+
     letter-spacing: 0.08em;
+}
+
+#dataNote {
+    margin-top: 9px;
+
+    font-family: monospace;
+
+    font-size: 7px;
+
+    line-height: 1.5;
+
+    color: #4f5956;
 }
 
 /* =========================================================
@@ -290,6 +398,7 @@ button {
 #chapterTransition {
     position: fixed;
     inset: 0;
+
     z-index: 50;
 
     display: flex;
@@ -300,13 +409,21 @@ button {
 
     opacity: 0;
 
-    background: rgba(4, 6, 7, 0);
-    backdrop-filter: blur(0px);
+    background:
+        rgba(
+            4,
+            6,
+            7,
+            0
+        );
+
+    backdrop-filter:
+        blur(0px);
 
     transition:
-        opacity 0.55s ease,
-        background 0.8s ease,
-        backdrop-filter 0.8s ease;
+        opacity 0.65s ease,
+        background 0.9s ease,
+        backdrop-filter 0.9s ease;
 }
 
 #chapterTransition.show {
@@ -315,30 +432,40 @@ button {
     background:
         radial-gradient(
             circle at center,
-            rgba(4, 6, 7, 0.50),
-            rgba(4, 6, 7, 0.78)
+            rgba(4, 6, 7, 0.42),
+            rgba(4, 6, 7, 0.73)
         );
 
-    backdrop-filter: blur(2px);
+    backdrop-filter:
+        blur(2px);
 }
 
 .chapter-transition-inner {
     text-align: center;
-    transform: translateY(-8px);
 }
 
 #transitionTime {
     font-family: monospace;
+
     font-size: 10px;
+
     color: var(--accent);
+
     letter-spacing: 0.13em;
 }
 
 #transitionTitle {
     margin-top: 10px;
 
-    font-size: clamp(36px, 4.5vw, 62px);
+    font-size:
+        clamp(
+            36px,
+            4.5vw,
+            62px
+        );
+
     font-weight: 400;
+
     letter-spacing: -0.025em;
 }
 
@@ -346,7 +473,9 @@ button {
     margin-top: 14px;
 
     font-family: monospace;
+
     font-size: 10px;
+
     color: #89938f;
 }
 
@@ -360,7 +489,7 @@ button {
     left: 50%;
     top: 50%;
 
-    width: 440px;
+    width: 460px;
 
     transform:
         translate(
@@ -371,13 +500,14 @@ button {
     z-index: 36;
 
     text-align: center;
+
     pointer-events: none;
 
     opacity: 0;
 
     transition:
-        opacity 0.75s ease,
-        transform 1.15s ease;
+        opacity 0.9s ease,
+        transform 1.4s ease;
 }
 
 #storyEvent.show {
@@ -386,33 +516,42 @@ button {
     transform:
         translate(
             -50%,
-            -56%
+            -55%
         );
 }
 
 #storyEventTime {
     font-family: monospace;
+
     font-size: 9px;
+
     color: var(--accent);
+
     letter-spacing: 0.12em;
 }
 
 #storyEventTitle {
     margin-top: 9px;
 
-    font-size: 28px;
+    font-size: 27px;
+
     font-weight: 400;
 }
 
 #storyEventText {
-    margin: 10px auto 0;
-    max-width: 370px;
+    margin:
+        10px auto
+        0;
+
+    max-width: 390px;
 
     font-family: monospace;
+
     font-size: 9px;
+
     line-height: 1.7;
 
-    color: #7f8985;
+    color: #808b86;
 }
 
 /* =========================================================
@@ -428,24 +567,35 @@ button {
 
     pointer-events: none;
 
-    padding: 7px 9px;
+    padding:
+        7px 9px;
 
-    background: rgba(4, 6, 7, 0.88);
+    background:
+        rgba(
+            4,
+            6,
+            7,
+            0.88
+        );
 
     border-left:
         1px solid
         var(--accent);
 
     font-family: monospace;
+
     font-size: 9px;
+
     color: var(--accent);
 }
 
 #hoverSub {
     display: block;
+
     margin-top: 3px;
 
     font-size: 7px;
+
     color: #727d79;
 }
 
@@ -464,7 +614,7 @@ button {
     opacity: 0;
 
     transition:
-        opacity 0.55s ease;
+        opacity 0.6s ease;
 }
 
 #encounterLayer.active {
@@ -478,23 +628,39 @@ button {
 #encounterStory {
     position: absolute;
 
-    width: 310px;
+    width: 315px;
 
-    padding: 16px 17px;
+    padding:
+        16px 17px;
 
-    background: rgba(4, 6, 7, 0.84);
+    background:
+        rgba(
+            4,
+            6,
+            7,
+            0.84
+        );
 
     border:
         1px solid
-        rgba(121, 225, 211, 0.16);
+        rgba(
+            121,
+            225,
+            211,
+            0.16
+        );
 
-    backdrop-filter: blur(6px);
+    backdrop-filter:
+        blur(6px);
 }
 
 #encounterKicker {
     font-family: monospace;
+
     font-size: 8px;
+
     color: var(--accent);
+
     letter-spacing: 0.09em;
 }
 
@@ -502,20 +668,23 @@ button {
     margin-top: 7px;
 
     font-size: 27px;
-    font-weight: 400;
 }
 
 #encounterMoment {
     margin-top: 4px;
 
     font-family: monospace;
+
     font-size: 8px;
+
     color: #68726f;
 }
 
 .encounter-divider {
     height: 1px;
-    margin: 13px 0;
+
+    margin:
+        13px 0;
 
     background:
         rgba(
@@ -528,7 +697,9 @@ button {
 
 #encounterNarrative {
     font-family: monospace;
+
     font-size: 9px;
+
     line-height: 1.7;
 
     color: #c0c8c4;
@@ -536,6 +707,7 @@ button {
 
 #encounterNarrative strong {
     color: var(--accent);
+
     font-weight: 400;
 }
 
@@ -543,6 +715,7 @@ button {
     margin-top: 14px;
 
     display: grid;
+
     grid-template-columns:
         1fr 1fr;
 
@@ -554,12 +727,19 @@ button {
 
     border-top:
         1px solid
-        rgba(121, 225, 211, 0.10);
+        rgba(
+            121,
+            225,
+            211,
+            0.10
+        );
 }
 
 .comparison-label {
     font-family: monospace;
+
     font-size: 7px;
+
     color: #5e6965;
 }
 
@@ -567,7 +747,9 @@ button {
     margin-top: 4px;
 
     font-family: monospace;
+
     font-size: 11px;
+
     color: #dfe6e2;
 }
 
@@ -575,14 +757,16 @@ button {
     margin-top: 14px;
 
     font-family: monospace;
+
     font-size: 7px;
+
     line-height: 1.5;
 
     color: #58625f;
 }
 
 /* =========================================================
-   BOTTOM HUD
+   BOTTOM
 ========================================================= */
 
 #bottomHud {
@@ -606,14 +790,11 @@ button {
     gap: 28px;
 
     pointer-events: none;
-
-    transition:
-        opacity 0.5s ease,
-        filter 0.5s ease;
 }
 
 #modeText {
     font-family: monospace;
+
     font-size: 8px;
 
     color: var(--accent);
@@ -641,8 +822,9 @@ button {
     left: 0;
     top: 0;
 
-    width: 0%;
     height: 1px;
+
+    width: 0%;
 
     background:
         var(--accent);
@@ -692,6 +874,7 @@ button {
 
 .chapter-tick {
     font-family: monospace;
+
     font-size: 7px;
 
     text-align: center;
@@ -707,7 +890,9 @@ button {
     text-align: right;
 
     font-family: monospace;
+
     font-size: 7px;
+
     line-height: 1.55;
 
     color: #58625f;
@@ -731,7 +916,9 @@ button {
     display: none;
 
     font-family: monospace;
+
     font-size: 8px;
+
     color: var(--accent);
 
     letter-spacing: 0.08em;
@@ -751,15 +938,15 @@ button {
     <canvas id="canvas"></canvas>
 
     <div id="atmosphere"></div>
+
+    <div id="peakGlow"></div>
+
     <div id="grid"></div>
+
     <div id="vignette"></div>
 
 </div>
 
-
-<!-- =======================================================
-     OPENING
-======================================================= -->
 
 <div id="opening">
 
@@ -775,10 +962,10 @@ button {
 
         <div class="opening-subtitle">
             A day inside a landscape built from movement.<br>
-            Follow the rhythm of the herd,
+            Follow the collective rhythm,
             encounter an individual,
-            and discover where one path begins
-            to move differently from the collective.
+            and discover how one path can move
+            differently inside the herd.
         </div>
 
         <button id="enterButton">
@@ -789,10 +976,6 @@ button {
 
 </div>
 
-
-<!-- =======================================================
-     HEADER
-======================================================= -->
 
 <div id="header">
 
@@ -805,19 +988,15 @@ button {
     </div>
 
     <div id="chapterLabel">
-        CHAPTER 01
+        CHAPTER 01 / QUIET HOURS
     </div>
 
     <div id="chapterNarrative">
-        The landscape is quiet.
+        Movement is at its lowest during the early hours.
     </div>
 
 </div>
 
-
-<!-- =======================================================
-     TIME
-======================================================= -->
 
 <div id="timeHud">
 
@@ -829,12 +1008,13 @@ button {
         QUIET HOURS
     </div>
 
+    <div id="dataNote">
+        MOVEMENT STATISTICS USE HOURLY BINS.<br>
+        INTERMEDIATE TIME IS VISUAL PACING.
+    </div>
+
 </div>
 
-
-<!-- =======================================================
-     CHAPTER TRANSITION
-======================================================= -->
 
 <div id="chapterTransition">
 
@@ -849,7 +1029,7 @@ button {
         </div>
 
         <div id="transitionSentence">
-            The herd is almost still.
+            The field contracts into smaller traces.
         </div>
 
     </div>
@@ -857,30 +1037,22 @@ button {
 </div>
 
 
-<!-- =======================================================
-     STORY EVENT
-======================================================= -->
-
 <div id="storyEvent">
 
     <div id="storyEventTime">
-        05:15
+        03:00
     </div>
 
     <div id="storyEventTitle">
-        FIRST MOVEMENT
+        LOWEST TRACE
     </div>
 
     <div id="storyEventText">
-        Small traces begin to spread across the landscape.
+        Collective movement reaches one of its quietest periods.
     </div>
 
 </div>
 
-
-<!-- =======================================================
-     HOVER
-======================================================= -->
 
 <div id="hoverLabel">
 
@@ -894,10 +1066,6 @@ button {
 
 </div>
 
-
-<!-- =======================================================
-     ENCOUNTER
-======================================================= -->
 
 <div id="encounterLayer">
 
@@ -956,8 +1124,8 @@ button {
         </div>
 
         <div id="encounterExit">
-            THE DAY CONTINUES AROUND THIS PATH.<br>
-            PRESS ESC OR CLICK EMPTY SPACE TO RETURN TO THE HERD.
+            VALUES REPRESENT THE CURRENT HOURLY BIN.<br>
+            PRESS ESC OR CLICK EMPTY SPACE TO RETURN.
         </div>
 
     </div>
@@ -965,17 +1133,13 @@ button {
 </div>
 
 
-<!-- =======================================================
-     BOTTOM
-======================================================= -->
-
 <div id="bottomHud">
 
     <div id="modeText">
         COLLECTIVE FIELD
     </div>
 
-    <div id="timeline">
+    <div>
 
         <div id="timelineBar">
 
@@ -1013,7 +1177,7 @@ button {
 
     <div id="controlHint">
         SCROLL TO MOVE CLOSER · DRAG TO TRAVEL<br>
-        CLICK A PATH TO FOLLOW · SPACE TO PAUSE
+        CLICK A PATH TO FOLLOW · SPACE TO PAUSE · R TO RETURN
     </div>
 
 </div>
@@ -1031,7 +1195,9 @@ button {
 ========================================================= */
 
 const canvas =
-    document.getElementById("canvas");
+    document.getElementById(
+        "canvas"
+    );
 
 const ctx =
     canvas.getContext(
@@ -1042,88 +1208,149 @@ const ctx =
     );
 
 const opening =
-    document.getElementById("opening");
+    document.getElementById(
+        "opening"
+    );
 
 const enterButton =
-    document.getElementById("enterButton");
+    document.getElementById(
+        "enterButton"
+    );
 
 const atmosphere =
-    document.getElementById("atmosphere");
+    document.getElementById(
+        "atmosphere"
+    );
+
+const peakGlow =
+    document.getElementById(
+        "peakGlow"
+    );
 
 const chapterLabel =
-    document.getElementById("chapterLabel");
+    document.getElementById(
+        "chapterLabel"
+    );
 
 const chapterNarrative =
-    document.getElementById("chapterNarrative");
+    document.getElementById(
+        "chapterNarrative"
+    );
 
 const chapterTransition =
-    document.getElementById("chapterTransition");
+    document.getElementById(
+        "chapterTransition"
+    );
 
 const transitionTime =
-    document.getElementById("transitionTime");
+    document.getElementById(
+        "transitionTime"
+    );
 
 const transitionTitle =
-    document.getElementById("transitionTitle");
+    document.getElementById(
+        "transitionTitle"
+    );
 
 const transitionSentence =
-    document.getElementById("transitionSentence");
+    document.getElementById(
+        "transitionSentence"
+    );
 
 const storyEvent =
-    document.getElementById("storyEvent");
+    document.getElementById(
+        "storyEvent"
+    );
 
 const storyEventTime =
-    document.getElementById("storyEventTime");
+    document.getElementById(
+        "storyEventTime"
+    );
 
 const storyEventTitle =
-    document.getElementById("storyEventTitle");
+    document.getElementById(
+        "storyEventTitle"
+    );
 
 const storyEventText =
-    document.getElementById("storyEventText");
+    document.getElementById(
+        "storyEventText"
+    );
 
 const timeText =
-    document.getElementById("timeText");
+    document.getElementById(
+        "timeText"
+    );
 
 const timePhase =
-    document.getElementById("timePhase");
+    document.getElementById(
+        "timePhase"
+    );
 
 const hoverLabel =
-    document.getElementById("hoverLabel");
+    document.getElementById(
+        "hoverLabel"
+    );
 
 const hoverMain =
-    document.getElementById("hoverMain");
+    document.getElementById(
+        "hoverMain"
+    );
 
 const encounterLayer =
-    document.getElementById("encounterLayer");
+    document.getElementById(
+        "encounterLayer"
+    );
 
 const encounterStory =
-    document.getElementById("encounterStory");
+    document.getElementById(
+        "encounterStory"
+    );
 
 const encounterName =
-    document.getElementById("encounterName");
+    document.getElementById(
+        "encounterName"
+    );
 
 const encounterMoment =
-    document.getElementById("encounterMoment");
+    document.getElementById(
+        "encounterMoment"
+    );
 
 const encounterNarrative =
-    document.getElementById("encounterNarrative");
+    document.getElementById(
+        "encounterNarrative"
+    );
 
 const individualValue =
-    document.getElementById("individualValue");
+    document.getElementById(
+        "individualValue"
+    );
 
 const collectiveValue =
-    document.getElementById("collectiveValue");
+    document.getElementById(
+        "collectiveValue"
+    );
 
 const modeText =
-    document.getElementById("modeText");
+    document.getElementById(
+        "modeText"
+    );
 
 const timelineProgress =
-    document.getElementById("timelineProgress");
+    document.getElementById(
+        "timelineProgress"
+    );
 
 const timelineMarker =
-    document.getElementById("timelineMarker");
+    document.getElementById(
+        "timelineMarker"
+    );
 
 const pauseBadge =
-    document.getElementById("pauseBadge");
+    document.getElementById(
+        "pauseBadge"
+    );
 
 const chapterTicks =
     [
@@ -1155,53 +1382,86 @@ let temporaryStoryTrack = null;
 
 
 /* =========================================================
-   PERFORMANCE GEOMETRY CACHE
+   GEOMETRY CACHE
 ========================================================= */
 
 const geometry =
     new Map();
 
-let meanLatitude = 0;
-let meanLongitude = 0;
-let longitudeCorrection = 1;
+let meanLatitude =
+    0;
 
-let canvasDpr = 1;
+let meanLongitude =
+    0;
+
+let longitudeCorrection =
+    1;
+
+let canvasDpr =
+    1;
 
 
 /* =========================================================
    EXPERIENCE STATE
 ========================================================= */
 
-let experienceStarted = false;
+let experienceStarted =
+    false;
 
-let playing = false;
+let playing =
+    false;
 
-let currentTime = 2;
+let currentTime =
+    2;
 
-let previousTime = 2;
+let previousTime =
+    2;
 
-let previousChapterIndex = -1;
+let currentChapter =
+    null;
 
-let currentChapter = null;
+let previousChapterIndex =
+    -1;
 
-let transitionActive = false;
+let transitionActive =
+    false;
 
-let chapterTransitionTimeout = null;
+let chapterTransitionTimeout =
+    null;
 
-let storyEventTimeout = null;
+let storyEventTimeout =
+    null;
 
-let userCameraOverrideUntil = 0;
+let userCameraOverrideUntil =
+    0;
 
 
 /* =========================================================
-   ANIMATION
+   VISUAL ENERGY
+========================================================= */
+
+let visualEnergy =
+    0.25;
+
+let targetVisualEnergy =
+    0.25;
+
+let storyFocus =
+    0;
+
+let targetStoryFocus =
+    0;
+
+
+/* =========================================================
+   TIME
 ========================================================= */
 
 const TIME_STEP =
     0.25;
 
 const STEP_DURATION =
-    620;
+    680;
 
 let lastStepTimestamp =
     0;
@@ -1296,16 +1556,13 @@ const chapters = [
             "QUIET HOURS",
 
         sentence:
-            "The herd is almost still.",
+            "The field contracts into smaller traces.",
 
         narrative:
-            "Before sunrise, movement falls to its lowest point. The landscape contracts into small, quiet traces.",
-
-        atmosphere:
-            "radial-gradient(circle at 54% 50%, rgba(58,95,91,0.035), rgba(4,6,7,0) 40%)",
+            "During the early hours, collective movement falls to its lowest levels. The landscape becomes quieter and more compact.",
 
         cameraScale:
-            1.05
+            1.08
     },
 
     {
@@ -1327,16 +1584,13 @@ const chapters = [
             "MORNING RISE",
 
         sentence:
-            "The landscape begins to wake.",
+            "Movement begins to expand across the field.",
 
         narrative:
-            "Movement rises rapidly after dawn. Separate paths begin to animate across the shared landscape.",
-
-        atmosphere:
-            "radial-gradient(circle at 52% 48%, rgba(65,150,135,0.075), rgba(4,6,7,0) 48%)",
+            "From the early morning onward, collective movement rises quickly. Separate trajectories become increasingly active.",
 
         cameraScale:
-            1.35
+            1.28
     },
 
     {
@@ -1358,16 +1612,13 @@ const chapters = [
             "MIDDAY DRIFT",
 
         sentence:
-            "The rhythm settles into motion.",
+            "The collective rhythm becomes steadier.",
 
         narrative:
-            "Through the middle of the day, movement becomes steadier. The herd shares a rhythm, but individual paths remain distinct.",
-
-        atmosphere:
-            "radial-gradient(circle at 55% 47%, rgba(81,165,149,0.065), rgba(4,6,7,0) 52%)",
+            "Through the middle of the day, movement remains relatively stable. The herd shares a broader rhythm while individual paths still differ.",
 
         cameraScale:
-            1.52
+            1.38
     },
 
     {
@@ -1389,16 +1640,13 @@ const chapters = [
             "AFTERNOON PEAK",
 
         sentence:
-            "The field reaches its strongest pulse.",
+            "The collective field builds toward its strongest movement.",
 
         narrative:
-            "Late afternoon produces the strongest collective movement. The landscape expands into its most active state.",
-
-        atmosphere:
-            "radial-gradient(circle at 52% 48%, rgba(77,190,169,0.11), rgba(4,6,7,0) 58%)",
+            "Late afternoon contains the strongest collective movement in the daily pattern, with the highest median occurring around 16:00.",
 
         cameraScale:
-            1.36
+            1.24
     },
 
     {
@@ -1420,29 +1668,71 @@ const chapters = [
             "NIGHT RETURN",
 
         sentence:
-            "The collective pulse begins to fade.",
+            "The collective pulse gradually recedes.",
 
         narrative:
-            "Movement gradually decreases after sunset. Individual paths disappear again into the larger pattern of the herd.",
-
-        atmosphere:
-            "radial-gradient(circle at 50% 50%, rgba(47,102,94,0.045), rgba(4,6,7,0) 44%)",
+            "During the evening and late hours, movement gradually declines. Individual traces settle back into a quieter collective field.",
 
         cameraScale:
-            1.12
+            1.14
     }
 ];
 
 
 /* =========================================================
-   MORNING STORY EVENTS
+   STORY EVENTS
 ========================================================= */
 
-const morningEvents = [
+const storyEvents = [
+
+    /* QUIET */
 
     {
         id:
-            "first-movement",
+            "quiet-lowest",
+
+        time:
+            3.00,
+
+        label:
+            "03:00",
+
+        title:
+            "LOWEST TRACE",
+
+        text:
+            "Collective movement reaches one of its quietest periods. Only small traces remain visible across the field.",
+
+        duration:
+            2600
+    },
+
+    {
+        id:
+            "quiet-first-shift",
+
+        time:
+            4.25,
+
+        label:
+            "04:15",
+
+        title:
+            "FIRST SHIFT",
+
+        text:
+            "The quiet field begins to loosen. Movement starts rising before the morning transition.",
+
+        duration:
+            2500
+    },
+
+
+    /* MORNING */
+
+    {
+        id:
+            "morning-rising",
 
         time:
             5.25,
@@ -1451,98 +1741,262 @@ const morningEvents = [
             "05:15",
 
         title:
-            "FIRST MOVEMENT",
+            "RISING FIELD",
 
         text:
-            "Small traces begin to spread across the landscape. The collective rhythm is starting to rise.",
+            "The collective rhythm begins a rapid rise. More movement appears across separate trajectories.",
 
         duration:
-            2200,
-
-        cameraScale:
-            1.38,
-
-        highlightIndividual:
-            false
+            2500
     },
 
     {
         id:
-            "spreading-paths",
+            "morning-spread",
 
         time:
-            6,
+            6.50,
 
         label:
-            "06:00",
+            "06:30",
 
         title:
-            "SPREADING PATHS",
+            "MORNING SPREAD",
 
         text:
-            "Movement expands across several trajectories. Activity begins to spread through the field.",
+            "Activity now extends across more of the landscape. The field feels increasingly connected.",
 
         duration:
-            2400,
-
-        cameraScale:
-            1.50,
-
-        highlightIndividual:
-            false
+            2500
     },
 
     {
         id:
-            "individual-divergence",
+            "morning-shared",
 
         time:
-            7.25,
+            8.25,
 
         label:
-            "07:15",
+            "08:15",
 
         title:
-            "INDIVIDUAL DIVERGENCE",
+            "SHARED MOTION",
 
         text:
-            "One path begins to separate from the collective rhythm. An individual pattern becomes visible inside the herd.",
+            "The morning rise begins to settle into a broader collective pace.",
+
+        duration:
+            2400
+    },
+
+
+    /* MIDDAY */
+
+    {
+        id:
+            "midday-steady",
+
+        time:
+            10.50,
+
+        label:
+            "10:30",
+
+        title:
+            "STEADY RHYTHM",
+
+        text:
+            "Collective movement is no longer climbing sharply. The field enters a more stable phase.",
+
+        duration:
+            2600
+    },
+
+    {
+        id:
+            "midday-individual",
+
+        time:
+            13.50,
+
+        label:
+            "13:30",
+
+        title:
+            "INDIVIDUAL VARIATION",
+
+        text:
+            "Even inside a stable collective rhythm, individual trajectories continue to differ.",
 
         duration:
             3000,
 
-        cameraScale:
-            1.78,
-
         highlightIndividual:
-            true
+            true,
+
+        featuredRange:
+            [12, 15],
+
+        cameraScale:
+            1.52
+    },
+
+
+    /* AFTERNOON */
+
+    {
+        id:
+            "peak-build",
+
+        time:
+            15.50,
+
+        label:
+            "15:30",
+
+        title:
+            "FIELD ACCELERATES",
+
+        text:
+            "The collective rhythm begins climbing again. The field builds toward the strongest part of the day.",
+
+        duration:
+            2600
     },
 
     {
         id:
-            "shared-pace",
+            "peak-high",
 
         time:
-            8.50,
+            16.25,
 
         label:
-            "08:30",
+            "16:15",
 
         title:
-            "SHARED PACE",
+            "COLLECTIVE HIGH",
 
         text:
-            "The strongest contrast begins to soften. Individual paths dissolve again into the larger collective rhythm.",
+            "Around this period, collective median movement reaches its daily maximum.",
 
         duration:
-            2400,
+            3100
+    },
 
-        cameraScale:
-            1.38,
+    {
+        id:
+            "peak-individual",
+
+        time:
+            17.25,
+
+        label:
+            "17:15",
+
+        title:
+            "INDIVIDUAL CONTRAST",
+
+        text:
+            "Even during the strongest collective period, one trajectory can still move differently from the wider herd.",
+
+        duration:
+            3200,
 
         highlightIndividual:
-            false
+            true,
+
+        featuredRange:
+            [16, 19],
+
+        cameraScale:
+            1.50
+    },
+
+    {
+        id:
+            "peak-easing",
+
+        time:
+            18.25,
+
+        label:
+            "18:15",
+
+        title:
+            "EASING FIELD",
+
+        text:
+            "The collective high begins to release. Movement remains active, but the field is already beginning to soften.",
+
+        duration:
+            2600
+    },
+
+
+    /* NIGHT */
+
+    {
+        id:
+            "night-return",
+
+        time:
+            20.00,
+
+        label:
+            "20:00",
+
+        title:
+            "RETURNING QUIET",
+
+        text:
+            "Collective movement continues to decline. The spatial field becomes less dense and less urgent.",
+
+        duration:
+            2600
+    },
+
+    {
+        id:
+            "night-late",
+
+        time:
+            22.00,
+
+        label:
+            "22:00",
+
+        title:
+            "LATE TRACES",
+
+        text:
+            "A smaller number of active traces remain visible inside the larger landscape.",
+
+        duration:
+            2600
+    },
+
+    {
+        id:
+            "night-close",
+
+        time:
+            23.50,
+
+        label:
+            "23:30",
+
+        title:
+            "CLOSE OF DAY",
+
+        text:
+            "The daily rhythm settles back toward the quiet field from which it began.",
+
+        duration:
+            3200
     }
+
 ];
 
 const firedStoryEvents =
@@ -1555,16 +2009,10 @@ const firedStoryEvents =
 
 function resizeCanvas() {
 
-    /*
-        Retina screens can otherwise create 4×
-        the number of physical pixels.
-
-        1.5 is still sharp, but significantly lighter.
-    */
-
     canvasDpr =
         Math.min(
-            window.devicePixelRatio || 1,
+            window.devicePixelRatio
+            || 1,
             1.5
         );
 
@@ -1775,7 +2223,7 @@ function buildGeometryCache() {
 
 
 /* =========================================================
-   CAMERA TRANSFORM
+   TRANSFORMS
 ========================================================= */
 
 function getBaseTransform() {
@@ -1900,6 +2348,7 @@ function setWorldCanvasTransform() {
         * camera.scale;
 
     ctx.setTransform(
+
         canvasDpr
         * scale,
 
@@ -1975,20 +2424,20 @@ function formatTime(
     time
 ) {
 
-    const normalised =
+    const value =
         normaliseHour(
             time
         );
 
     const hour =
         Math.floor(
-            normalised
+            value
         );
 
     const minute =
         Math.round(
             (
-                normalised
+                value
                 - hour
             )
             * 60
@@ -2009,6 +2458,154 @@ function formatTime(
             "0"
         )
     );
+}
+
+
+/* =========================================================
+   DATA-DRIVEN VISUAL ENERGY
+========================================================= */
+
+function getInterpolatedCollectiveMedian() {
+
+    if (
+        !rhythm
+    ) {
+
+        return 0;
+    }
+
+    const time =
+        normaliseHour(
+            currentTime
+        );
+
+    const hourA =
+        Math.floor(
+            time
+        );
+
+    const hourB =
+        (
+            hourA
+            + 1
+        )
+        % 24;
+
+    const fraction =
+        time
+        - hourA;
+
+    const valueA =
+        Number(
+            rhythm
+                .hourly_medians[
+                    String(
+                        hourA
+                    )
+                ]
+        );
+
+    const valueB =
+        Number(
+            rhythm
+                .hourly_medians[
+                    String(
+                        hourB
+                    )
+                ]
+        );
+
+    if (
+        !Number.isFinite(
+            valueA
+        )
+    ) {
+
+        return 0;
+    }
+
+    if (
+        !Number.isFinite(
+            valueB
+        )
+    ) {
+
+        return valueA;
+    }
+
+    return (
+        valueA
+        + (
+            valueB
+            - valueA
+        )
+        * fraction
+    );
+}
+
+
+function updateVisualEnergy() {
+
+    const median =
+        getInterpolatedCollectiveMedian();
+
+    /*
+        0.22247 km is approximately the maximum
+        collective hourly median in the prepared dataset.
+
+        This affects only visual interpolation.
+        Statistical values shown to users remain hourly.
+    */
+
+    const normalised =
+        Math.max(
+            0,
+
+            Math.min(
+                1,
+                median
+                / 0.223
+            )
+        );
+
+    targetVisualEnergy =
+        0.18
+        + normalised
+        * 0.82;
+
+    visualEnergy +=
+        (
+            targetVisualEnergy
+            - visualEnergy
+        )
+        * 0.018;
+
+    storyFocus +=
+        (
+            targetStoryFocus
+            - storyFocus
+        )
+        * 0.025;
+
+    peakGlow.style.opacity =
+        String(
+            Math.max(
+                0,
+
+                (
+                    visualEnergy
+                    - 0.72
+                )
+                * 0.9
+            )
+        );
+
+    atmosphere.style.opacity =
+        String(
+            0.55
+            + visualEnergy
+            * 0.45
+        );
 }
 
 
@@ -2132,7 +2729,6 @@ function findFeaturedTrack(
                 !Number.isFinite(
                     individualMovement
                 )
-
                 || !Number.isFinite(
                     collectiveMovement
                 )
@@ -2159,8 +2755,8 @@ function findFeaturedTrack(
         }
 
         if (
-            score >
-            bestScore
+            score
+            > bestScore
         ) {
 
             bestScore =
@@ -2180,6 +2776,7 @@ function findChapterFeaturedTrack(
 ) {
 
     return findFeaturedTrack(
+
         Math.floor(
             chapter.start
         ),
@@ -2218,7 +2815,7 @@ function focusCameraOnTrack(
     const base =
         getBaseTransform();
 
-    const screenScale =
+    const scale =
         base.fitScale
         * targetScale;
 
@@ -2230,14 +2827,14 @@ function focusCameraOnTrack(
         * 0.55
         - base.centerX
         - cached.centroid.x
-        * screenScale;
+        * scale;
 
     camera.targetOffsetY =
         window.innerHeight
         * 0.51
         - base.centerY
         + cached.centroid.y
-        * screenScale;
+        * scale;
 }
 
 
@@ -2283,13 +2880,8 @@ function setChapterCamera(
 
 function updateCamera() {
 
-    /*
-        Lower smoothing = slower, more cinematic.
-        Path2D means this can now stay smooth.
-    */
-
     const smoothing =
-        0.032;
+        0.020;
 
     camera.scale +=
         (
@@ -2331,11 +2923,14 @@ function enterChapter(
     temporaryStoryTrack =
         null;
 
-    hoverLabel.style.display =
-        "none";
+    targetStoryFocus =
+        0;
 
     hoveredTrack =
         null;
+
+    hoverLabel.style.display =
+        "none";
 
     transitionActive =
         true;
@@ -2355,9 +2950,6 @@ function enterChapter(
     timePhase.textContent =
         chapter.phase;
 
-    atmosphere.style.background =
-        chapter.atmosphere;
-
     transitionTime.textContent =
         chapter.time;
 
@@ -2371,6 +2963,7 @@ function enterChapter(
         tick => {
 
             tick.classList.toggle(
+
                 "active",
 
                 Number(
@@ -2420,25 +3013,18 @@ function enterChapter(
                     );
 
             },
-            1700
+            1750
         );
 }
 
 
 /* =========================================================
-   MORNING STORY EVENTS
+   STORY EVENTS
 ========================================================= */
 
 function showStoryEvent(
     event
 ) {
-
-    if (
-        transitionActive
-    ) {
-
-        return;
-    }
 
     storyEventTime.textContent =
         event.label;
@@ -2463,11 +3049,17 @@ function showStoryEvent(
         event.highlightIndividual
     ) {
 
+        const range =
+            event.featuredRange;
+
         temporaryStoryTrack =
             findFeaturedTrack(
-                6,
-                9
+                range[0],
+                range[1]
             );
+
+        targetStoryFocus =
+            1;
 
         if (
             temporaryStoryTrack
@@ -2475,23 +3067,18 @@ function showStoryEvent(
         ) {
 
             focusCameraOnTrack(
+
                 temporaryStoryTrack,
+
                 event.cameraScale
+                || 1.48
             );
         }
 
     } else {
 
-        temporaryStoryTrack =
-            null;
-
-        if (
-            !selectedTrack
-        ) {
-
-            camera.targetScale =
-                event.cameraScale;
-        }
+        targetStoryFocus =
+            0;
     }
 
     storyEventTimeout =
@@ -2505,9 +3092,11 @@ function showStoryEvent(
                     );
 
                 if (
-                    event.id
-                    === "individual-divergence"
+                    event.highlightIndividual
                 ) {
+
+                    targetStoryFocus =
+                        0;
 
                     setTimeout(
                         () => {
@@ -2526,7 +3115,7 @@ function showStoryEvent(
                             }
 
                         },
-                        600
+                        900
                     );
                 }
 
@@ -2536,26 +3125,17 @@ function showStoryEvent(
 }
 
 
-function checkMorningStoryEvents() {
-
-    if (
-        currentTime < 5
-        || currentTime >= 9
-    ) {
-
-        return;
-    }
+function checkStoryEvents() {
 
     for (
         const event
-        of morningEvents
+        of storyEvents
     ) {
 
         if (
-            firedStoryEvents
-                .has(
-                    event.id
-                )
+            firedStoryEvents.has(
+                event.id
+            )
         ) {
 
             continue;
@@ -2569,15 +3149,9 @@ function checkMorningStoryEvents() {
             >= event.time
         ) {
 
-            firedStoryEvents
-                .add(
-                    event.id
-                );
-
-            /*
-                If chapter transition is still ending,
-                delay slightly instead of overlapping it.
-            */
+            firedStoryEvents.add(
+                event.id
+            );
 
             if (
                 transitionActive
@@ -2591,7 +3165,7 @@ function checkMorningStoryEvents() {
                         );
 
                     },
-                    800
+                    750
                 );
 
             } else {
@@ -2628,7 +3202,7 @@ function drawBackground() {
 
 
 /* =========================================================
-   CACHED TRACK DRAWING
+   TRACKS
 ========================================================= */
 
 function drawTrack(
@@ -2649,10 +3223,10 @@ function drawTrack(
     }
 
     let opacity =
-        0.045;
+        0.040;
 
     let lineWidthPx =
-        0.34;
+        0.32;
 
     let colour =
         "177,187,183";
@@ -2661,38 +3235,49 @@ function drawTrack(
         0;
 
     if (
-        style === "featured"
+        style
+        === "featured"
     ) {
 
         opacity =
-            0.18;
+            0.11
+            + visualEnergy
+            * 0.08;
 
         lineWidthPx =
-            0.65;
+            0.58;
 
         colour =
             "121,225,211";
     }
 
     if (
-        style === "story"
+        style
+        === "story"
     ) {
 
         opacity =
-            0.90;
+            0.62
+            + storyFocus
+            * 0.30;
 
         lineWidthPx =
-            1.25;
+            1.15
+            + storyFocus
+            * 0.15;
 
         colour =
             "121,225,211";
 
         glow =
-            7;
+            4
+            + storyFocus
+            * 5;
     }
 
     if (
-        style === "hover"
+        style
+        === "hover"
     ) {
 
         opacity =
@@ -2709,44 +3294,31 @@ function drawTrack(
     }
 
     if (
-        style === "selected"
+        style
+        === "selected"
     ) {
 
         opacity =
-            0.96;
+            0.95;
 
         lineWidthPx =
-            1.45;
+            1.42;
 
         colour =
             "121,225,211";
 
         glow =
-            8;
+            7;
     }
 
     if (
         selectedTrack
-        && style === "background"
+        && style
+        === "background"
     ) {
 
         opacity =
-            0.012;
-    }
-
-    if (
-        transitionActive
-        && (
-            style === "selected"
-            || style === "story"
-        )
-    ) {
-
-        opacity *=
-            0.25;
-
-        glow =
-            0;
+            0.011;
     }
 
     const screenScale =
@@ -2760,11 +3332,6 @@ function drawTrack(
             ${opacity}
         )`;
 
-    /*
-        Because the canvas is scaled into world coordinates,
-        divide by screenScale to maintain constant pixel width.
-    */
-
     ctx.lineWidth =
         lineWidthPx
         / screenScale;
@@ -2777,7 +3344,7 @@ function drawTrack(
 
     ctx.shadowColor =
         glow > 0
-        ? "rgba(121,225,211,0.55)"
+        ? "rgba(121,225,211,0.52)"
         : "transparent";
 
     ctx.shadowBlur =
@@ -2826,33 +3393,18 @@ function drawMovementField() {
         return;
     }
 
-    const collectiveMedian =
-        Number(
-            rhythm
-                .hourly_medians[
-                    String(
-                        hour
-                    )
-                ]
-        );
-
-    const intensity =
-        Math.min(
-            1,
-            collectiveMedian
-            / 0.23
-        );
-
-    const p95 =
-        rhythm.visual_p95;
-
     /*
-        Reduced from 1500.
-        Still visually dense but much cheaper.
+        Density now changes smoothly with visualEnergy.
+
+        No sudden event multiplier is used.
     */
 
     const maxSegments =
-        900;
+        Math.round(
+            620
+            + visualEnergy
+            * 520
+        );
 
     const stride =
         Math.max(
@@ -2863,15 +3415,27 @@ function drawMovementField() {
             )
         );
 
+    const p95 =
+        rhythm.visual_p95;
+
     const pulse =
         (
             Math.sin(
                 visualTimestamp
-                * 0.0025
+                * (
+                    0.0019
+                    + visualEnergy
+                    * 0.0012
+                )
             )
             + 1
         )
         / 2;
+
+    const particleThreshold =
+        0.72
+        - visualEnergy
+        * 0.20;
 
     resetCanvasTransform();
 
@@ -2895,36 +3459,28 @@ function drawMovementField() {
             continue;
         }
 
-        const wx1 =
-            longitudeToWorld(
-                segment.x1
-            );
-
-        const wy1 =
-            latitudeToWorld(
-                segment.y1
-            );
-
-        const wx2 =
-            longitudeToWorld(
-                segment.x2
-            );
-
-        const wy2 =
-            latitudeToWorld(
-                segment.y2
-            );
-
         const start =
             worldToScreen(
-                wx1,
-                wy1
+
+                longitudeToWorld(
+                    segment.x1
+                ),
+
+                latitudeToWorld(
+                    segment.y1
+                )
             );
 
         const end =
             worldToScreen(
-                wx2,
-                wy2
+
+                longitudeToWorld(
+                    segment.x2
+                ),
+
+                latitudeToWorld(
+                    segment.y2
+                )
             );
 
         const strength =
@@ -2935,11 +3491,13 @@ function drawMovementField() {
             );
 
         let alpha =
-            0.07
+            0.045
             + strength
-            * 0.42
-            + intensity
-            * 0.10;
+            * (
+                0.22
+                + visualEnergy
+                * 0.26
+            );
 
         if (
             temporaryStoryTrack
@@ -2948,7 +3506,8 @@ function drawMovementField() {
         ) {
 
             alpha +=
-                0.28;
+                0.20
+                * storyFocus;
         }
 
         ctx.strokeStyle =
@@ -2958,14 +3517,18 @@ function drawMovementField() {
                 187,
                 ${Math.min(
                     alpha,
-                    0.90
+                    0.88
                 )}
             )`;
 
         ctx.lineWidth =
-            0.35
+            0.30
             + strength
-            * 1.05;
+            * (
+                0.65
+                + visualEnergy
+                * 0.46
+            );
 
         ctx.beginPath();
 
@@ -2981,19 +3544,20 @@ function drawMovementField() {
 
         ctx.stroke();
 
-        /*
-            Only strongest movements receive a particle.
-            This significantly reduces circle drawing.
-        */
-
         if (
-            strength > 0.62
+            strength
+            > particleThreshold
         ) {
 
             const position =
                 (
                     visualTimestamp
-                    * 0.00020
+                    * (
+                        0.00015
+                        + visualEnergy
+                        * 0.00009
+                    )
+
                     + index
                     * 0.067
                 )
@@ -3017,11 +3581,14 @@ function drawMovementField() {
 
             let particleAlpha =
                 (
-                    0.12
+                    0.06
                     + pulse
-                    * 0.28
+                    * 0.22
                 )
-                * intensity;
+                * (
+                    0.45
+                    + visualEnergy
+                );
 
             if (
                 temporaryStoryTrack
@@ -3030,7 +3597,8 @@ function drawMovementField() {
             ) {
 
                 particleAlpha +=
-                    0.30;
+                    0.22
+                    * storyFocus;
             }
 
             ctx.fillStyle =
@@ -3047,12 +3615,21 @@ function drawMovementField() {
             ctx.beginPath();
 
             ctx.arc(
+
                 particleX,
+
                 particleY,
-                0.65
+
+                0.55
                 + strength
-                * 1.15,
+                * (
+                    0.8
+                    + visualEnergy
+                    * 0.42
+                ),
+
                 0,
+
                 Math.PI
                 * 2
             );
@@ -3104,7 +3681,7 @@ function drawFeaturedPulse() {
         (
             Math.sin(
                 visualTimestamp
-                * 0.003
+                * 0.0025
             )
             + 1
         )
@@ -3112,28 +3689,43 @@ function drawFeaturedPulse() {
 
     const radius =
         temporaryStoryTrack
-        ? 16
+        ? 14
+            + storyFocus
+            * 10
             + pulse
-            * 14
-        : 11
+            * 7
+        : 10
             + pulse
-            * 8;
+            * 6;
 
     resetCanvasTransform();
 
     ctx.strokeStyle =
-        `rgba(
+        temporaryStoryTrack
+
+        ? `rgba(
             121,
             225,
             211,
             ${
-                temporaryStoryTrack
-                ? 0.15
+                0.05
+                + storyFocus
+                * (
+                    0.15
                     + pulse
-                    * 0.24
-                : 0.05
-                    + pulse
-                    * 0.10
+                    * 0.16
+                )
+            }
+        )`
+
+        : `rgba(
+            121,
+            225,
+            211,
+            ${
+                0.03
+                + pulse
+                * 0.07
             }
         )`;
 
@@ -3156,7 +3748,7 @@ function drawFeaturedPulse() {
 
 
 /* =========================================================
-   DRAW LOOP
+   DRAW
 ========================================================= */
 
 function draw() {
@@ -3170,12 +3762,9 @@ function draw() {
 
     updateCamera();
 
-    drawBackground();
+    updateVisualEnergy();
 
-    /*
-        These 14 paths are now cached Path2D objects.
-        JavaScript no longer loops through every GPS point.
-    */
+    drawBackground();
 
     for (
         const track
@@ -3263,7 +3852,7 @@ function draw() {
 
 
 /* =========================================================
-   HIT TEST — OPTIMISED
+   HIT TEST
 ========================================================= */
 
 function findTrackNearPointer(
@@ -3281,7 +3870,8 @@ function findTrackNearPointer(
         getScreenScale();
 
     const thresholdPx =
-        camera.scale < 1.25
+        camera.scale
+        < 1.25
         ? 8
         : 14;
 
@@ -3315,11 +3905,6 @@ function findTrackNearPointer(
 
             continue;
         }
-
-        /*
-            Only roughly 280 samples per elephant,
-            rather than thousands of GPS points.
-        */
 
         for (
             const sample
@@ -3455,7 +4040,7 @@ function requestHoverUpdate() {
 
 
 /* =========================================================
-   INDIVIDUAL DATA
+   INDIVIDUAL COMPARISON
 ========================================================= */
 
 function getCurrentComparison(
@@ -3487,17 +4072,6 @@ function getCurrentComparison(
                 ]
         );
 
-    const difference =
-        individual
-        - collective;
-
-    const percentage =
-        collective > 0
-        ? difference
-            / collective
-            * 100
-        : 0;
-
     return {
 
         hour,
@@ -3506,16 +4080,22 @@ function getCurrentComparison(
 
         collective,
 
-        difference,
+        difference:
+            individual
+            - collective,
 
-        percentage
+        percentage:
+            collective > 0
+            ? (
+                individual
+                - collective
+            )
+            / collective
+            * 100
+            : 0
     };
 }
 
-
-/* =========================================================
-   INDIVIDUAL STORY
-========================================================= */
 
 function buildIndividualNarrative(
     elephantId
@@ -3534,16 +4114,11 @@ function buildIndividualNarrative(
 
         return (
             "No valid movement step is available "
-            + "for this individual during this hourly period."
+            + "for this individual during this hourly bin."
         );
     }
 
-    const absolutePercentage =
-        Math.abs(
-            comparison.percentage
-        );
-
-    const hourLabel =
+    const hour =
         String(
             comparison.hour
         ).padStart(
@@ -3552,45 +4127,54 @@ function buildIndividualNarrative(
         )
         + ":00";
 
+    const difference =
+        comparison.difference;
+
+    const absoluteDifference =
+        Math.abs(
+            difference
+        );
+
     if (
-        absolutePercentage
-        < 12
+        Math.abs(
+            difference
+        )
+        < 0.001
     ) {
 
         return (
             "At <strong>"
-            + hourLabel
-            + "</strong>, this path is moving close to the herd median. "
-            + "For this hour, its rhythm temporarily blends into the larger collective pattern."
+            + hour
+            + "</strong>, this individual's median movement "
+            + "is almost identical to the collective median."
         );
     }
 
-    if (
-        comparison.percentage
-        > 0
-    ) {
-
-        return (
-            "At <strong>"
-            + hourLabel
-            + "</strong>, this path begins to separate from the herd. "
-            + "Its median movement is approximately <strong>"
-            + absolutePercentage.toFixed(
-                0
-            )
-            + "% higher</strong> than the collective median."
-        );
-    }
+    const direction =
+        difference > 0
+        ? "higher"
+        : "lower";
 
     return (
         "At <strong>"
-        + hourLabel
-        + "</strong>, this path falls below the collective pulse. "
-        + "Its median movement is approximately <strong>"
-        + absolutePercentage.toFixed(
+        + hour
+        + "</strong>, this individual's median movement is "
+        + "<strong>"
+        + absoluteDifference.toFixed(
+            3
+        )
+        + " km "
+        + direction
+        + "</strong> than the herd median "
+        + "("
+        + Math.abs(
+            comparison.percentage
+        ).toFixed(
             0
         )
-        + "% lower</strong> than the herd median."
+        + "% "
+        + direction
+        + ")."
     );
 }
 
@@ -3615,6 +4199,9 @@ function enterEncounter(
 
     temporaryStoryTrack =
         null;
+
+    targetStoryFocus =
+        0;
 
     hoveredTrack =
         null;
@@ -3642,10 +4229,11 @@ function enterEncounter(
         );
 
     focusCameraOnTrack(
+
         track,
 
         Math.max(
-            1.75,
+            1.70,
             camera.scale
         )
     );
@@ -3666,12 +4254,12 @@ function exitEncounter() {
     modeText.textContent =
         "COLLECTIVE FIELD";
 
+    userCameraOverrideUntil =
+        0;
+
     if (
         currentChapter
     ) {
-
-        userCameraOverrideUntil =
-            0;
 
         setChapterCamera(
             currentChapter
@@ -3759,10 +4347,10 @@ function updateEncounterPosition() {
         );
 
     const cardWidth =
-        310;
+        315;
 
     const cardHeight =
-        245;
+        250;
 
     let left =
         screen.x
@@ -3875,12 +4463,10 @@ function updateHud() {
         percentage
         + "%";
 
-    pauseBadge
-        .classList
-        .toggle(
-            "show",
-            !playing
-        );
+    pauseBadge.classList.toggle(
+        "show",
+        !playing
+    );
 }
 
 
@@ -3920,8 +4506,10 @@ canvas.addEventListener(
 
             const moved =
                 Math.sqrt(
-                    totalDx * totalDx
-                    + totalDy * totalDy
+                    totalDx
+                    * totalDx
+                    + totalDy
+                    * totalDy
                 );
 
             if (
@@ -4091,8 +4679,8 @@ canvas.addEventListener(
 
         const factor =
             event.deltaY < 0
-            ? 1.13
-            : 1 / 1.13;
+            ? 1.12
+            : 1 / 1.12;
 
         const newScale =
             Math.max(
@@ -4154,14 +4742,13 @@ canvas.addEventListener(
 
     },
     {
-        passive:
-            false
+        passive: false
     }
 );
 
 
 /* =========================================================
-   KEYBOARD
+   KEYS
 ========================================================= */
 
 window.addEventListener(
@@ -4199,15 +4786,25 @@ window.addEventListener(
         if (
             event.key.toLowerCase()
             === "r"
-            && currentChapter
         ) {
 
-            userCameraOverrideUntil =
-                0;
+            if (
+                selectedTrack
+            ) {
 
-            setChapterCamera(
+                exitEncounter();
+
+            } else if (
                 currentChapter
-            );
+            ) {
+
+                userCameraOverrideUntil =
+                    0;
+
+                setChapterCamera(
+                    currentChapter
+                );
+            }
         }
     }
 );
@@ -4221,11 +4818,9 @@ enterButton.addEventListener(
     "click",
     () => {
 
-        opening
-            .classList
-            .add(
-                "hidden"
-            );
+        opening.classList.add(
+            "hidden"
+        );
 
         experienceStarted =
             true;
@@ -4253,7 +4848,7 @@ enterButton.addEventListener(
 
 
 /* =========================================================
-   ANIMATION LOOP
+   ANIMATION
 ========================================================= */
 
 function animate(
@@ -4297,9 +4892,12 @@ function animate(
 
             temporaryStoryTrack =
                 null;
+
+            targetStoryFocus =
+                0;
         }
 
-        checkMorningStoryEvents();
+        checkStoryEvents();
 
         lastStepTimestamp =
             timestamp;
@@ -4321,7 +4919,7 @@ function animate(
 
 
 /* =========================================================
-   DATA LOAD
+   LOAD
 ========================================================= */
 
 async function loadData() {
@@ -4355,11 +4953,6 @@ async function loadData() {
             data.rhythm;
 
         resizeCanvas();
-
-        /*
-            Major optimisation happens here:
-            all full trajectories become cached Path2D objects.
-        */
 
         buildGeometryCache();
 
@@ -4415,10 +5008,7 @@ async function loadData() {
 
 window.addEventListener(
     "resize",
-    () => {
-
-        resizeCanvas();
-    }
+    resizeCanvas
 );
 
 
