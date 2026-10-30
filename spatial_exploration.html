@@ -1,0 +1,3598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Living Rhythms — A Day Inside the Herd</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+
+            background: #040607;
+            color: #edf2ef;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+        }
+
+        body {
+            --accent: #79e1d3;
+            --muted: #74807b;
+            --dim: #404a47;
+        }
+
+        button {
+            font: inherit;
+        }
+
+        #world {
+            position: fixed;
+            inset: 0;
+
+            overflow: hidden;
+
+            background: #040607;
+        }
+
+        #canvas {
+            position: absolute;
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            cursor: grab;
+        }
+
+        #canvas.dragging {
+            cursor: grabbing;
+        }
+
+        #canvas.encounter-ready {
+            cursor: pointer;
+        }
+
+        #atmosphere {
+            position: absolute;
+            inset: 0;
+
+            pointer-events: none;
+
+            opacity: 1;
+
+            transition:
+                background 1.8s ease,
+                opacity 1.8s ease;
+
+            background:
+                radial-gradient(
+                    circle at 55% 48%,
+                    rgba(61, 130, 119, 0.045),
+                    rgba(4, 6, 7, 0) 42%
+                );
+        }
+
+        #grid {
+            position: absolute;
+            inset: 0;
+
+            pointer-events: none;
+
+            opacity: 0.18;
+
+            background-image:
+                linear-gradient(
+                    rgba(121, 225, 211, 0.025) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(121, 225, 211, 0.025) 1px,
+                    transparent 1px
+                );
+
+            background-size:
+                56px 56px;
+
+            mask-image:
+                radial-gradient(
+                    circle at center,
+                    black,
+                    transparent 78%
+                );
+        }
+
+        #vignette {
+            position: absolute;
+            inset: 0;
+
+            pointer-events: none;
+
+            background:
+                radial-gradient(
+                    ellipse at center,
+                    transparent 38%,
+                    rgba(0, 0, 0, 0.18) 65%,
+                    rgba(0, 0, 0, 0.64) 100%
+                );
+        }
+
+        #opening {
+            position: fixed;
+            inset: 0;
+
+            z-index: 100;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                rgba(4, 6, 7, 0.78);
+
+            backdrop-filter: blur(5px);
+
+            transition:
+                opacity 1.4s ease,
+                visibility 1.4s ease;
+        }
+
+        #opening.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .opening-inner {
+            width: min(
+                640px,
+                calc(100vw - 80px)
+            );
+
+            text-align: center;
+        }
+
+        .opening-kicker {
+            font-family: monospace;
+            font-size: 10px;
+
+            color: var(--accent);
+
+            letter-spacing: 0.14em;
+        }
+
+        .opening-title {
+            margin-top: 18px;
+
+            font-size: clamp(
+                38px,
+                6vw,
+                76px
+            );
+
+            font-weight: 400;
+
+            letter-spacing: -0.03em;
+        }
+
+        .opening-subtitle {
+            margin:
+                22px auto
+                0;
+
+            max-width: 490px;
+
+            font-family: monospace;
+            font-size: 11px;
+
+            line-height: 1.8;
+
+            color: #8b9692;
+        }
+
+        #enterButton {
+            margin-top: 34px;
+
+            padding:
+                11px
+                22px;
+
+            border:
+                1px solid
+                rgba(
+                    121,
+                    225,
+                    211,
+                    0.55
+                );
+
+            background:
+                rgba(
+                    121,
+                    225,
+                    211,
+                    0.05
+                );
+
+            color:
+                var(--accent);
+
+            font-family:
+                monospace;
+
+            font-size: 10px;
+
+            letter-spacing: 0.09em;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease;
+        }
+
+        #enterButton:hover {
+            background:
+                rgba(
+                    121,
+                    225,
+                    211,
+                    0.13
+                );
+
+            color: white;
+        }
+
+        #header {
+            position: fixed;
+
+            top: 38px;
+            left: 48px;
+
+            z-index: 20;
+
+            pointer-events: none;
+
+            transition:
+                opacity 0.6s ease;
+        }
+
+        #brand {
+            font-size: 23px;
+            font-weight: 500;
+
+            letter-spacing: 0.02em;
+        }
+
+        #study {
+            margin-top: 7px;
+
+            font-family: monospace;
+            font-size: 9px;
+
+            color: #67716e;
+
+            letter-spacing: 0.06em;
+        }
+
+        #chapterLabel {
+            margin-top: 25px;
+
+            font-family: monospace;
+            font-size: 9px;
+
+            color: var(--accent);
+
+            letter-spacing: 0.1em;
+        }
+
+        #chapterNarrative {
+            margin-top: 8px;
+
+            width: 320px;
+
+            font-family: monospace;
+            font-size: 9px;
+
+            color: #7b8682;
+
+            line-height: 1.65;
+        }
+
+        #chapterTransition {
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 40;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            pointer-events: none;
+
+            opacity: 0;
+
+            transition:
+                opacity 0.7s ease;
+        }
+
+        #chapterTransition.show {
+            opacity: 1;
+        }
+
+        .chapter-transition-inner {
+            text-align: center;
+
+            transform: translateY(-10px);
+        }
+
+        #transitionTime {
+            font-family: monospace;
+            font-size: 11px;
+
+            color: var(--accent);
+
+            letter-spacing: 0.12em;
+        }
+
+        #transitionTitle {
+            margin-top: 10px;
+
+            font-size: clamp(
+                30px,
+                4vw,
+                54px
+            );
+
+            font-weight: 400;
+
+            letter-spacing: -0.02em;
+        }
+
+        #transitionSentence {
+            margin-top: 13px;
+
+            font-family: monospace;
+            font-size: 10px;
+
+            color: #8a9691;
+
+            letter-spacing: 0.03em;
+        }
+
+        #timeHud {
+            position: fixed;
+
+            top: 38px;
+            right: 47px;
+
+            z-index: 20;
+
+            text-align: right;
+
+            pointer-events: none;
+        }
+
+        #timeText {
+            font-family: monospace;
+
+            font-size: 25px;
+
+            color: #e9efec;
+
+            letter-spacing: 0.05em;
+        }
+
+        #timePhase {
+            margin-top: 5px;
+
+            font-family: monospace;
+
+            font-size: 8px;
+
+            color: var(--accent);
+
+            letter-spacing: 0.08em;
+        }
+
+        #hoverLabel {
+            position: fixed;
+
+            z-index: 45;
+
+            display: none;
+
+            pointer-events: none;
+
+            padding:
+                7px
+                9px;
+
+            background:
+                rgba(
+                    4,
+                    6,
+                    7,
+                    0.86
+                );
+
+            border-left:
+                1px solid
+                var(--accent);
+
+            font-family: monospace;
+
+            font-size: 9px;
+
+            color: var(--accent);
+
+            letter-spacing: 0.04em;
+        }
+
+        #hoverSub {
+            display: block;
+
+            margin-top: 3px;
+
+            font-size: 7px;
+
+            color: #727d79;
+        }
+
+        #encounterLayer {
+            position: fixed;
+            inset: 0;
+
+            z-index: 30;
+
+            pointer-events: none;
+
+            opacity: 0;
+
+            transition:
+                opacity 0.65s ease;
+        }
+
+        #encounterLayer.active {
+            opacity: 1;
+        }
+
+        #encounterStory {
+            position: absolute;
+
+            width: 310px;
+
+            padding:
+                16px
+                17px;
+
+            background:
+                rgba(
+                    4,
+                    6,
+                    7,
+                    0.82
+                );
+
+            border:
+                1px solid
+                rgba(
+                    121,
+                    225,
+                    211,
+                    0.16
+                );
+
+            backdrop-filter: blur(5px);
+
+            transition:
+                left 0.3s ease,
+                top 0.3s ease;
+        }
+
+        #encounterKicker {
+            font-family: monospace;
+            font-size: 8px;
+
+            color: var(--accent);
+
+            letter-spacing: 0.09em;
+        }
+
+        #encounterName {
+            margin-top: 7px;
+
+            font-size: 27px;
+
+            font-weight: 400;
+        }
+
+        #encounterMoment {
+            margin-top: 4px;
+
+            font-family: monospace;
+            font-size: 8px;
+
+            color: #68726f;
+        }
+
+        .encounter-divider {
+            margin:
+                13px
+                0;
+
+            height: 1px;
+
+            background:
+                rgba(
+                    121,
+                    225,
+                    211,
+                    0.12
+                );
+        }
+
+        #encounterNarrative {
+            font-family: monospace;
+            font-size: 9px;
+
+            line-height: 1.7;
+
+            color: #c0c8c4;
+        }
+
+        #encounterNarrative strong {
+            color: var(--accent);
+            font-weight: 400;
+        }
+
+        #encounterComparison {
+            margin-top: 14px;
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 8px;
+        }
+
+        .comparison-cell {
+            padding-top: 7px;
+
+            border-top:
+                1px solid
+                rgba(
+                    121,
+                    225,
+                    211,
+                    0.10
+                );
+        }
+
+        .comparison-label {
+            font-family: monospace;
+            font-size: 7px;
+
+            color: #5e6965;
+        }
+
+        .comparison-number {
+            margin-top: 4px;
+
+            font-family: monospace;
+            font-size: 11px;
+
+            color: #dfe6e2;
+        }
+
+        #encounterExit {
+            margin-top: 14px;
+
+            font-family: monospace;
+            font-size: 7px;
+
+            line-height: 1.5;
+
+            color: #58625f;
+        }
+
+        #bottomHud {
+            position: fixed;
+
+            left: 48px;
+            right: 47px;
+            bottom: 27px;
+
+            z-index: 20;
+
+            display: grid;
+
+            grid-template-columns:
+                220px
+                1fr
+                220px;
+
+            align-items: end;
+
+            gap: 28px;
+
+            pointer-events: none;
+        }
+
+        #modeText {
+            font-family: monospace;
+            font-size: 8px;
+
+            color: var(--accent);
+
+            letter-spacing: 0.06em;
+        }
+
+        #timeline {
+            min-width: 0;
+        }
+
+        #timelineBar {
+            position: relative;
+
+            height: 1px;
+
+            background:
+                rgba(
+                    121,
+                    225,
+                    211,
+                    0.14
+                );
+        }
+
+        #timelineProgress {
+            position: absolute;
+
+            left: 0;
+            top: 0;
+
+            height: 1px;
+
+            width: 0%;
+
+            background:
+                var(--accent);
+        }
+
+        #timelineMarker {
+            position: absolute;
+
+            top: 50%;
+            left: 0%;
+
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background:
+                var(--accent);
+
+            transform:
+                translate(
+                    -50%,
+                    -50%
+                );
+
+            box-shadow:
+                0 0 8px
+                rgba(
+                    121,
+                    225,
+                    211,
+                    0.6
+                );
+        }
+
+        #chapterTicks {
+            display: grid;
+
+            grid-template-columns:
+                repeat(5, 1fr);
+
+            margin-top: 8px;
+        }
+
+        .chapter-tick {
+            font-family: monospace;
+
+            font-size: 7px;
+
+            color: #4f5956;
+
+            text-align: center;
+        }
+
+        .chapter-tick.active {
+            color: var(--accent);
+        }
+
+        #controlHint {
+            text-align: right;
+
+            font-family: monospace;
+
+            font-size: 7px;
+
+            line-height: 1.55;
+
+            color: #58625f;
+        }
+
+        #pauseBadge {
+            position: fixed;
+
+            left: 50%;
+            top: 30px;
+
+            transform:
+                translateX(-50%);
+
+            z-index: 25;
+
+            display: none;
+
+            font-family: monospace;
+            font-size: 8px;
+
+            color: var(--accent);
+
+            letter-spacing: 0.08em;
+        }
+
+        #pauseBadge.show {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="world">
+
+    <canvas id="canvas"></canvas>
+
+    <div id="atmosphere"></div>
+    <div id="grid"></div>
+    <div id="vignette"></div>
+
+</div>
+
+
+<div id="opening">
+
+    <div class="opening-inner">
+
+        <div class="opening-kicker">
+            14 ELEPHANTS · KRUGER · 2007—2009
+        </div>
+
+        <div class="opening-title">
+            Living Rhythms
+        </div>
+
+        <div class="opening-subtitle">
+            A day inside a landscape built from movement.<br>
+            Follow the rhythm of the herd,
+            encounter an individual,
+            and discover where one path begins
+            to move differently from the collective.
+        </div>
+
+        <button id="enterButton">
+            ENTER THE HERD
+        </button>
+
+    </div>
+
+</div>
+
+
+<div id="header">
+
+    <div id="brand">
+        LIVING RHYTHMS
+    </div>
+
+    <div id="study">
+        GPS MOVEMENT / 14 ELEPHANTS / KRUGER
+    </div>
+
+    <div id="chapterLabel">
+        CHAPTER 01
+    </div>
+
+    <div id="chapterNarrative">
+        The landscape is quiet.
+    </div>
+
+</div>
+
+
+<div id="timeHud">
+
+    <div id="timeText">
+        02:00
+    </div>
+
+    <div id="timePhase">
+        QUIET HOURS
+    </div>
+
+</div>
+
+
+<div id="chapterTransition">
+
+    <div class="chapter-transition-inner">
+
+        <div id="transitionTime">
+            02:00
+        </div>
+
+        <div id="transitionTitle">
+            Quiet Hours
+        </div>
+
+        <div id="transitionSentence">
+            The herd is almost still.
+        </div>
+
+    </div>
+
+</div>
+
+
+<div id="hoverLabel">
+
+    <span id="hoverMain">
+        AM105
+    </span>
+
+    <span id="hoverSub">
+        CLICK TO FOLLOW THIS PATH
+    </span>
+
+</div>
+
+
+<div id="encounterLayer">
+
+    <div id="encounterStory">
+
+        <div id="encounterKicker">
+            INDIVIDUAL ENCOUNTER
+        </div>
+
+        <div id="encounterName">
+            AM105
+        </div>
+
+        <div id="encounterMoment">
+            06:00 / MORNING RISE
+        </div>
+
+        <div class="encounter-divider"></div>
+
+        <div id="encounterNarrative">
+            This individual is moving differently.
+        </div>
+
+        <div id="encounterComparison">
+
+            <div class="comparison-cell">
+
+                <div class="comparison-label">
+                    INDIVIDUAL
+                </div>
+
+                <div
+                    id="individualValue"
+                    class="comparison-number"
+                >
+                    —
+                </div>
+
+            </div>
+
+            <div class="comparison-cell">
+
+                <div class="comparison-label">
+                    HERD MEDIAN
+                </div>
+
+                <div
+                    id="collectiveValue"
+                    class="comparison-number"
+                >
+                    —
+                </div>
+
+            </div>
+
+        </div>
+
+        <div id="encounterExit">
+            THE DAY CONTINUES AROUND THIS PATH.<br>
+            PRESS ESC OR CLICK EMPTY SPACE TO RETURN TO THE HERD.
+        </div>
+
+    </div>
+
+</div>
+
+
+<div id="bottomHud">
+
+    <div id="modeText">
+        COLLECTIVE FIELD
+    </div>
+
+    <div id="timeline">
+
+        <div id="timelineBar">
+
+            <div id="timelineProgress"></div>
+
+            <div id="timelineMarker"></div>
+
+        </div>
+
+        <div id="chapterTicks">
+
+            <div
+                class="chapter-tick"
+                data-index="0"
+            >
+                QUIET
+            </div>
+
+            <div
+                class="chapter-tick"
+                data-index="1"
+            >
+                MORNING
+            </div>
+
+            <div
+                class="chapter-tick"
+                data-index="2"
+            >
+                MIDDAY
+            </div>
+
+            <div
+                class="chapter-tick"
+                data-index="3"
+            >
+                PEAK
+            </div>
+
+            <div
+                class="chapter-tick"
+                data-index="4"
+            >
+                NIGHT
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="controlHint">
+        SCROLL TO MOVE CLOSER · DRAG TO TRAVEL<br>
+        CLICK A PATH TO FOLLOW · SPACE TO PAUSE
+    </div>
+
+</div>
+
+
+<div id="pauseBadge">
+    TIME PAUSED
+</div>
+
+
+<script>
+
+const canvas =
+    document.getElementById(
+        "canvas"
+    );
+
+const ctx =
+    canvas.getContext(
+        "2d"
+    );
+
+const opening =
+    document.getElementById(
+        "opening"
+    );
+
+const enterButton =
+    document.getElementById(
+        "enterButton"
+    );
+
+const atmosphere =
+    document.getElementById(
+        "atmosphere"
+    );
+
+const chapterLabel =
+    document.getElementById(
+        "chapterLabel"
+    );
+
+const chapterNarrative =
+    document.getElementById(
+        "chapterNarrative"
+    );
+
+const chapterTransition =
+    document.getElementById(
+        "chapterTransition"
+    );
+
+const transitionTime =
+    document.getElementById(
+        "transitionTime"
+    );
+
+const transitionTitle =
+    document.getElementById(
+        "transitionTitle"
+    );
+
+const transitionSentence =
+    document.getElementById(
+        "transitionSentence"
+    );
+
+const timeText =
+    document.getElementById(
+        "timeText"
+    );
+
+const timePhase =
+    document.getElementById(
+        "timePhase"
+    );
+
+const hoverLabel =
+    document.getElementById(
+        "hoverLabel"
+    );
+
+const hoverMain =
+    document.getElementById(
+        "hoverMain"
+    );
+
+const encounterLayer =
+    document.getElementById(
+        "encounterLayer"
+    );
+
+const encounterStory =
+    document.getElementById(
+        "encounterStory"
+    );
+
+const encounterName =
+    document.getElementById(
+        "encounterName"
+    );
+
+const encounterMoment =
+    document.getElementById(
+        "encounterMoment"
+    );
+
+const encounterNarrative =
+    document.getElementById(
+        "encounterNarrative"
+    );
+
+const individualValue =
+    document.getElementById(
+        "individualValue"
+    );
+
+const collectiveValue =
+    document.getElementById(
+        "collectiveValue"
+    );
+
+const modeText =
+    document.getElementById(
+        "modeText"
+    );
+
+const timelineProgress =
+    document.getElementById(
+        "timelineProgress"
+    );
+
+const timelineMarker =
+    document.getElementById(
+        "timelineMarker"
+    );
+
+const pauseBadge =
+    document.getElementById(
+        "pauseBadge"
+    );
+
+const chapterTicks =
+    [
+        ...document.querySelectorAll(
+            ".chapter-tick"
+        )
+    ];
+
+
+let data = null;
+
+let tracks = [];
+
+let bounds = null;
+
+let rhythm = null;
+
+let hoveredTrack = null;
+
+let selectedTrack = null;
+
+let featuredTrack = null;
+
+
+let experienceStarted =
+    false;
+
+let playing =
+    false;
+
+let currentTime =
+    2;
+
+let previousChapterIndex =
+    -1;
+
+let currentChapter =
+    null;
+
+let chapterTransitionTimeout =
+    null;
+
+let userCameraOverrideUntil =
+    0;
+
+
+const TIME_STEP =
+    0.25;
+
+const STEP_DURATION =
+    620;
+
+let lastStepTimestamp =
+    0;
+
+let visualTimestamp =
+    0;
+
+
+const camera = {
+
+    scale: 1,
+
+    offsetX: 0,
+
+    offsetY: 0,
+
+    targetScale: 1,
+
+    targetOffsetX: 0,
+
+    targetOffsetY: 0
+};
+
+
+const pointer = {
+
+    x: -1000,
+
+    y: -1000,
+
+    isDown: false,
+
+    dragging: false,
+
+    downX: 0,
+
+    downY: 0,
+
+    previousX: 0,
+
+    previousY: 0
+};
+
+
+const chapters = [
+
+    {
+        index: 0,
+
+        start: 2,
+
+        end: 5,
+
+        time: "02:00",
+
+        label:
+            "CHAPTER 01 / QUIET HOURS",
+
+        title:
+            "Quiet Hours",
+
+        phase:
+            "QUIET HOURS",
+
+        sentence:
+            "The herd is almost still.",
+
+        narrative:
+            "Before sunrise, movement falls to its lowest point. The landscape contracts into small, quiet traces.",
+
+        atmosphere:
+            "radial-gradient(circle at 54% 50%, rgba(58, 95, 91, 0.035), rgba(4,6,7,0) 40%)",
+
+        cameraScale:
+            1.05
+    },
+
+    {
+        index: 1,
+
+        start: 5,
+
+        end: 9,
+
+        time: "05:00",
+
+        label:
+            "CHAPTER 02 / MORNING RISE",
+
+        title:
+            "Morning Rise",
+
+        phase:
+            "MORNING RISE",
+
+        sentence:
+            "The landscape begins to wake.",
+
+        narrative:
+            "Movement rises rapidly after dawn. Separate paths begin to animate across the shared landscape.",
+
+        atmosphere:
+            "radial-gradient(circle at 52% 48%, rgba(65, 150, 135, 0.075), rgba(4,6,7,0) 48%)",
+
+        cameraScale:
+            1.35
+    },
+
+    {
+        index: 2,
+
+        start: 9,
+
+        end: 15,
+
+        time: "09:00",
+
+        label:
+            "CHAPTER 03 / MIDDAY DRIFT",
+
+        title:
+            "Midday Drift",
+
+        phase:
+            "MIDDAY DRIFT",
+
+        sentence:
+            "The rhythm settles into motion.",
+
+        narrative:
+            "Through the middle of the day, movement becomes steadier. The herd shares a rhythm, but individual paths remain distinct.",
+
+        atmosphere:
+            "radial-gradient(circle at 55% 47%, rgba(81, 165, 149, 0.065), rgba(4,6,7,0) 52%)",
+
+        cameraScale:
+            1.58
+    },
+
+    {
+        index: 3,
+
+        start: 15,
+
+        end: 19,
+
+        time: "15:00",
+
+        label:
+            "CHAPTER 04 / AFTERNOON PEAK",
+
+        title:
+            "Afternoon Peak",
+
+        phase:
+            "AFTERNOON PEAK",
+
+        sentence:
+            "The field reaches its strongest pulse.",
+
+        narrative:
+            "Late afternoon produces the strongest collective movement. The landscape expands into its most active state.",
+
+        atmosphere:
+            "radial-gradient(circle at 52% 48%, rgba(77, 190, 169, 0.11), rgba(4,6,7,0) 58%)",
+
+        cameraScale:
+            1.40
+    },
+
+    {
+        index: 4,
+
+        start: 19,
+
+        end: 26,
+
+        time: "19:00",
+
+        label:
+            "CHAPTER 05 / NIGHT RETURN",
+
+        title:
+            "Night Return",
+
+        phase:
+            "NIGHT RETURN",
+
+        sentence:
+            "The collective pulse begins to fade.",
+
+        narrative:
+            "Movement gradually decreases after sunset. Individual paths disappear again into the larger pattern of the herd.",
+
+        atmosphere:
+            "radial-gradient(circle at 50% 50%, rgba(47, 102, 94, 0.045), rgba(4,6,7,0) 44%)",
+
+        cameraScale:
+            1.12
+    }
+];
+
+
+function resizeCanvas() {
+
+    const dpr =
+        window.devicePixelRatio
+        || 1;
+
+    canvas.width =
+        window.innerWidth
+        * dpr;
+
+    canvas.height =
+        window.innerHeight
+        * dpr;
+
+    canvas.style.width =
+        window.innerWidth
+        + "px";
+
+    canvas.style.height =
+        window.innerHeight
+        + "px";
+
+    ctx.setTransform(
+        dpr,
+        0,
+        0,
+        dpr,
+        0,
+        0
+    );
+}
+
+
+function getBaseTransform() {
+
+    const width =
+        window.innerWidth;
+
+    const height =
+        window.innerHeight;
+
+    const longitudeRange =
+        bounds.max_lon
+        - bounds.min_lon;
+
+    const latitudeRange =
+        bounds.max_lat
+        - bounds.min_lat;
+
+    const meanLatitude =
+        (
+            bounds.min_lat
+            + bounds.max_lat
+        ) / 2;
+
+    const meanLongitude =
+        (
+            bounds.min_lon
+            + bounds.max_lon
+        ) / 2;
+
+    const longitudeCorrection =
+        Math.cos(
+            meanLatitude
+            * Math.PI
+            / 180
+        );
+
+    const correctedLongitudeRange =
+        longitudeRange
+        * longitudeCorrection;
+
+    const fitScale =
+        Math.min(
+
+            width * 0.56
+            / correctedLongitudeRange,
+
+            height * 0.70
+            / latitudeRange
+        );
+
+    return {
+
+        fitScale,
+
+        longitudeCorrection,
+
+        meanLatitude,
+
+        meanLongitude,
+
+        centerX:
+            width * 0.51,
+
+        centerY:
+            height * 0.51
+    };
+}
+
+
+function worldToScreen(
+    longitude,
+    latitude
+) {
+
+    const base =
+        getBaseTransform();
+
+    const worldX =
+        (
+            longitude
+            - base.meanLongitude
+        )
+        * base.longitudeCorrection;
+
+    const worldY =
+        latitude
+        - base.meanLatitude;
+
+    const scale =
+        base.fitScale
+        * camera.scale;
+
+    return {
+
+        x:
+            base.centerX
+            + worldX
+            * scale
+            + camera.offsetX,
+
+        y:
+            base.centerY
+            - worldY
+            * scale
+            + camera.offsetY
+    };
+}
+
+
+function normaliseHour(
+    time
+) {
+
+    let value =
+        time % 24;
+
+    if (
+        value < 0
+    ) {
+
+        value += 24;
+    }
+
+    return value;
+}
+
+
+function getHour() {
+
+    return Math.floor(
+        normaliseHour(
+            currentTime
+        )
+    );
+}
+
+
+function formatTime(
+    time
+) {
+
+    const normalised =
+        normaliseHour(
+            time
+        );
+
+    const hour =
+        Math.floor(
+            normalised
+        );
+
+    const minute =
+        Math.round(
+            (
+                normalised
+                - hour
+            )
+            * 60
+        );
+
+    return (
+        String(
+            hour
+        ).padStart(
+            2,
+            "0"
+        )
+        + ":"
+        + String(
+            minute
+        ).padStart(
+            2,
+            "0"
+        )
+    );
+}
+
+
+function getChapterFromTime() {
+
+    let hour =
+        normaliseHour(
+            currentTime
+        );
+
+    if (
+        hour < 2
+    ) {
+
+        hour += 24;
+    }
+
+    for (
+        const chapter
+        of chapters
+    ) {
+
+        if (
+            hour >= chapter.start
+            && hour < chapter.end
+        ) {
+
+            return chapter;
+        }
+    }
+
+    return chapters[
+        chapters.length - 1
+    ];
+}
+
+
+function getTrackCentroid(
+    track
+) {
+
+    if (
+        !track
+        || !track.points.length
+    ) {
+
+        return null;
+    }
+
+    let longitude =
+        0;
+
+    let latitude =
+        0;
+
+    let count =
+        0;
+
+    const step =
+        Math.max(
+            1,
+            Math.floor(
+                track.points.length
+                / 700
+            )
+        );
+
+    for (
+        let index = 0;
+        index < track.points.length;
+        index += step
+    ) {
+
+        longitude +=
+            track.points[
+                index
+            ].lon;
+
+        latitude +=
+            track.points[
+                index
+            ].lat;
+
+        count++;
+    }
+
+    return {
+
+        lon:
+            longitude
+            / count,
+
+        lat:
+            latitude
+            / count
+    };
+}
+
+
+function findFeaturedTrack(
+    chapter
+) {
+
+    if (
+        !rhythm
+        || !rhythm.individual_hourly_medians
+    ) {
+
+        return null;
+    }
+
+    let bestTrack =
+        null;
+
+    let bestScore =
+        -Infinity;
+
+    for (
+        const track
+        of tracks
+    ) {
+
+        const individual =
+            rhythm
+                .individual_hourly_medians[
+                    track.id
+                ];
+
+        if (
+            !individual
+        ) {
+
+            continue;
+        }
+
+        let score =
+            0;
+
+        let count =
+            0;
+
+        const startHour =
+            Math.floor(
+                chapter.start
+            );
+
+        const endHour =
+            Math.min(
+                24,
+                Math.ceil(
+                    chapter.end
+                )
+            );
+
+        for (
+            let hour = startHour;
+            hour < endHour;
+            hour++
+        ) {
+
+            const individualValue =
+                Number(
+                    individual[
+                        String(
+                            hour % 24
+                        )
+                    ]
+                );
+
+            const collectiveValue =
+                Number(
+                    rhythm
+                        .hourly_medians[
+                            String(
+                                hour % 24
+                            )
+                        ]
+                );
+
+            score +=
+                Math.abs(
+                    individualValue
+                    - collectiveValue
+                );
+
+            count++;
+        }
+
+        if (
+            count > 0
+        ) {
+
+            score /=
+                count;
+        }
+
+        if (
+            score >
+            bestScore
+        ) {
+
+            bestScore =
+                score;
+
+            bestTrack =
+                track;
+        }
+    }
+
+    return bestTrack;
+}
+
+
+function setChapterCamera(
+    chapter
+) {
+
+    if (
+        Date.now()
+        < userCameraOverrideUntil
+    ) {
+
+        return;
+    }
+
+    featuredTrack =
+        findFeaturedTrack(
+            chapter
+        );
+
+    if (
+        !featuredTrack
+    ) {
+
+        camera.targetScale =
+            chapter.cameraScale;
+
+        camera.targetOffsetX =
+            0;
+
+        camera.targetOffsetY =
+            0;
+
+        return;
+    }
+
+    const centroid =
+        getTrackCentroid(
+            featuredTrack
+        );
+
+    if (
+        !centroid
+    ) {
+
+        return;
+    }
+
+    const base =
+        getBaseTransform();
+
+    const worldX =
+        (
+            centroid.lon
+            - base.meanLongitude
+        )
+        * base.longitudeCorrection;
+
+    const worldY =
+        centroid.lat
+        - base.meanLatitude;
+
+    const targetScale =
+        chapter.cameraScale;
+
+    const pixelScale =
+        base.fitScale
+        * targetScale;
+
+    const targetX =
+        window.innerWidth
+        * 0.55;
+
+    const targetY =
+        window.innerHeight
+        * 0.51;
+
+    camera.targetScale =
+        targetScale;
+
+    camera.targetOffsetX =
+        targetX
+        - base.centerX
+        - worldX
+        * pixelScale;
+
+    camera.targetOffsetY =
+        targetY
+        - base.centerY
+        + worldY
+        * pixelScale;
+}
+
+
+function updateCamera() {
+
+    const smoothing =
+        0.025;
+
+    camera.scale +=
+        (
+            camera.targetScale
+            - camera.scale
+        )
+        * smoothing;
+
+    camera.offsetX +=
+        (
+            camera.targetOffsetX
+            - camera.offsetX
+        )
+        * smoothing;
+
+    camera.offsetY +=
+        (
+            camera.targetOffsetY
+            - camera.offsetY
+        )
+        * smoothing;
+}
+
+
+function enterChapter(
+    chapter
+) {
+
+    currentChapter =
+        chapter;
+
+    previousChapterIndex =
+        chapter.index;
+
+    chapterLabel.textContent =
+        chapter.label;
+
+    chapterNarrative.textContent =
+        chapter.narrative;
+
+    timePhase.textContent =
+        chapter.phase;
+
+    atmosphere.style.background =
+        chapter.atmosphere;
+
+    transitionTime.textContent =
+        chapter.time;
+
+    transitionTitle.textContent =
+        chapter.title;
+
+    transitionSentence.textContent =
+        chapter.sentence;
+
+    chapterTicks.forEach(
+        tick => {
+
+            tick.classList.toggle(
+                "active",
+                Number(
+                    tick.dataset.index
+                )
+                === chapter.index
+            );
+        }
+    );
+
+    chapterTransition.classList.add(
+        "show"
+    );
+
+    clearTimeout(
+        chapterTransitionTimeout
+    );
+
+    chapterTransitionTimeout =
+        setTimeout(
+            () => {
+
+                chapterTransition
+                    .classList
+                    .remove(
+                        "show"
+                    );
+
+            },
+            1700
+        );
+
+    if (
+        !selectedTrack
+    ) {
+
+        setChapterCamera(
+            chapter
+        );
+    }
+}
+
+
+function drawBackground() {
+
+    ctx.fillStyle =
+        "#040607";
+
+    ctx.fillRect(
+        0,
+        0,
+        window.innerWidth,
+        window.innerHeight
+    );
+}
+
+
+function drawTrack(
+    track,
+    style
+) {
+
+    if (
+        !track
+        || track.points.length < 2
+    ) {
+
+        return;
+    }
+
+    let opacity =
+        0.045;
+
+    let lineWidth =
+        0.34;
+
+    let glow =
+        0;
+
+    let colour =
+        "177, 187, 183";
+
+    if (
+        style === "featured"
+    ) {
+
+        opacity =
+            0.19;
+
+        lineWidth =
+            0.65;
+
+        colour =
+            "121, 225, 211";
+    }
+
+    if (
+        style === "hover"
+    ) {
+
+        opacity =
+            0.82;
+
+        lineWidth =
+            1.15;
+
+        glow =
+            6;
+
+        colour =
+            "121, 225, 211";
+    }
+
+    if (
+        style === "selected"
+    ) {
+
+        opacity =
+            1;
+
+        lineWidth =
+            1.6;
+
+        glow =
+            10;
+
+        colour =
+            "121, 225, 211";
+    }
+
+    if (
+        selectedTrack
+        && style === "background"
+    ) {
+
+        opacity =
+            0.012;
+    }
+
+    ctx.strokeStyle =
+        `rgba(
+            ${colour},
+            ${opacity}
+        )`;
+
+    ctx.lineWidth =
+        lineWidth;
+
+    ctx.shadowColor =
+        glow > 0
+        ? "rgba(121,225,211,0.6)"
+        : "transparent";
+
+    ctx.shadowBlur =
+        glow;
+
+    ctx.beginPath();
+
+    for (
+        let index = 0;
+        index < track.points.length;
+        index++
+    ) {
+
+        const point =
+            track.points[
+                index
+            ];
+
+        const screen =
+            worldToScreen(
+                point.lon,
+                point.lat
+            );
+
+        if (
+            index === 0
+        ) {
+
+            ctx.moveTo(
+                screen.x,
+                screen.y
+            );
+
+        } else {
+
+            ctx.lineTo(
+                screen.x,
+                screen.y
+            );
+        }
+    }
+
+    ctx.stroke();
+
+    ctx.shadowBlur =
+        0;
+}
+
+
+function drawMovementField() {
+
+    if (
+        !rhythm
+    ) {
+
+        return;
+    }
+
+    const hour =
+        getHour();
+
+    const segments =
+        rhythm
+            .hourly_segments[
+                String(
+                    hour
+                )
+            ];
+
+    if (
+        !segments
+        || !segments.length
+    ) {
+
+        return;
+    }
+
+    const collectiveMedian =
+        Number(
+            rhythm
+                .hourly_medians[
+                    String(
+                        hour
+                    )
+                ]
+        );
+
+    const intensity =
+        Math.min(
+            1,
+            collectiveMedian
+            / 0.23
+        );
+
+    const p95 =
+        rhythm.visual_p95;
+
+    const maximumParticles =
+        1500;
+
+    const stride =
+        Math.max(
+            1,
+            Math.ceil(
+                segments.length
+                / maximumParticles
+            )
+        );
+
+    const pulse =
+        (
+            Math.sin(
+                visualTimestamp
+                * 0.0025
+            )
+            + 1
+        )
+        / 2;
+
+    for (
+        let index = 0;
+        index < segments.length;
+        index += stride
+    ) {
+
+        const segment =
+            segments[
+                index
+            ];
+
+        if (
+            selectedTrack
+            && segment.id
+            !== selectedTrack.id
+        ) {
+
+            continue;
+        }
+
+        const start =
+            worldToScreen(
+                segment.x1,
+                segment.y1
+            );
+
+        const end =
+            worldToScreen(
+                segment.x2,
+                segment.y2
+            );
+
+        const movementStrength =
+            Math.min(
+                segment.movement
+                / p95,
+                1
+            );
+
+        const alpha =
+            0.08
+            + movementStrength
+            * 0.48
+            + intensity
+            * 0.12;
+
+        const lineWidth =
+            0.35
+            + movementStrength
+            * 1.15;
+
+        ctx.strokeStyle =
+            `rgba(
+                71,
+                205,
+                187,
+                ${alpha}
+            )`;
+
+        ctx.lineWidth =
+            lineWidth;
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            start.x,
+            start.y
+        );
+
+        ctx.lineTo(
+            end.x,
+            end.y
+        );
+
+        ctx.stroke();
+
+        if (
+            movementStrength >
+            0.48
+        ) {
+
+            const interpolation =
+                (
+                    (
+                        visualTimestamp
+                        * 0.00022
+                    )
+                    + (
+                        index
+                        * 0.071
+                    )
+                )
+                % 1;
+
+            const particleX =
+                start.x
+                + (
+                    end.x
+                    - start.x
+                )
+                * interpolation;
+
+            const particleY =
+                start.y
+                + (
+                    end.y
+                    - start.y
+                )
+                * interpolation;
+
+            ctx.fillStyle =
+                `rgba(
+                    121,
+                    225,
+                    211,
+                    ${
+                        (
+                            0.15
+                            + pulse
+                            * 0.32
+                        )
+                        * intensity
+                    }
+                )`;
+
+            ctx.beginPath();
+
+            ctx.arc(
+                particleX,
+                particleY,
+                0.7
+                + movementStrength
+                * 1.4,
+                0,
+                Math.PI
+                * 2
+            );
+
+            ctx.fill();
+        }
+    }
+}
+
+
+function drawFeaturedPulse() {
+
+    if (
+        selectedTrack
+        || !featuredTrack
+    ) {
+
+        return;
+    }
+
+    const centroid =
+        getTrackCentroid(
+            featuredTrack
+        );
+
+    if (
+        !centroid
+    ) {
+
+        return;
+    }
+
+    const screen =
+        worldToScreen(
+            centroid.lon,
+            centroid.lat
+        );
+
+    const pulse =
+        (
+            Math.sin(
+                visualTimestamp
+                * 0.003
+            )
+            + 1
+        )
+        / 2;
+
+    const radius =
+        12
+        + pulse
+        * 9;
+
+    ctx.strokeStyle =
+        `rgba(
+            121,
+            225,
+            211,
+            ${
+                0.06
+                + pulse
+                * 0.11
+            }
+        )`;
+
+    ctx.lineWidth =
+        1;
+
+    ctx.beginPath();
+
+    ctx.arc(
+        screen.x,
+        screen.y,
+        radius,
+        0,
+        Math.PI
+        * 2
+    );
+
+    ctx.stroke();
+}
+
+
+function draw() {
+
+    if (
+        !data
+    ) {
+
+        return;
+    }
+
+    updateCamera();
+
+    drawBackground();
+
+    for (
+        const track
+        of tracks
+    ) {
+
+        if (
+            selectedTrack
+            && track.id
+            === selectedTrack.id
+        ) {
+
+            continue;
+        }
+
+        if (
+            hoveredTrack
+            && track.id
+            === hoveredTrack.id
+        ) {
+
+            continue;
+        }
+
+        const style =
+            (
+                !selectedTrack
+                && featuredTrack
+                && featuredTrack.id
+                === track.id
+            )
+            ? "featured"
+            : "background";
+
+        drawTrack(
+            track,
+            style
+        );
+    }
+
+    drawMovementField();
+
+    drawFeaturedPulse();
+
+    if (
+        hoveredTrack
+        && (
+            !selectedTrack
+            || hoveredTrack.id
+            !== selectedTrack.id
+        )
+    ) {
+
+        drawTrack(
+            hoveredTrack,
+            "hover"
+        );
+    }
+
+    if (
+        selectedTrack
+    ) {
+
+        drawTrack(
+            selectedTrack,
+            "selected"
+        );
+
+        updateEncounterPosition();
+    }
+}
+
+
+function distance(
+    x1,
+    y1,
+    x2,
+    y2
+) {
+
+    const dx =
+        x1 - x2;
+
+    const dy =
+        y1 - y2;
+
+    return Math.sqrt(
+        dx * dx
+        + dy * dy
+    );
+}
+
+
+function findTrackNearPointer(
+    x,
+    y
+) {
+
+    let bestTrack =
+        null;
+
+    let bestDistance =
+        Infinity;
+
+    const threshold =
+        camera.scale < 1.25
+        ? 8
+        : 15;
+
+    for (
+        const track
+        of tracks
+    ) {
+
+        const step =
+            Math.max(
+                1,
+                Math.floor(
+                    track.points.length
+                    / 1600
+                )
+            );
+
+        for (
+            let index = 0;
+            index < track.points.length;
+            index += step
+        ) {
+
+            const point =
+                track.points[
+                    index
+                ];
+
+            const screen =
+                worldToScreen(
+                    point.lon,
+                    point.lat
+                );
+
+            const currentDistance =
+                distance(
+                    x,
+                    y,
+                    screen.x,
+                    screen.y
+                );
+
+            if (
+                currentDistance
+                < bestDistance
+            ) {
+
+                bestDistance =
+                    currentDistance;
+
+                bestTrack =
+                    track;
+            }
+        }
+    }
+
+    if (
+        bestDistance
+        <= threshold
+    ) {
+
+        return bestTrack;
+    }
+
+    return null;
+}
+
+
+function updateHover() {
+
+    if (
+        pointer.dragging
+        || !experienceStarted
+    ) {
+
+        return;
+    }
+
+    const track =
+        findTrackNearPointer(
+            pointer.x,
+            pointer.y
+        );
+
+    hoveredTrack =
+        track;
+
+    if (
+        track
+        && (
+            !selectedTrack
+            || selectedTrack.id
+            !== track.id
+        )
+    ) {
+
+        hoverMain.textContent =
+            track.id;
+
+        hoverLabel.style.left =
+            (
+                pointer.x
+                + 15
+            )
+            + "px";
+
+        hoverLabel.style.top =
+            (
+                pointer.y
+                + 15
+            )
+            + "px";
+
+        hoverLabel.style.display =
+            "block";
+
+        canvas.classList.add(
+            "encounter-ready"
+        );
+
+    } else {
+
+        hoverLabel.style.display =
+            "none";
+
+        canvas.classList.remove(
+            "encounter-ready"
+        );
+    }
+}
+
+
+function getCurrentComparison(
+    elephantId
+) {
+
+    const hour =
+        getHour();
+
+    const individual =
+        Number(
+            rhythm
+                .individual_hourly_medians[
+                    elephantId
+                ][
+                    String(
+                        hour
+                    )
+                ]
+        );
+
+    const collective =
+        Number(
+            rhythm
+                .hourly_medians[
+                    String(
+                        hour
+                    )
+                ]
+        );
+
+    const difference =
+        individual
+        - collective;
+
+    const percentage =
+        collective > 0
+        ? difference
+            / collective
+            * 100
+        : 0;
+
+    return {
+
+        hour,
+
+        individual,
+
+        collective,
+
+        difference,
+
+        percentage
+    };
+}
+
+
+function buildIndividualNarrative(
+    elephantId
+) {
+
+    const comparison =
+        getCurrentComparison(
+            elephantId
+        );
+
+    const absolutePercentage =
+        Math.abs(
+            comparison.percentage
+        );
+
+    const time =
+        String(
+            comparison.hour
+        ).padStart(
+            2,
+            "0"
+        )
+        + ":00";
+
+    if (
+        absolutePercentage <
+        12
+    ) {
+
+        return (
+            "At <strong>"
+            + time
+            + "</strong>, this path is moving almost with the herd. "
+            + "Its rhythm is close to the collective median, "
+            + "temporarily disappearing into the larger pattern."
+        );
+    }
+
+    if (
+        comparison.percentage >
+        0
+    ) {
+
+        return (
+            "At <strong>"
+            + time
+            + "</strong>, this path begins to separate from the herd. "
+            + "Its movement is approximately <strong>"
+            + absolutePercentage.toFixed(
+                0
+            )
+            + "% higher</strong> than the collective median."
+        );
+    }
+
+    return (
+        "At <strong>"
+        + time
+        + "</strong>, this path falls behind the collective pulse. "
+        + "Its movement is approximately <strong>"
+        + absolutePercentage.toFixed(
+            0
+        )
+        + "% lower</strong> than the herd median."
+    );
+}
+
+
+function enterEncounter(
+    track
+) {
+
+    selectedTrack =
+        track;
+
+    hoveredTrack =
+        null;
+
+    hoverLabel.style.display =
+        "none";
+
+    canvas.classList.remove(
+        "encounter-ready"
+    );
+
+    modeText.textContent =
+        "FOLLOWING / "
+        + track.id;
+
+    encounterName.textContent =
+        track.id;
+
+    updateEncounterNarrative();
+
+    encounterLayer.classList.add(
+        "active"
+    );
+
+    const centroid =
+        getTrackCentroid(
+            track
+        );
+
+    if (
+        centroid
+    ) {
+
+        const base =
+            getBaseTransform();
+
+        const targetScale =
+            Math.max(
+                1.8,
+                camera.scale
+            );
+
+        const worldX =
+            (
+                centroid.lon
+                - base.meanLongitude
+            )
+            * base.longitudeCorrection;
+
+        const worldY =
+            centroid.lat
+            - base.meanLatitude;
+
+        const pixelScale =
+            base.fitScale
+            * targetScale;
+
+        camera.targetScale =
+            targetScale;
+
+        camera.targetOffsetX =
+            window.innerWidth
+            * 0.50
+            - base.centerX
+            - worldX
+            * pixelScale;
+
+        camera.targetOffsetY =
+            window.innerHeight
+            * 0.53
+            - base.centerY
+            + worldY
+            * pixelScale;
+    }
+}
+
+
+function exitEncounter() {
+
+    selectedTrack =
+        null;
+
+    encounterLayer.classList.remove(
+        "active"
+    );
+
+    modeText.textContent =
+        "COLLECTIVE FIELD";
+
+    if (
+        currentChapter
+    ) {
+
+        setChapterCamera(
+            currentChapter
+        );
+    }
+}
+
+
+function updateEncounterNarrative() {
+
+    if (
+        !selectedTrack
+    ) {
+
+        return;
+    }
+
+    const comparison =
+        getCurrentComparison(
+            selectedTrack.id
+        );
+
+    encounterMoment.textContent =
+        formatTime(
+            currentTime
+        )
+        + " / "
+        + currentChapter.phase;
+
+    encounterNarrative.innerHTML =
+        buildIndividualNarrative(
+            selectedTrack.id
+        );
+
+    individualValue.textContent =
+        comparison.individual
+            .toFixed(
+                3
+            )
+        + " KM";
+
+    collectiveValue.textContent =
+        comparison.collective
+            .toFixed(
+                3
+            )
+        + " KM";
+}
+
+
+function updateEncounterPosition() {
+
+    if (
+        !selectedTrack
+    ) {
+
+        return;
+    }
+
+    const centroid =
+        getTrackCentroid(
+            selectedTrack
+        );
+
+    if (
+        !centroid
+    ) {
+
+        return;
+    }
+
+    const screen =
+        worldToScreen(
+            centroid.lon,
+            centroid.lat
+        );
+
+    const cardWidth =
+        310;
+
+    const cardHeight =
+        245;
+
+    let left =
+        screen.x
+        + 80;
+
+    let top =
+        screen.y
+        - 120;
+
+    if (
+        left
+        + cardWidth
+        > window.innerWidth
+        - 30
+    ) {
+
+        left =
+            screen.x
+            - cardWidth
+            - 80;
+    }
+
+    left =
+        Math.max(
+            30,
+            Math.min(
+                window.innerWidth
+                - cardWidth
+                - 30,
+                left
+            )
+        );
+
+    top =
+        Math.max(
+            120,
+            Math.min(
+                window.innerHeight
+                - cardHeight
+                - 70,
+                top
+            )
+        );
+
+    encounterStory.style.left =
+        left
+        + "px";
+
+    encounterStory.style.top =
+        top
+        + "px";
+}
+
+
+function updateHud() {
+
+    if (
+        !experienceStarted
+    ) {
+
+        return;
+    }
+
+    timeText.textContent =
+        formatTime(
+            currentTime
+        );
+
+    const chapter =
+        getChapterFromTime();
+
+    if (
+        chapter.index
+        !== previousChapterIndex
+    ) {
+
+        enterChapter(
+            chapter
+        );
+    }
+
+    if (
+        selectedTrack
+    ) {
+
+        updateEncounterNarrative();
+    }
+
+    const dayPosition =
+        normaliseHour(
+            currentTime
+        )
+        / 24;
+
+    const percentage =
+        dayPosition
+        * 100;
+
+    timelineProgress.style.width =
+        percentage
+        + "%";
+
+    timelineMarker.style.left =
+        percentage
+        + "%";
+
+    pauseBadge.classList.toggle(
+        "show",
+        !playing
+    );
+}
+
+
+canvas.addEventListener(
+    "pointermove",
+    event => {
+
+        pointer.x =
+            event.clientX;
+
+        pointer.y =
+            event.clientY;
+
+        if (
+            pointer.isDown
+        ) {
+
+            const dx =
+                event.clientX
+                - pointer.previousX;
+
+            const dy =
+                event.clientY
+                - pointer.previousY;
+
+            const moved =
+                distance(
+                    event.clientX,
+                    event.clientY,
+                    pointer.downX,
+                    pointer.downY
+                );
+
+            if (
+                moved > 4
+            ) {
+
+                pointer.dragging =
+                    true;
+
+                canvas.classList.add(
+                    "dragging"
+                );
+            }
+
+            if (
+                pointer.dragging
+            ) {
+
+                camera.offsetX +=
+                    dx;
+
+                camera.offsetY +=
+                    dy;
+
+                camera.targetOffsetX =
+                    camera.offsetX;
+
+                camera.targetOffsetY =
+                    camera.offsetY;
+
+                userCameraOverrideUntil =
+                    Date.now()
+                    + 7000;
+            }
+
+            pointer.previousX =
+                event.clientX;
+
+            pointer.previousY =
+                event.clientY;
+
+            return;
+        }
+
+        updateHover();
+    }
+);
+
+
+canvas.addEventListener(
+    "pointerdown",
+    event => {
+
+        if (
+            !experienceStarted
+        ) {
+
+            return;
+        }
+
+        pointer.isDown =
+            true;
+
+        pointer.dragging =
+            false;
+
+        pointer.downX =
+            event.clientX;
+
+        pointer.downY =
+            event.clientY;
+
+        pointer.previousX =
+            event.clientX;
+
+        pointer.previousY =
+            event.clientY;
+
+        canvas.setPointerCapture(
+            event.pointerId
+        );
+    }
+);
+
+
+canvas.addEventListener(
+    "pointerup",
+    event => {
+
+        if (
+            !experienceStarted
+        ) {
+
+            return;
+        }
+
+        pointer.isDown =
+            false;
+
+        canvas.classList.remove(
+            "dragging"
+        );
+
+        if (
+            pointer.dragging
+        ) {
+
+            pointer.dragging =
+                false;
+
+            updateHover();
+
+            return;
+        }
+
+        const clickedTrack =
+            findTrackNearPointer(
+                event.clientX,
+                event.clientY
+            );
+
+        if (
+            clickedTrack
+        ) {
+
+            enterEncounter(
+                clickedTrack
+            );
+
+        } else if (
+            selectedTrack
+        ) {
+
+            exitEncounter();
+        }
+
+        updateHover();
+    }
+);
+
+
+canvas.addEventListener(
+    "wheel",
+    event => {
+
+        if (
+            !experienceStarted
+        ) {
+
+            return;
+        }
+
+        event.preventDefault();
+
+        const oldScale =
+            camera.scale;
+
+        const factor =
+            event.deltaY < 0
+            ? 1.14
+            : 1 / 1.14;
+
+        const newScale =
+            Math.max(
+                1,
+                Math.min(
+                    7,
+                    oldScale
+                    * factor
+                )
+            );
+
+        const base =
+            getBaseTransform();
+
+        const relativeX =
+            event.clientX
+            - base.centerX
+            - camera.offsetX;
+
+        const relativeY =
+            event.clientY
+            - base.centerY
+            - camera.offsetY;
+
+        const ratio =
+            newScale
+            / oldScale;
+
+        camera.scale =
+            newScale;
+
+        camera.offsetX -=
+            relativeX
+            * (
+                ratio - 1
+            );
+
+        camera.offsetY -=
+            relativeY
+            * (
+                ratio - 1
+            );
+
+        camera.targetScale =
+            camera.scale;
+
+        camera.targetOffsetX =
+            camera.offsetX;
+
+        camera.targetOffsetY =
+            camera.offsetY;
+
+        userCameraOverrideUntil =
+            Date.now()
+            + 7000;
+
+        updateHover();
+
+    },
+    {
+        passive: false
+    }
+);
+
+
+window.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            !experienceStarted
+        ) {
+
+            return;
+        }
+
+        if (
+            event.code
+            === "Space"
+        ) {
+
+            event.preventDefault();
+
+            playing =
+                !playing;
+        }
+
+        if (
+            event.key
+            === "Escape"
+            && selectedTrack
+        ) {
+
+            exitEncounter();
+        }
+
+        if (
+            event.key.toLowerCase()
+            === "r"
+        ) {
+
+            if (
+                currentChapter
+            ) {
+
+                userCameraOverrideUntil =
+                    0;
+
+                setChapterCamera(
+                    currentChapter
+                );
+            }
+        }
+    }
+);
+
+
+enterButton.addEventListener(
+    "click",
+    () => {
+
+        opening.classList.add(
+            "hidden"
+        );
+
+        experienceStarted =
+            true;
+
+        playing =
+            true;
+
+        currentTime =
+            2;
+
+        previousChapterIndex =
+            -1;
+
+        updateHud();
+    }
+);
+
+
+function animate(
+    timestamp
+) {
+
+    visualTimestamp =
+        timestamp;
+
+    if (
+        experienceStarted
+        && playing
+        && (
+            timestamp
+            - lastStepTimestamp
+            >= STEP_DURATION
+        )
+    ) {
+
+        currentTime +=
+            TIME_STEP;
+
+        if (
+            currentTime >= 24
+        ) {
+
+            currentTime =
+                2;
+
+            previousChapterIndex =
+                -1;
+        }
+
+        lastStepTimestamp =
+            timestamp;
+    }
+
+    if (
+        experienceStarted
+    ) {
+
+        updateHud();
+    }
+
+    draw();
+
+    requestAnimationFrame(
+        animate
+    );
+}
+
+
+async function loadData() {
+
+    try {
+
+        const response =
+            await fetch(
+                "out/interactive_tracks.json"
+            );
+
+        if (
+            !response.ok
+        ) {
+
+            throw new Error(
+                "Unable to load movement data."
+            );
+        }
+
+        data =
+            await response.json();
+
+        tracks =
+            data.individuals;
+
+        bounds =
+            data.bounds;
+
+        rhythm =
+            data.rhythm;
+
+        resizeCanvas();
+
+        featuredTrack =
+            findFeaturedTrack(
+                chapters[0]
+            );
+
+        requestAnimationFrame(
+            animate
+        );
+
+    } catch (
+        error
+    ) {
+
+        console.error(
+            error
+        );
+
+        resizeCanvas();
+
+        ctx.fillStyle =
+            "#040607";
+
+        ctx.fillRect(
+            0,
+            0,
+            window.innerWidth,
+            window.innerHeight
+        );
+
+        ctx.fillStyle =
+            "#e8eeeb";
+
+        ctx.font =
+            "15px monospace";
+
+        ctx.fillText(
+            "COULD NOT LOAD MOVEMENT DATA",
+            50,
+            100
+        );
+    }
+}
+
+
+window.addEventListener(
+    "resize",
+    resizeCanvas
+);
+
+
+loadData();
+
+</script>
+
+</body>
+</html>
