@@ -56,9 +56,7 @@ button {
 #world {
     position: fixed;
     inset: 0;
-
     overflow: hidden;
-
     background: #040607;
 }
 
@@ -88,45 +86,41 @@ button {
 #atmosphere {
     position: absolute;
     inset: 0;
-
     pointer-events: none;
 
     background:
         radial-gradient(
             circle at 52% 48%,
-            rgba(73, 160, 145, 0.06),
-            rgba(4, 6, 7, 0) 55%
+            rgba(73,160,145,0.06),
+            rgba(4,6,7,0) 55%
         );
 }
 
 #peakGlow {
     position: absolute;
     inset: 0;
-
     pointer-events: none;
-
     opacity: 0;
 
     background:
         radial-gradient(
             circle at 52% 48%,
-            rgba(105, 235, 208, 0.13),
-            rgba(4, 6, 7, 0) 64%
+            rgba(105,235,208,0.13),
+            rgba(4,6,7,0) 64%
         );
 }
 
 #vignette {
     position: absolute;
     inset: 0;
-
     pointer-events: none;
 
     background:
         radial-gradient(
             ellipse at center,
             transparent 42%,
-            rgba(0, 0, 0, 0.14) 68%,
-            rgba(0, 0, 0, 0.62) 100%
+            rgba(0,0,0,0.14) 68%,
+            rgba(0,0,0,0.62) 100%
         );
 }
 
@@ -138,23 +132,14 @@ button {
 #opening {
     position: fixed;
     inset: 0;
-
     z-index: 100;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    background:
-        rgba(
-            4,
-            6,
-            7,
-            0.84
-        );
-
-    backdrop-filter:
-        blur(6px);
+    background: rgba(4,6,7,0.84);
+    backdrop-filter: blur(6px);
 
     transition:
         opacity 1.3s ease,
@@ -171,9 +156,7 @@ button {
     width:
         min(
             680px,
-            calc(
-                100vw - 80px
-            )
+            calc(100vw - 80px)
         );
 
     text-align: center;
@@ -182,9 +165,7 @@ button {
 .opening-kicker {
     font-family: monospace;
     font-size: 10px;
-
     color: var(--accent);
-
     letter-spacing: 0.14em;
 }
 
@@ -199,15 +180,11 @@ button {
         );
 
     font-weight: 400;
-
     letter-spacing: -0.03em;
 }
 
 .opening-subtitle {
-    margin:
-        22px auto
-        0;
-
+    margin: 22px auto 0;
     max-width: 540px;
 
     font-family: monospace;
@@ -225,38 +202,25 @@ button {
     line-height: 1.7;
 
     color: #58635f;
-
     letter-spacing: 0.04em;
 }
 
 #enterButton {
     margin-top: 31px;
 
-    padding:
-        11px 22px;
+    padding: 11px 22px;
 
     border:
         1px solid
-        rgba(
-            121,
-            225,
-            211,
-            0.55
-        );
+        rgba(121,225,211,0.55);
 
     background:
-        rgba(
-            121,
-            225,
-            211,
-            0.05
-        );
+        rgba(121,225,211,0.05);
 
     color: var(--accent);
 
     font-family: monospace;
     font-size: 10px;
-
     letter-spacing: 0.09em;
 
     cursor: pointer;
@@ -268,12 +232,7 @@ button {
 
 #enterButton:hover {
     background:
-        rgba(
-            121,
-            225,
-            211,
-            0.13
-        );
+        rgba(121,225,211,0.13);
 
     transform:
         translateY(-2px);
@@ -286,19 +245,15 @@ button {
 
 #header {
     position: fixed;
-
     top: 38px;
     left: 48px;
-
     z-index: 20;
-
     pointer-events: none;
 }
 
 #brand {
     font-size: 23px;
     font-weight: 500;
-
     letter-spacing: 0.02em;
 }
 
@@ -307,7 +262,6 @@ button {
 
     font-family: monospace;
     font-size: 9px;
-
     color: #67716e;
 
     letter-spacing: 0.06em;
@@ -318,7 +272,6 @@ button {
 
     font-family: monospace;
     font-size: 9px;
-
     color: var(--accent);
 
     letter-spacing: 0.10em;
@@ -326,7 +279,6 @@ button {
 
 #chapterNarrative {
     margin-top: 8px;
-
     width: 350px;
 
     font-family: monospace;
@@ -343,23 +295,19 @@ button {
 
 #timeHud {
     position: fixed;
-
     top: 38px;
     right: 47px;
 
     z-index: 20;
 
     text-align: right;
-
     pointer-events: none;
 }
 
 #timeText {
     font-family: monospace;
     font-size: 25px;
-
     color: #e9efec;
-
     letter-spacing: 0.05em;
 }
 
@@ -368,7 +316,6 @@ button {
 
     font-family: monospace;
     font-size: 8px;
-
     color: var(--accent);
 
     letter-spacing: 0.08em;
@@ -400,26 +347,27 @@ button {
     width: 120px;
 
     text-align: right;
-
     pointer-events: none;
 
     font-family: monospace;
-
     color: #54605c;
+
+    transition: opacity 0.5s ease;
+}
+
+body.individual-mode #geoHud {
+    opacity: 0.12;
 }
 
 #geoPlace {
     font-size: 7px;
     line-height: 1.5;
-
     letter-spacing: 0.07em;
 }
 
 #northArrow {
     margin-top: 12px;
-
     font-size: 9px;
-
     color: #73807b;
 }
 
@@ -427,25 +375,13 @@ button {
     width: 1px;
     height: 25px;
 
-    margin:
-        5px 5px
-        0 auto;
+    margin: 5px 5px 0 auto;
 
     background:
         linear-gradient(
             to top,
-            rgba(
-                121,
-                225,
-                211,
-                0.10
-            ),
-            rgba(
-                121,
-                225,
-                211,
-                0.60
-            )
+            rgba(121,225,211,0.10),
+            rgba(121,225,211,0.60)
         );
 }
 
@@ -463,13 +399,9 @@ button {
     z-index: 40;
 
     transform:
-        translate(
-            -50%,
-            -50%
-        );
+        translate(-50%,-50%);
 
     pointer-events: none;
-
     text-align: center;
 
     opacity: 0;
@@ -483,18 +415,13 @@ button {
     opacity: 0.82;
 
     transform:
-        translate(
-            -50%,
-            -55%
-        );
+        translate(-50%,-55%);
 }
 
 #transitionTime {
     font-family: monospace;
     font-size: 8px;
-
     color: var(--accent);
-
     letter-spacing: 0.13em;
 }
 
@@ -509,7 +436,6 @@ button {
         );
 
     font-weight: 400;
-
     letter-spacing: -0.02em;
 }
 
@@ -518,7 +444,6 @@ button {
 
     font-family: monospace;
     font-size: 8px;
-
     color: #75807c;
 }
 
@@ -536,15 +461,11 @@ button {
     width: 460px;
 
     transform:
-        translate(
-            -50%,
-            -48%
-        );
+        translate(-50%,-48%);
 
     z-index: 36;
 
     text-align: center;
-
     pointer-events: none;
 
     opacity: 0;
@@ -558,18 +479,13 @@ button {
     opacity: 1;
 
     transform:
-        translate(
-            -50%,
-            -54%
-        );
+        translate(-50%,-54%);
 }
 
 #storyEventTime {
     font-family: monospace;
     font-size: 8px;
-
     color: var(--accent);
-
     letter-spacing: 0.12em;
 }
 
@@ -581,9 +497,7 @@ button {
 }
 
 #storyEventText {
-    margin:
-        10px auto
-        0;
+    margin: 10px auto 0;
 
     max-width: 390px;
 
@@ -592,6 +506,61 @@ button {
     line-height: 1.7;
 
     color: #7b8581;
+}
+
+
+/* =========================================================
+   DYNAMIC HINT
+========================================================= */
+
+#interactionHint {
+    position: fixed;
+
+    left: 50%;
+    bottom: 92px;
+
+    z-index: 70;
+
+    transform:
+        translate(-50%,8px);
+
+    padding: 8px 12px;
+
+    border:
+        1px solid
+        rgba(121,225,211,0.14);
+
+    background:
+        rgba(4,7,7,0.82);
+
+    backdrop-filter:
+        blur(7px);
+
+    font-family: monospace;
+    font-size: 7px;
+    color: #8c9994;
+
+    letter-spacing: 0.05em;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    transition:
+        opacity 0.55s ease,
+        transform 0.75s ease;
+}
+
+#interactionHint strong {
+    color: var(--accent);
+    font-weight: 400;
+}
+
+#interactionHint.show {
+    opacity: 1;
+
+    transform:
+        translate(-50%,0);
 }
 
 
@@ -610,16 +579,10 @@ button {
 
     width: 230px;
 
-    padding:
-        8px 10px;
+    padding: 8px 10px;
 
     background:
-        rgba(
-            4,
-            6,
-            7,
-            0.90
-        );
+        rgba(4,6,7,0.90);
 
     border-left:
         1px solid
@@ -630,7 +593,6 @@ button {
 
 #hoverMain {
     font-size: 10px;
-
     color: var(--accent);
 }
 
@@ -640,7 +602,6 @@ button {
     margin-top: 4px;
 
     font-size: 7px;
-
     color: #89938f;
 }
 
@@ -650,7 +611,6 @@ button {
     margin-top: 5px;
 
     font-size: 7px;
-
     color: #59635f;
 }
 
@@ -661,7 +621,6 @@ button {
 
 #encounterLayer {
     position: fixed;
-
     inset: 0;
 
     z-index: 30;
@@ -685,46 +644,29 @@ button {
 #encounterStory {
     position: absolute;
 
-    width: 390px;
+    width: 365px;
 
-    padding:
-        18px 19px;
+    padding: 16px 17px;
 
     background:
-        rgba(
-            4,
-            7,
-            7,
-            0.90
-        );
+        rgba(4,7,7,0.90);
 
     border:
         1px solid
-        rgba(
-            121,
-            225,
-            211,
-            0.17
-        );
+        rgba(121,225,211,0.17);
 
     backdrop-filter:
         blur(8px);
 
     box-shadow:
         0 20px 60px
-        rgba(
-            0,
-            0,
-            0,
-            0.24
-        );
+        rgba(0,0,0,0.24);
 }
 
 #encounterKicker {
     font-family: monospace;
 
     font-size: 7px;
-
     color: var(--accent);
 
     letter-spacing: 0.11em;
@@ -743,21 +685,16 @@ button {
 
 #encounterName {
     font-size: 31px;
-
     font-weight: 400;
-
     letter-spacing: -0.02em;
 }
 
 #encounterStudyTag {
     padding-bottom: 4px;
-
     text-align: right;
 
     font-family: monospace;
-
     font-size: 6px;
-
     line-height: 1.45;
 
     color: #59645f;
@@ -766,19 +703,17 @@ button {
 #encounterMeaning {
     margin-top: 5px;
 
-    max-width: 330px;
+    max-width: 320px;
 
     font-family: monospace;
-
     font-size: 7px;
-
     line-height: 1.55;
 
     color: #7d8984;
 }
 
 #encounterMoment {
-    margin-top: 10px;
+    margin-top: 9px;
 
     display: flex;
 
@@ -788,7 +723,6 @@ button {
     gap: 12px;
 
     font-family: monospace;
-
     font-size: 7px;
 
     color: #69736f;
@@ -801,16 +735,10 @@ button {
 .encounter-divider {
     height: 1px;
 
-    margin:
-        13px 0;
+    margin: 11px 0;
 
     background:
-        rgba(
-            121,
-            225,
-            211,
-            0.11
-        );
+        rgba(121,225,211,0.11);
 }
 
 
@@ -820,7 +748,6 @@ button {
 
 .section-label {
     font-family: monospace;
-
     font-size: 7px;
 
     color: #64706b;
@@ -832,9 +759,7 @@ button {
     margin-top: 7px;
 
     font-family: monospace;
-
     font-size: 8px;
-
     line-height: 1.65;
 
     color: #bbc5c0;
@@ -842,12 +767,11 @@ button {
 
 #encounterNarrative strong {
     color: var(--accent);
-
     font-weight: 400;
 }
 
 #encounterComparison {
-    margin-top: 12px;
+    margin-top: 11px;
 
     display: grid;
 
@@ -865,19 +789,13 @@ button {
 
     border-top:
         1px solid
-        rgba(
-            121,
-            225,
-            211,
-            0.10
-        );
+        rgba(121,225,211,0.10);
 }
 
 .comparison-label {
     font-family: monospace;
 
     font-size: 6px;
-
     line-height: 1.45;
 
     color: #59645f;
@@ -887,7 +805,6 @@ button {
     margin-top: 4px;
 
     font-family: monospace;
-
     font-size: 10px;
 
     color: #dfe6e2;
@@ -907,18 +824,12 @@ button {
 ========================================================= */
 
 #rhythmSection {
-    margin-top: 16px;
-
-    padding-top: 12px;
+    margin-top: 13px;
+    padding-top: 10px;
 
     border-top:
         1px solid
-        rgba(
-            121,
-            225,
-            211,
-            0.10
-        );
+        rgba(121,225,211,0.10);
 }
 
 .rhythm-heading-row {
@@ -936,7 +847,6 @@ button {
     gap: 12px;
 
     font-family: monospace;
-
     font-size: 6px;
 
     color: #56615d;
@@ -956,8 +866,7 @@ button {
     width: 12px;
     height: 1px;
 
-    background:
-        var(--accent);
+    background: var(--accent);
 }
 
 .rhythm-line.herd {
@@ -968,9 +877,9 @@ button {
     display: block;
 
     width: 100%;
-    height: 92px;
+    height: 82px;
 
-    margin-top: 8px;
+    margin-top: 6px;
 }
 
 
@@ -979,18 +888,12 @@ button {
 ========================================================= */
 
 #signatureSection {
-    margin-top: 13px;
-
-    padding-top: 11px;
+    margin-top: 10px;
+    padding-top: 9px;
 
     border-top:
         1px solid
-        rgba(
-            121,
-            225,
-            211,
-            0.09
-        );
+        rgba(121,225,211,0.09);
 }
 
 #signatureGrid {
@@ -1002,50 +905,37 @@ button {
             1fr
         );
 
-    gap: 8px;
+    gap: 7px;
 
-    margin-top: 8px;
+    margin-top: 7px;
 }
 
 .signature-cell {
-    min-height: 42px;
+    min-height: 39px;
 
-    padding:
-        7px 7px;
+    padding: 6px;
 
     border:
         1px solid
-        rgba(
-            121,
-            225,
-            211,
-            0.07
-        );
+        rgba(121,225,211,0.07);
 
     background:
-        rgba(
-            121,
-            225,
-            211,
-            0.015
-        );
+        rgba(121,225,211,0.015);
 }
 
 .signature-label {
     font-family: monospace;
 
     font-size: 6px;
-
     line-height: 1.4;
 
     color: #56615d;
 }
 
 .signature-value {
-    margin-top: 5px;
+    margin-top: 4px;
 
     font-family: monospace;
-
     font-size: 9px;
 
     color: #cbd3cf;
@@ -1055,7 +945,6 @@ button {
     margin-top: 2px;
 
     font-family: monospace;
-
     font-size: 6px;
 
     color: #56615d;
@@ -1067,28 +956,20 @@ button {
 ========================================================= */
 
 #fieldSection {
-    margin-top: 13px;
-
-    padding-top: 11px;
+    margin-top: 10px;
+    padding-top: 9px;
 
     border-top:
         1px solid
-        rgba(
-            121,
-            225,
-            211,
-            0.09
-        );
+        rgba(121,225,211,0.09);
 }
 
 #encounterLegend {
     margin-top: 7px;
 
     font-family: monospace;
-
     font-size: 6px;
-
-    line-height: 1.75;
+    line-height: 1.7;
 
     color: #65706c;
 }
@@ -1102,12 +983,10 @@ button {
 }
 
 #encounterExit {
-    margin-top: 9px;
+    margin-top: 8px;
 
     font-family: monospace;
-
     font-size: 6px;
-
     line-height: 1.5;
 
     color: #4d5753;
@@ -1126,7 +1005,7 @@ button {
 
     bottom: 27px;
 
-    z-index: 20;
+    z-index: 60;
 
     display: grid;
 
@@ -1146,24 +1025,51 @@ button {
     font-family: monospace;
 
     font-size: 8px;
-
     color: var(--accent);
 
     letter-spacing: 0.06em;
 }
 
-#timelineBar {
+
+/* =========================================================
+   INTERACTIVE TIMELINE
+========================================================= */
+
+#timelineArea {
     position: relative;
+
+    height: 34px;
+
+    pointer-events: auto;
+
+    cursor: ew-resize;
+}
+
+#timelineBar {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+
+    top: 6px;
 
     height: 1px;
 
     background:
-        rgba(
-            121,
-            225,
-            211,
-            0.14
-        );
+        rgba(121,225,211,0.14);
+}
+
+#timelineHitArea {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+
+    top: -10px;
+
+    height: 23px;
+
+    cursor: ew-resize;
 }
 
 #timelineProgress {
@@ -1176,8 +1082,7 @@ button {
 
     width: 0%;
 
-    background:
-        var(--accent);
+    background: var(--accent);
 }
 
 #timelineMarker {
@@ -1191,26 +1096,75 @@ button {
 
     border-radius: 50%;
 
-    background:
-        var(--accent);
+    background: var(--accent);
 
     transform:
-        translate(
-            -50%,
-            -50%
-        );
+        translate(-50%,-50%);
 
     box-shadow:
         0 0 8px
-        rgba(
-            121,
-            225,
-            211,
-            0.6
-        );
+        rgba(121,225,211,0.6);
+
+    transition:
+        width 0.2s ease,
+        height 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+#timelineArea:hover #timelineMarker,
+#timelineArea.dragging #timelineMarker {
+    width: 10px;
+    height: 10px;
+
+    box-shadow:
+        0 0 12px
+        rgba(121,225,211,0.82);
+}
+
+#timelineTimeBubble {
+    position: absolute;
+
+    top: -28px;
+    left: 0%;
+
+    transform:
+        translateX(-50%);
+
+    padding: 4px 6px;
+
+    background:
+        rgba(4,7,7,0.88);
+
+    border:
+        1px solid
+        rgba(121,225,211,0.16);
+
+    font-family: monospace;
+    font-size: 7px;
+
+    color: var(--accent);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.25s ease;
+}
+
+#timelineArea:hover #timelineTimeBubble,
+#timelineArea.dragging #timelineTimeBubble {
+    opacity: 1;
 }
 
 #chapterTicks {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+
+    top: 14px;
+
     display: grid;
 
     grid-template-columns:
@@ -1218,8 +1172,6 @@ button {
             5,
             1fr
         );
-
-    margin-top: 8px;
 }
 
 .chapter-tick {
@@ -1242,7 +1194,6 @@ button {
     font-family: monospace;
 
     font-size: 7px;
-
     line-height: 1.55;
 
     color: #58625f;
@@ -1262,12 +1213,11 @@ button {
     transform:
         translateX(-50%);
 
-    z-index: 25;
+    z-index: 65;
 
     display: none;
 
     font-family: monospace;
-
     font-size: 8px;
 
     color: var(--accent);
@@ -1283,13 +1233,8 @@ button {
 
 </head>
 
-
 <body>
 
-
-<!-- ======================================================
-     WORLD
-====================================================== -->
 
 <div id="world">
 
@@ -1304,24 +1249,16 @@ button {
 </div>
 
 
-<!-- ======================================================
-     OPENING
-====================================================== -->
-
 <div id="opening">
 
     <div class="opening-inner">
 
         <div class="opening-kicker">
-
             14 ELEPHANTS · KRUGER · 2007—2009
-
         </div>
 
         <div class="opening-title">
-
             Living Rhythms
-
         </div>
 
         <div class="opening-subtitle">
@@ -1347,9 +1284,7 @@ button {
         </div>
 
         <button id="enterButton">
-
             ENTER THE HERD
-
         </button>
 
     </div>
@@ -1357,85 +1292,54 @@ button {
 </div>
 
 
-<!-- ======================================================
-     HEADER
-====================================================== -->
-
 <div id="header">
 
     <div id="brand">
-
         LIVING RHYTHMS
-
     </div>
 
     <div id="study">
-
         GPS MOVEMENT / 14 ELEPHANTS / KRUGER
-
     </div>
 
     <div id="chapterLabel">
-
         CHAPTER 01 / QUIET HOURS
-
     </div>
 
     <div id="chapterNarrative">
-
-        Collective movement is lowest
-        during the early hours.
-
+        Collective movement is lowest during the early hours.
     </div>
 
 </div>
 
-
-<!-- ======================================================
-     TIME
-====================================================== -->
 
 <div id="timeHud">
 
     <div id="timeText">
-
         02:00
-
     </div>
 
     <div id="timePhase">
-
         QUIET HOURS
-
     </div>
 
     <div id="dataNote">
-
         STATISTICS REMAIN HOURLY.<br>
         VISUAL TRANSITIONS ARE INTERPOLATED.
-
     </div>
 
 </div>
 
 
-<!-- ======================================================
-     GEO CONTEXT
-====================================================== -->
-
 <div id="geoHud">
 
     <div id="geoPlace">
-
         KRUGER NATIONAL PARK<br>
         SOUTH AFRICA
-
     </div>
 
     <div id="northArrow">
-
         N
-
     </div>
 
     <div id="northLine"></div>
@@ -1443,146 +1347,103 @@ button {
 </div>
 
 
-<!-- ======================================================
-     CHAPTER TRANSITION
-====================================================== -->
-
 <div id="chapterTransition">
 
     <div>
 
         <div id="transitionTime">
-
             02:00
-
         </div>
 
         <div id="transitionTitle">
-
             Quiet Hours
-
         </div>
 
         <div id="transitionSentence">
-
-            The field contracts
-            into smaller traces.
-
+            The field contracts into smaller traces.
         </div>
 
     </div>
 
 </div>
 
-
-<!-- ======================================================
-     STORY EVENT
-====================================================== -->
 
 <div id="storyEvent">
 
     <div id="storyEventTime">
-
         03:00
-
     </div>
 
     <div id="storyEventTitle">
-
         LOWEST TRACE
-
     </div>
 
     <div id="storyEventText">
-
-        Collective movement reaches
-        one of its quietest periods.
-
+        Collective movement reaches one of its quietest periods.
     </div>
 
 </div>
 
 
-<!-- ======================================================
-     HOVER
-====================================================== -->
+<div id="interactionHint">
+    SCROLL TO MOVE CLOSER
+</div>
+
 
 <div id="hoverLabel">
 
     <span id="hoverMain">
-
         AM105
-
     </span>
 
     <span id="hoverMeaning">
-
         ONE ELEPHANT · HISTORICAL MOVEMENT FOOTPRINT
-
     </span>
 
     <span id="hoverSub">
-
         CLICK TO OPEN INDIVIDUAL RHYTHM
-
     </span>
 
 </div>
 
-
-<!-- ======================================================
-     INDIVIDUAL DOSSIER
-====================================================== -->
 
 <div id="encounterLayer">
 
     <div id="encounterStory">
 
         <div id="encounterKicker">
-
             INDIVIDUAL MOVEMENT DOSSIER
-
         </div>
 
 
         <div class="encounter-title-row">
 
             <div id="encounterName">
-
                 AM105
-
             </div>
 
             <div id="encounterStudyTag">
-
                 TRACKED INDIVIDUAL<br>
                 GPS MOVEMENT STUDY
-
             </div>
 
         </div>
 
 
         <div id="encounterMeaning">
-
             One movement history inside the
             two-year collective landscape.
-
         </div>
 
 
         <div id="encounterMoment">
 
             <span id="encounterMomentText">
-
                 06:00 / MORNING RISE
-
             </span>
 
             <span id="encounterBin">
-
                 BIN 06:00–07:00
-
             </span>
 
         </div>
@@ -1591,18 +1452,13 @@ button {
         <div class="encounter-divider"></div>
 
 
-        <!-- CURRENT MOVEMENT -->
-
         <div class="section-label">
-
             CURRENT MOVEMENT
-
         </div>
 
+
         <div id="encounterNarrative">
-
             This individual is moving differently.
-
         </div>
 
 
@@ -1611,19 +1467,15 @@ button {
             <div class="comparison-cell">
 
                 <div class="comparison-label">
-
                     INDIVIDUAL<br>
                     MEDIAN STEP
-
                 </div>
 
                 <div
                     id="individualValue"
                     class="comparison-number"
                 >
-
                     —
-
                 </div>
 
             </div>
@@ -1632,19 +1484,15 @@ button {
             <div class="comparison-cell">
 
                 <div class="comparison-label">
-
                     HERD<br>
                     MEDIAN STEP
-
                 </div>
 
                 <div
                     id="collectiveValue"
                     class="comparison-number"
                 >
-
                     —
-
                 </div>
 
             </div>
@@ -1653,19 +1501,15 @@ button {
             <div class="comparison-cell">
 
                 <div class="comparison-label">
-
                     DIFFERENCE<br>
                     FROM HERD
-
                 </div>
 
                 <div
                     id="differenceValue"
                     class="comparison-number"
                 >
-
                     —
-
                 </div>
 
             </div>
@@ -1673,34 +1517,24 @@ button {
         </div>
 
 
-        <!-- 24H RHYTHM -->
-
         <div id="rhythmSection">
 
             <div class="rhythm-heading-row">
 
                 <div class="section-label">
-
                     24H RHYTHM
-
                 </div>
 
                 <div class="rhythm-legend">
 
                     <span class="rhythm-key">
-
                         <span class="rhythm-line"></span>
-
                         INDIVIDUAL
-
                     </span>
 
                     <span class="rhythm-key">
-
                         <span class="rhythm-line herd"></span>
-
                         HERD
-
                     </span>
 
                 </div>
@@ -1712,43 +1546,33 @@ button {
         </div>
 
 
-        <!-- MOVEMENT SIGNATURE -->
-
         <div id="signatureSection">
 
             <div class="section-label">
-
                 MOVEMENT SIGNATURE
-
             </div>
 
-            <div id="signatureGrid">
 
+            <div id="signatureGrid">
 
                 <div class="signature-cell">
 
                     <div class="signature-label">
-
                         PEAK HOUR
-
                     </div>
 
                     <div
                         id="signaturePeak"
                         class="signature-value"
                     >
-
                         —
-
                     </div>
 
                     <div
                         id="signaturePeakSub"
                         class="signature-sub"
                     >
-
                         highest median movement
-
                     </div>
 
                 </div>
@@ -1757,24 +1581,18 @@ button {
                 <div class="signature-cell">
 
                     <div class="signature-label">
-
                         QUIETEST HOUR
-
                     </div>
 
                     <div
                         id="signatureQuiet"
                         class="signature-value"
                     >
-
                         —
-
                     </div>
 
                     <div class="signature-sub">
-
                         lowest median movement
-
                     </div>
 
                 </div>
@@ -1783,62 +1601,47 @@ button {
                 <div class="signature-cell">
 
                     <div class="signature-label">
-
                         LARGEST DIVERGENCE
-
                     </div>
 
                     <div
                         id="signatureDivergence"
                         class="signature-value"
                     >
-
                         —
-
                     </div>
 
                     <div
                         id="signatureDivergenceSub"
                         class="signature-sub"
                     >
-
                         strongest difference from herd
-
                     </div>
 
                 </div>
-
 
             </div>
 
         </div>
 
 
-        <!-- SPATIAL LEGEND -->
-
         <div id="fieldSection">
 
             <div class="section-label">
-
                 CURRENT HOURLY FIELD
-
             </div>
 
             <div id="encounterLegend">
 
                 <span class="legend-bright">
-
                     BRIGHT MOVING SEGMENTS
-
                 </span>
 
                 = movement observations from this elephant
                 within the current hourly bin.<br>
 
                 <span class="legend-faint">
-
                     FAINT CONTINUOUS LINE
-
                 </span>
 
                 = its historical movement footprint
@@ -1855,26 +1658,19 @@ button {
 
         </div>
 
-
     </div>
 
 </div>
 
 
-<!-- ======================================================
-     BOTTOM
-====================================================== -->
-
 <div id="bottomHud">
 
     <div id="modeText">
-
         COLLECTIVE FIELD
-
     </div>
 
 
-    <div>
+    <div id="timelineArea">
 
         <div id="timelineBar">
 
@@ -1882,43 +1678,34 @@ button {
 
             <div id="timelineMarker"></div>
 
+            <div id="timelineHitArea"></div>
+
+            <div id="timelineTimeBubble">
+                02:00
+            </div>
+
         </div>
 
 
         <div id="chapterTicks">
 
-            <div
-                class="chapter-tick"
-                data-index="0"
-            >
+            <div class="chapter-tick" data-index="0">
                 QUIET
             </div>
 
-            <div
-                class="chapter-tick"
-                data-index="1"
-            >
+            <div class="chapter-tick" data-index="1">
                 MORNING
             </div>
 
-            <div
-                class="chapter-tick"
-                data-index="2"
-            >
+            <div class="chapter-tick" data-index="2">
                 MIDDAY
             </div>
 
-            <div
-                class="chapter-tick"
-                data-index="3"
-            >
+            <div class="chapter-tick" data-index="3">
                 PEAK
             </div>
 
-            <div
-                class="chapter-tick"
-                data-index="4"
-            >
+            <div class="chapter-tick" data-index="4">
                 NIGHT
             </div>
 
@@ -1930,7 +1717,7 @@ button {
     <div id="controlHint">
 
         SCROLL TO MOVE CLOSER · DRAG TO TRAVEL<br>
-        CLICK A PATH TO FOLLOW · SPACE TO PAUSE · R TO RETURN
+        CLICK A PATH TO FOLLOW · DRAG TIMELINE · SPACE TO PAUSE · R TO RETURN
 
     </div>
 
@@ -1938,9 +1725,7 @@ button {
 
 
 <div id="pauseBadge">
-
     TIME PAUSED
-
 </div>
 
 
@@ -1951,9 +1736,7 @@ button {
 ========================================================= */
 
 const canvas =
-    document.getElementById(
-        "canvas"
-    );
+    document.getElementById("canvas");
 
 const ctx =
     canvas.getContext(
@@ -1963,176 +1746,104 @@ const ctx =
         }
     );
 
-
 const opening =
-    document.getElementById(
-        "opening"
-    );
+    document.getElementById("opening");
 
 const enterButton =
-    document.getElementById(
-        "enterButton"
-    );
-
+    document.getElementById("enterButton");
 
 const atmosphere =
-    document.getElementById(
-        "atmosphere"
-    );
+    document.getElementById("atmosphere");
 
 const peakGlow =
-    document.getElementById(
-        "peakGlow"
-    );
-
+    document.getElementById("peakGlow");
 
 const chapterLabel =
-    document.getElementById(
-        "chapterLabel"
-    );
+    document.getElementById("chapterLabel");
 
 const chapterNarrative =
-    document.getElementById(
-        "chapterNarrative"
-    );
-
+    document.getElementById("chapterNarrative");
 
 const chapterTransition =
-    document.getElementById(
-        "chapterTransition"
-    );
+    document.getElementById("chapterTransition");
 
 const transitionTime =
-    document.getElementById(
-        "transitionTime"
-    );
+    document.getElementById("transitionTime");
 
 const transitionTitle =
-    document.getElementById(
-        "transitionTitle"
-    );
+    document.getElementById("transitionTitle");
 
 const transitionSentence =
-    document.getElementById(
-        "transitionSentence"
-    );
-
+    document.getElementById("transitionSentence");
 
 const storyEvent =
-    document.getElementById(
-        "storyEvent"
-    );
+    document.getElementById("storyEvent");
 
 const storyEventTime =
-    document.getElementById(
-        "storyEventTime"
-    );
+    document.getElementById("storyEventTime");
 
 const storyEventTitle =
-    document.getElementById(
-        "storyEventTitle"
-    );
+    document.getElementById("storyEventTitle");
 
 const storyEventText =
-    document.getElementById(
-        "storyEventText"
-    );
+    document.getElementById("storyEventText");
 
+const interactionHint =
+    document.getElementById("interactionHint");
 
 const timeText =
-    document.getElementById(
-        "timeText"
-    );
+    document.getElementById("timeText");
 
 const timePhase =
-    document.getElementById(
-        "timePhase"
-    );
-
+    document.getElementById("timePhase");
 
 const hoverLabel =
-    document.getElementById(
-        "hoverLabel"
-    );
+    document.getElementById("hoverLabel");
 
 const hoverMain =
-    document.getElementById(
-        "hoverMain"
-    );
-
+    document.getElementById("hoverMain");
 
 const encounterLayer =
-    document.getElementById(
-        "encounterLayer"
-    );
+    document.getElementById("encounterLayer");
 
 const encounterStory =
-    document.getElementById(
-        "encounterStory"
-    );
+    document.getElementById("encounterStory");
 
 const encounterName =
-    document.getElementById(
-        "encounterName"
-    );
+    document.getElementById("encounterName");
 
 const encounterMomentText =
-    document.getElementById(
-        "encounterMomentText"
-    );
+    document.getElementById("encounterMomentText");
 
 const encounterBin =
-    document.getElementById(
-        "encounterBin"
-    );
+    document.getElementById("encounterBin");
 
 const encounterNarrative =
-    document.getElementById(
-        "encounterNarrative"
-    );
-
+    document.getElementById("encounterNarrative");
 
 const individualValue =
-    document.getElementById(
-        "individualValue"
-    );
+    document.getElementById("individualValue");
 
 const collectiveValue =
-    document.getElementById(
-        "collectiveValue"
-    );
+    document.getElementById("collectiveValue");
 
 const differenceValue =
-    document.getElementById(
-        "differenceValue"
-    );
-
+    document.getElementById("differenceValue");
 
 const rhythmMini =
-    document.getElementById(
-        "rhythmMini"
-    );
+    document.getElementById("rhythmMini");
 
 const rhythmCtx =
-    rhythmMini.getContext(
-        "2d"
-    );
-
+    rhythmMini.getContext("2d");
 
 const signaturePeak =
-    document.getElementById(
-        "signaturePeak"
-    );
+    document.getElementById("signaturePeak");
 
 const signaturePeakSub =
-    document.getElementById(
-        "signaturePeakSub"
-    );
+    document.getElementById("signaturePeakSub");
 
 const signatureQuiet =
-    document.getElementById(
-        "signatureQuiet"
-    );
+    document.getElementById("signatureQuiet");
 
 const signatureDivergence =
     document.getElementById(
@@ -2144,27 +1855,31 @@ const signatureDivergenceSub =
         "signatureDivergenceSub"
     );
 
-
 const modeText =
-    document.getElementById(
-        "modeText"
-    );
+    document.getElementById("modeText");
+
+const timelineArea =
+    document.getElementById("timelineArea");
+
+const timelineBar =
+    document.getElementById("timelineBar");
+
+const timelineHitArea =
+    document.getElementById("timelineHitArea");
 
 const timelineProgress =
-    document.getElementById(
-        "timelineProgress"
-    );
+    document.getElementById("timelineProgress");
 
 const timelineMarker =
+    document.getElementById("timelineMarker");
+
+const timelineTimeBubble =
     document.getElementById(
-        "timelineMarker"
+        "timelineTimeBubble"
     );
 
 const pauseBadge =
-    document.getElementById(
-        "pauseBadge"
-    );
-
+    document.getElementById("pauseBadge");
 
 const chapterTicks =
     [
@@ -2196,7 +1911,7 @@ let temporaryStoryTrack = null;
 
 
 /* =========================================================
-   GEOMETRY CACHE
+   GEOMETRY
 ========================================================= */
 
 const geometry =
@@ -2248,56 +1963,49 @@ let storyEventTimeout =
 
 
 /* =========================================================
-   GLOBAL HOME CAMERA
+   TIMELINE
 ========================================================= */
 
-const homeCamera = {
+let timelineDragging =
+    false;
 
-    scale:
-        1.12,
+let timelineWasPlaying =
+    false;
 
-    offsetX:
-        0,
-
-    offsetY:
-        0
-};
-
-
-/* =========================================================
-   TIME
-========================================================= */
-
-const HOURS_PER_SECOND =
-    22 / 100;
-
-let previousAnimationTimestamp =
+let timelineResumeTimeout =
     null;
 
-let visualTimestamp =
-    0;
+let hasDraggedTimeline =
+    false;
 
 
 /* =========================================================
-   VISUAL ENERGY
+   HINTS
 ========================================================= */
 
-let visualEnergy =
-    0.25;
+let hintTimeout =
+    null;
 
-let targetVisualEnergy =
-    0.25;
+let firstHoverHintShown =
+    false;
 
-let storyFocus =
-    0;
-
-let targetStoryFocus =
-    0;
+let firstEncounterHintShown =
+    false;
 
 
 /* =========================================================
    CAMERA
 ========================================================= */
+
+const homeCamera = {
+
+    scale: 1.12,
+
+    offsetX: 0,
+
+    offsetY: 0
+
+};
 
 const camera = {
 
@@ -2318,7 +2026,39 @@ const camera = {
 
     targetOffsetY:
         homeCamera.offsetY
+
 };
+
+
+/* =========================================================
+   TIME
+========================================================= */
+
+const HOURS_PER_SECOND =
+    22 / 100;
+
+let previousAnimationTimestamp =
+    null;
+
+let visualTimestamp =
+    0;
+
+
+/* =========================================================
+   ENERGY
+========================================================= */
+
+let visualEnergy =
+    0.25;
+
+let targetVisualEnergy =
+    0.25;
+
+let storyFocus =
+    0;
+
+let targetStoryFocus =
+    0;
 
 
 /* =========================================================
@@ -2327,29 +2067,22 @@ const camera = {
 
 const pointer = {
 
-    x:
-        -1000,
+    x: -1000,
 
-    y:
-        -1000,
+    y: -1000,
 
-    isDown:
-        false,
+    isDown: false,
 
-    dragging:
-        false,
+    dragging: false,
 
-    downX:
-        0,
+    downX: 0,
 
-    downY:
-        0,
+    downY: 0,
 
-    previousX:
-        0,
+    previousX: 0,
 
-    previousY:
-        0
+    previousY: 0
+
 };
 
 let hoverFrameRequested =
@@ -2364,12 +2097,10 @@ const chapters = [
 
     {
         index: 0,
-
         start: 2,
         end: 5,
 
-        time:
-            "02:00",
+        time: "02:00",
 
         label:
             "CHAPTER 01 / QUIET HOURS",
@@ -2389,12 +2120,10 @@ const chapters = [
 
     {
         index: 1,
-
         start: 5,
         end: 9,
 
-        time:
-            "05:00",
+        time: "05:00",
 
         label:
             "CHAPTER 02 / MORNING RISE",
@@ -2414,12 +2143,10 @@ const chapters = [
 
     {
         index: 2,
-
         start: 9,
         end: 15,
 
-        time:
-            "09:00",
+        time: "09:00",
 
         label:
             "CHAPTER 03 / MIDDAY DRIFT",
@@ -2439,12 +2166,10 @@ const chapters = [
 
     {
         index: 3,
-
         start: 15,
         end: 19,
 
-        time:
-            "15:00",
+        time: "15:00",
 
         label:
             "CHAPTER 04 / AFTERNOON PEAK",
@@ -2464,12 +2189,10 @@ const chapters = [
 
     {
         index: 4,
-
         start: 19,
         end: 26,
 
-        time:
-            "19:00",
+        time: "19:00",
 
         label:
             "CHAPTER 05 / NIGHT RETURN",
@@ -2486,6 +2209,7 @@ const chapters = [
         narrative:
             "During the evening and late hours, movement gradually declines. Individual traces settle back into a quieter collective field."
     }
+
 ];
 
 
@@ -2496,114 +2220,70 @@ const chapters = [
 const storyEvents = [
 
     {
-        id:
-            "quiet-lowest",
-
-        time:
-            3.00,
-
-        label:
-            "03:00",
-
-        title:
-            "LOWEST TRACE",
+        id: "quiet-lowest",
+        time: 3,
+        label: "03:00",
+        title: "LOWEST TRACE",
 
         text:
             "Collective movement reaches one of its quietest periods.",
 
-        duration:
-            2300
+        duration: 2300
     },
 
     {
-        id:
-            "quiet-shift",
-
-        time:
-            4.25,
-
-        label:
-            "04:15",
-
-        title:
-            "FIRST SHIFT",
+        id: "quiet-shift",
+        time: 4.25,
+        label: "04:15",
+        title: "FIRST SHIFT",
 
         text:
             "The quiet field begins to loosen before the morning rise.",
 
-        duration:
-            2200
+        duration: 2200
     },
 
     {
-        id:
-            "morning-rise",
-
-        time:
-            5.50,
-
-        label:
-            "05:30",
-
-        title:
-            "RISING FIELD",
+        id: "morning-rise",
+        time: 5.5,
+        label: "05:30",
+        title: "RISING FIELD",
 
         text:
             "Collective movement begins a rapid morning increase.",
 
-        duration:
-            2300
+        duration: 2300
     },
 
     {
-        id:
-            "morning-spread",
-
-        time:
-            7.00,
-
-        label:
-            "07:00",
-
-        title:
-            "MORNING SPREAD",
+        id: "morning-spread",
+        time: 7,
+        label: "07:00",
+        title: "MORNING SPREAD",
 
         text:
             "Movement is now distributed across more trajectories.",
 
-        duration:
-            2300
+        duration: 2300
     },
 
     {
-        id:
-            "midday-steady",
-
-        time:
-            11.00,
-
-        label:
-            "11:00",
-
-        title:
-            "STEADY RHYTHM",
+        id: "midday-steady",
+        time: 11,
+        label: "11:00",
+        title: "STEADY RHYTHM",
 
         text:
             "The collective pattern enters a more stable midday phase.",
 
-        duration:
-            2400
+        duration: 2400
     },
 
     {
-        id:
-            "midday-individual",
+        id: "midday-individual",
+        time: 13.5,
 
-        time:
-            13.50,
-
-        label:
-            "13:30",
+        label: "13:30",
 
         title:
             "INDIVIDUAL VARIATION",
@@ -2611,28 +2291,19 @@ const storyEvents = [
         text:
             "Even within a stable collective rhythm, one individual pattern remains distinct.",
 
-        duration:
-            2800,
+        duration: 2800,
 
-        highlightIndividual:
-            true,
+        highlightIndividual: true,
 
         featuredRange:
-            [
-                12,
-                15
-            ]
+            [12,15]
     },
 
     {
-        id:
-            "peak-build",
+        id: "peak-build",
+        time: 15.5,
 
-        time:
-            15.50,
-
-        label:
-            "15:30",
+        label: "15:30",
 
         title:
             "FIELD ACCELERATES",
@@ -2640,19 +2311,14 @@ const storyEvents = [
         text:
             "Collective movement begins climbing toward the strongest period of the day.",
 
-        duration:
-            2400
+        duration: 2400
     },
 
     {
-        id:
-            "peak-high",
+        id: "peak-high",
+        time: 16.25,
 
-        time:
-            16.25,
-
-        label:
-            "16:15",
+        label: "16:15",
 
         title:
             "COLLECTIVE HIGH",
@@ -2660,19 +2326,14 @@ const storyEvents = [
         text:
             "Around this period, collective median movement reaches its daily maximum.",
 
-        duration:
-            2700
+        duration: 2700
     },
 
     {
-        id:
-            "peak-individual",
+        id: "peak-individual",
+        time: 17.25,
 
-        time:
-            17.25,
-
-        label:
-            "17:15",
+        label: "17:15",
 
         title:
             "INDIVIDUAL CONTRAST",
@@ -2680,28 +2341,19 @@ const storyEvents = [
         text:
             "Inside the strongest collective period, one elephant still moves differently from the wider herd.",
 
-        duration:
-            2900,
+        duration: 2900,
 
-        highlightIndividual:
-            true,
+        highlightIndividual: true,
 
         featuredRange:
-            [
-                16,
-                19
-            ]
+            [16,19]
     },
 
     {
-        id:
-            "night-return",
+        id: "night-return",
+        time: 20,
 
-        time:
-            20.00,
-
-        label:
-            "20:00",
+        label: "20:00",
 
         title:
             "RETURNING QUIET",
@@ -2709,19 +2361,14 @@ const storyEvents = [
         text:
             "Collective movement continues to decline through the evening.",
 
-        duration:
-            2400
+        duration: 2400
     },
 
     {
-        id:
-            "night-close",
+        id: "night-close",
+        time: 23.25,
 
-        time:
-            23.25,
-
-        label:
-            "23:15",
+        label: "23:15",
 
         title:
             "CLOSE OF DAY",
@@ -2729,14 +2376,107 @@ const storyEvents = [
         text:
             "The daily rhythm approaches the quieter field from which it began.",
 
-        duration:
-            2800
+        duration: 2800
     }
 
 ];
 
 const firedStoryEvents =
     new Set();
+
+
+/* =========================================================
+   HINTS
+========================================================= */
+
+function showInteractionHint(
+    html,
+    duration = 2400
+) {
+
+    clearTimeout(
+        hintTimeout
+    );
+
+    interactionHint.innerHTML =
+        html;
+
+    interactionHint
+        .classList
+        .add(
+            "show"
+        );
+
+    hintTimeout =
+        setTimeout(
+            () => {
+
+                interactionHint
+                    .classList
+                    .remove(
+                        "show"
+                    );
+
+            },
+            duration
+        );
+}
+
+
+function scheduleOpeningHints() {
+
+    setTimeout(
+        () => {
+
+            if (
+                experienceStarted
+            ) {
+
+                showInteractionHint(
+                    "<strong>SCROLL</strong> to move closer · <strong>DRAG</strong> to travel"
+                );
+            }
+
+        },
+        1500
+    );
+
+
+    setTimeout(
+        () => {
+
+            if (
+                experienceStarted
+                && !selectedTrack
+            ) {
+
+                showInteractionHint(
+                    "MOVE ACROSS A TRAJECTORY to discover <strong>one elephant</strong>"
+                );
+            }
+
+        },
+        5200
+    );
+
+
+    setTimeout(
+        () => {
+
+            if (
+                experienceStarted
+                && !hasDraggedTimeline
+            ) {
+
+                showInteractionHint(
+                    "<strong>DRAG THE TIMELINE</strong> to explore any moment of the day"
+                );
+            }
+
+        },
+        9000
+    );
+}
 
 
 /* =========================================================
@@ -2747,8 +2487,7 @@ function resizeCanvas() {
 
     canvasDpr =
         Math.min(
-            window.devicePixelRatio
-            || 1,
+            window.devicePixelRatio || 1,
             1.5
         );
 
@@ -2826,6 +2565,7 @@ function buildGeometryCache() {
 
     geometry.clear();
 
+
     for (
         const track
         of tracks
@@ -2834,17 +2574,14 @@ function buildGeometryCache() {
         const path =
             new Path2D();
 
-        let centroidX =
-            0;
+        let centroidX = 0;
 
-        let centroidY =
-            0;
+        let centroidY = 0;
 
-        let centroidCount =
-            0;
+        let centroidCount = 0;
 
-        const samples =
-            [];
+        const samples = [];
+
 
         const sampleStep =
             Math.max(
@@ -2855,6 +2592,7 @@ function buildGeometryCache() {
                 )
             );
 
+
         const centroidStep =
             Math.max(
                 1,
@@ -2864,6 +2602,7 @@ function buildGeometryCache() {
                 )
             );
 
+
         for (
             let index = 0;
             index < track.points.length;
@@ -2871,19 +2610,20 @@ function buildGeometryCache() {
         ) {
 
             const point =
-                track.points[
-                    index
-                ];
+                track.points[index];
+
 
             const wx =
                 longitudeToWorld(
                     point.lon
                 );
 
+
             const wy =
                 latitudeToWorld(
                     point.lat
                 );
+
 
             if (
                 index === 0
@@ -2902,6 +2642,7 @@ function buildGeometryCache() {
                 );
             }
 
+
             if (
                 index
                 % sampleStep
@@ -2910,14 +2651,12 @@ function buildGeometryCache() {
 
                 samples.push(
                     {
-                        x:
-                            wx,
-
-                        y:
-                            wy
+                        x: wx,
+                        y: wy
                     }
                 );
             }
+
 
             if (
                 index
@@ -2925,15 +2664,14 @@ function buildGeometryCache() {
                 === 0
             ) {
 
-                centroidX +=
-                    wx;
+                centroidX += wx;
 
-                centroidY +=
-                    wy;
+                centroidY += wy;
 
                 centroidCount++;
             }
         }
+
 
         geometry.set(
             track.id,
@@ -2971,9 +2709,11 @@ function getBaseTransform() {
         )
         * longitudeCorrection;
 
+
     const latitudeRange =
         bounds.max_lat
         - bounds.min_lat;
+
 
     const fitScale =
         Math.min(
@@ -2986,6 +2726,7 @@ function getBaseTransform() {
             * 0.70
             / latitudeRange
         );
+
 
     return {
 
@@ -3020,9 +2761,11 @@ function worldToScreen(
     const base =
         getBaseTransform();
 
+
     const scale =
         base.fitScale
         * camera.scale;
+
 
     return {
 
@@ -3049,9 +2792,11 @@ function screenToWorld(
     const base =
         getBaseTransform();
 
+
     const scale =
         base.fitScale
         * camera.scale;
+
 
     return {
 
@@ -3079,9 +2824,11 @@ function setWorldCanvasTransform() {
     const base =
         getBaseTransform();
 
+
     const scale =
         base.fitScale
         * camera.scale;
+
 
     ctx.setTransform(
 
@@ -3134,13 +2881,14 @@ function normaliseHour(
     let value =
         time % 24;
 
+
     if (
         value < 0
     ) {
 
-        value +=
-            24;
+        value += 24;
     }
+
 
     return value;
 }
@@ -3163,12 +2911,14 @@ function getRoundedDisplayTime() {
             currentTime
         );
 
+
     const quarter =
         Math.round(
             time
             * 4
         )
         / 4;
+
 
     return normaliseHour(
         quarter
@@ -3185,10 +2935,12 @@ function formatTime(
             time
         );
 
+
     const hour =
         Math.floor(
             value
         );
+
 
     const minute =
         Math.round(
@@ -3199,26 +2951,25 @@ function formatTime(
             * 60
         );
 
+
     return (
-        String(
-            hour
-        ).padStart(
-            2,
-            "0"
-        )
+        String(hour)
+            .padStart(
+                2,
+                "0"
+            )
         + ":"
-        + String(
-            minute
-        ).padStart(
-            2,
-            "0"
-        )
+        + String(minute)
+            .padStart(
+                2,
+                "0"
+            )
     );
 }
 
 
 /* =========================================================
-   COLLECTIVE ENERGY
+   ENERGY
 ========================================================= */
 
 function getInterpolatedCollectiveMedian() {
@@ -3228,10 +2979,12 @@ function getInterpolatedCollectiveMedian() {
             currentTime
         );
 
+
     const hourA =
         Math.floor(
             time
         );
+
 
     const hourB =
         (
@@ -3240,29 +2993,29 @@ function getInterpolatedCollectiveMedian() {
         )
         % 24;
 
+
     const fraction =
         time
         - hourA;
+
 
     const valueA =
         Number(
             rhythm
                 .hourly_medians[
-                    String(
-                        hourA
-                    )
+                    String(hourA)
                 ]
         );
+
 
     const valueB =
         Number(
             rhythm
                 .hourly_medians[
-                    String(
-                        hourB
-                    )
+                    String(hourB)
                 ]
         );
+
 
     if (
         !Number.isFinite(
@@ -3273,6 +3026,7 @@ function getInterpolatedCollectiveMedian() {
         return 0;
     }
 
+
     if (
         !Number.isFinite(
             valueB
@@ -3281,6 +3035,7 @@ function getInterpolatedCollectiveMedian() {
 
         return valueA;
     }
+
 
     return (
         valueA
@@ -3298,21 +3053,23 @@ function updateVisualEnergy() {
     const median =
         getInterpolatedCollectiveMedian();
 
+
     const normalised =
         Math.max(
             0,
 
             Math.min(
                 1,
-                median
-                / 0.223
+                median / 0.223
             )
         );
+
 
     targetVisualEnergy =
         0.18
         + normalised
         * 0.82;
+
 
     visualEnergy +=
         (
@@ -3321,6 +3078,7 @@ function updateVisualEnergy() {
         )
         * 0.025;
 
+
     storyFocus +=
         (
             targetStoryFocus
@@ -3328,11 +3086,11 @@ function updateVisualEnergy() {
         )
         * 0.03;
 
+
     peakGlow.style.opacity =
         String(
             Math.max(
                 0,
-
                 (
                     visualEnergy
                     - 0.72
@@ -3340,6 +3098,7 @@ function updateVisualEnergy() {
                 * 0.75
             )
         );
+
 
     atmosphere.style.opacity =
         String(
@@ -3361,13 +3120,14 @@ function getChapterFromTime() {
             currentTime
         );
 
+
     if (
         hour < 2
     ) {
 
-        hour +=
-            24;
+        hour += 24;
     }
+
 
     for (
         const chapter
@@ -3375,16 +3135,14 @@ function getChapterFromTime() {
     ) {
 
         if (
-            hour
-            >= chapter.start
-
-            && hour
-            < chapter.end
+            hour >= chapter.start
+            && hour < chapter.end
         ) {
 
             return chapter;
         }
     }
+
 
     return chapters[
         chapters.length - 1
@@ -3404,8 +3162,10 @@ function findFeaturedTrack(
     let bestTrack =
         null;
 
+
     let bestScore =
         -Infinity;
+
 
     for (
         const track
@@ -3418,6 +3178,7 @@ function findFeaturedTrack(
                     track.id
                 ];
 
+
         if (
             !individual
         ) {
@@ -3425,11 +3186,11 @@ function findFeaturedTrack(
             continue;
         }
 
-        let score =
-            0;
 
-        let count =
-            0;
+        let score = 0;
+
+        let count = 0;
+
 
         for (
             let hour = startHour;
@@ -3439,24 +3200,22 @@ function findFeaturedTrack(
 
             const key =
                 String(
-                    hour
-                    % 24
+                    hour % 24
                 );
+
 
             const individualValue =
                 Number(
-                    individual[
-                        key
-                    ]
+                    individual[key]
                 );
+
 
             const collectiveValue =
                 Number(
                     rhythm
-                        .hourly_medians[
-                            key
-                        ]
+                        .hourly_medians[key]
                 );
+
 
             if (
                 !Number.isFinite(
@@ -3471,35 +3230,36 @@ function findFeaturedTrack(
                 continue;
             }
 
+
             score +=
                 Math.abs(
                     individualValue
                     - collectiveValue
                 );
 
+
             count++;
         }
+
 
         if (
             count > 0
         ) {
 
-            score /=
-                count;
+            score /= count;
         }
+
 
         if (
-            score
-            > bestScore
+            score > bestScore
         ) {
 
-            bestScore =
-                score;
+            bestScore = score;
 
-            bestTrack =
-                track;
+            bestTrack = track;
         }
     }
+
 
     return bestTrack;
 }
@@ -3519,6 +3279,7 @@ function focusCameraOnTrack(
             track.id
         );
 
+
     if (
         !cached
     ) {
@@ -3526,26 +3287,49 @@ function focusCameraOnTrack(
         return;
     }
 
+
     const base =
         getBaseTransform();
+
 
     const scale =
         base.fitScale
         * targetScale;
 
+
     camera.targetScale =
         targetScale;
 
-    camera.targetOffsetX =
+
+    /*
+        IMPORTANT CHANGE
+
+        Individual trajectory is positioned
+        around 36% of screen width.
+
+        This leaves the right side free
+        for the dossier.
+    */
+
+    const individualTargetX =
         window.innerWidth
-        * 0.53
+        * 0.36;
+
+
+    const individualTargetY =
+        window.innerHeight
+        * 0.50;
+
+
+    camera.targetOffsetX =
+        individualTargetX
         - base.centerX
         - cached.centroid.x
         * scale;
 
+
     camera.targetOffsetY =
-        window.innerHeight
-        * 0.50
+        individualTargetY
         - base.centerY
         + cached.centroid.y
         * scale;
@@ -3557,8 +3341,10 @@ function returnToHomeCamera() {
     camera.targetScale =
         homeCamera.scale;
 
+
     camera.targetOffsetX =
         homeCamera.offsetX;
+
 
     camera.targetOffsetY =
         homeCamera.offsetY;
@@ -3570,6 +3356,7 @@ function updateCamera() {
     const smoothing =
         0.018;
 
+
     camera.scale +=
         (
             camera.targetScale
@@ -3577,12 +3364,14 @@ function updateCamera() {
         )
         * smoothing;
 
+
     camera.offsetX +=
         (
             camera.targetOffsetX
             - camera.offsetX
         )
         * smoothing;
+
 
     camera.offsetY +=
         (
@@ -3598,53 +3387,57 @@ function updateCamera() {
 ========================================================= */
 
 function enterChapter(
-    chapter
+    chapter,
+    showTransition = true
 ) {
 
     currentChapter =
         chapter;
 
+
     previousChapterIndex =
         chapter.index;
+
 
     temporaryStoryTrack =
         null;
 
+
     targetStoryFocus =
         0;
+
 
     hoveredTrack =
         null;
 
+
     hoverLabel.style.display =
         "none";
 
-    transitionActive =
-        true;
-
-    encounterLayer
-        .classList
-        .add(
-            "suppressed"
-        );
 
     chapterLabel.textContent =
         chapter.label;
 
+
     chapterNarrative.textContent =
         chapter.narrative;
+
 
     timePhase.textContent =
         chapter.phase;
 
+
     transitionTime.textContent =
         chapter.time;
+
 
     transitionTitle.textContent =
         chapter.title;
 
+
     transitionSentence.textContent =
         chapter.sentence;
+
 
     chapterTicks.forEach(
         tick => {
@@ -3661,15 +3454,55 @@ function enterChapter(
         }
     );
 
+
+    clearTimeout(
+        chapterTransitionTimeout
+    );
+
+
+    if (
+        !showTransition
+    ) {
+
+        transitionActive =
+            false;
+
+
+        chapterTransition
+            .classList
+            .remove(
+                "show"
+            );
+
+
+        encounterLayer
+            .classList
+            .remove(
+                "suppressed"
+            );
+
+
+        return;
+    }
+
+
+    transitionActive =
+        true;
+
+
+    encounterLayer
+        .classList
+        .add(
+            "suppressed"
+        );
+
+
     chapterTransition
         .classList
         .add(
             "show"
         );
 
-    clearTimeout(
-        chapterTransitionTimeout
-    );
 
     chapterTransitionTimeout =
         setTimeout(
@@ -3681,8 +3514,10 @@ function enterChapter(
                         "show"
                     );
 
+
                 transitionActive =
                     false;
+
 
                 encounterLayer
                     .classList
@@ -3704,14 +3539,25 @@ function showStoryEvent(
     event
 ) {
 
+    if (
+        timelineDragging
+    ) {
+
+        return;
+    }
+
+
     storyEventTime.textContent =
         event.label;
+
 
     storyEventTitle.textContent =
         event.title;
 
+
     storyEventText.textContent =
         event.text;
+
 
     storyEvent
         .classList
@@ -3719,9 +3565,11 @@ function showStoryEvent(
             "show"
         );
 
+
     clearTimeout(
         storyEventTimeout
     );
+
 
     if (
         event.highlightIndividual
@@ -3733,9 +3581,11 @@ function showStoryEvent(
                 event.featuredRange[1]
             );
 
+
         targetStoryFocus =
             1;
     }
+
 
     storyEventTimeout =
         setTimeout(
@@ -3747,12 +3597,14 @@ function showStoryEvent(
                         "show"
                     );
 
+
                 if (
                     event.highlightIndividual
                 ) {
 
                     targetStoryFocus =
                         0;
+
 
                     setTimeout(
                         () => {
@@ -3773,6 +3625,14 @@ function showStoryEvent(
 
 function checkStoryEvents() {
 
+    if (
+        timelineDragging
+    ) {
+
+        return;
+    }
+
+
     for (
         const event
         of storyEvents
@@ -3787,17 +3647,16 @@ function checkStoryEvents() {
             continue;
         }
 
-        if (
-            previousTime
-            < event.time
 
-            && currentTime
-            >= event.time
+        if (
+            previousTime < event.time
+            && currentTime >= event.time
         ) {
 
             firedStoryEvents.add(
                 event.id
             );
+
 
             if (
                 transitionActive
@@ -3821,9 +3680,48 @@ function checkStoryEvents() {
                 );
             }
 
+
             break;
         }
     }
+}
+
+
+function syncStoryEventsToCurrentTime() {
+
+    firedStoryEvents.clear();
+
+
+    for (
+        const event
+        of storyEvents
+    ) {
+
+        if (
+            event.time
+            <= currentTime
+        ) {
+
+            firedStoryEvents.add(
+                event.id
+            );
+        }
+    }
+
+
+    storyEvent
+        .classList
+        .remove(
+            "show"
+        );
+
+
+    temporaryStoryTrack =
+        null;
+
+
+    targetStoryFocus =
+        0;
 }
 
 
@@ -3835,8 +3733,10 @@ function drawBackground() {
 
     resetCanvasTransform();
 
+
     ctx.fillStyle =
         "#040607";
+
 
     ctx.fillRect(
         0,
@@ -3855,22 +3755,28 @@ function drawGeoGrid() {
 
     resetCanvasTransform();
 
+
     ctx.save();
+
 
     ctx.lineWidth =
         0.55;
 
+
     ctx.strokeStyle =
         "rgba(121,225,211,0.045)";
+
 
     ctx.fillStyle =
         "rgba(135,155,148,0.32)";
 
+
     ctx.font =
         "7px monospace";
 
-    const divisions =
-        4;
+
+    const divisions = 4;
+
 
     for (
         let index = 0;
@@ -3882,6 +3788,7 @@ function drawGeoGrid() {
             index
             / divisions;
 
+
         const longitude =
             bounds.min_lon
             + (
@@ -3889,6 +3796,7 @@ function drawGeoGrid() {
                 - bounds.min_lon
             )
             * fraction;
+
 
         const top =
             worldToScreen(
@@ -3902,6 +3810,7 @@ function drawGeoGrid() {
                 )
             );
 
+
         const bottom =
             worldToScreen(
 
@@ -3914,19 +3823,24 @@ function drawGeoGrid() {
                 )
             );
 
+
         ctx.beginPath();
+
 
         ctx.moveTo(
             top.x,
             top.y
         );
 
+
         ctx.lineTo(
             bottom.x,
             bottom.y
         );
 
+
         ctx.stroke();
+
 
         if (
             top.x > 40
@@ -3947,6 +3861,7 @@ function drawGeoGrid() {
         }
     }
 
+
     for (
         let index = 0;
         index <= divisions;
@@ -3957,6 +3872,7 @@ function drawGeoGrid() {
             index
             / divisions;
 
+
         const latitude =
             bounds.min_lat
             + (
@@ -3964,6 +3880,7 @@ function drawGeoGrid() {
                 - bounds.min_lat
             )
             * fraction;
+
 
         const left =
             worldToScreen(
@@ -3977,6 +3894,7 @@ function drawGeoGrid() {
                 )
             );
 
+
         const right =
             worldToScreen(
 
@@ -3989,19 +3907,24 @@ function drawGeoGrid() {
                 )
             );
 
+
         ctx.beginPath();
+
 
         ctx.moveTo(
             left.x,
             left.y
         );
 
+
         ctx.lineTo(
             right.x,
             right.y
         );
 
+
         ctx.stroke();
+
 
         if (
             left.y > 30
@@ -4009,11 +3932,8 @@ function drawGeoGrid() {
         ) {
 
             ctx.fillText(
-                Math.abs(
-                    latitude
-                ).toFixed(
-                    2
-                )
+                Math.abs(latitude)
+                    .toFixed(2)
                 + "°S",
 
                 Math.max(
@@ -4026,7 +3946,9 @@ function drawGeoGrid() {
         }
     }
 
+
     drawScaleBar();
+
 
     ctx.restore();
 }
@@ -4037,70 +3959,84 @@ function drawScaleBar() {
     const kilometres =
         5;
 
+
     const degreeDistance =
         kilometres
         / 111.32;
+
 
     const pixels =
         degreeDistance
         * getScreenScale();
 
-    const x =
-        48;
+
+    const x = 48;
+
 
     const y =
         window.innerHeight
         - 82;
 
+
     ctx.strokeStyle =
         "rgba(121,225,211,0.40)";
+
 
     ctx.fillStyle =
         "rgba(130,150,143,0.48)";
 
-    ctx.lineWidth =
-        1;
+
+    ctx.lineWidth = 1;
+
 
     ctx.beginPath();
 
+
     ctx.moveTo(
         x,
         y
     );
 
+
     ctx.lineTo(
         x + pixels,
         y
     );
+
 
     ctx.moveTo(
         x,
         y - 3
     );
 
+
     ctx.lineTo(
         x,
         y + 3
     );
+
 
     ctx.moveTo(
         x + pixels,
         y - 3
     );
 
+
     ctx.lineTo(
         x + pixels,
         y + 3
     );
+
 
     ctx.stroke();
+
 
     ctx.font =
         "7px monospace";
 
+
     ctx.fillText(
         "5 KM",
-
         x,
         y - 7
     );
@@ -4108,7 +4044,7 @@ function drawScaleBar() {
 
 
 /* =========================================================
-   TRACK DRAWING
+   TRACK
 ========================================================= */
 
 function drawTrack(
@@ -4121,6 +4057,7 @@ function drawTrack(
             track.id
         );
 
+
     if (
         !cached
     ) {
@@ -4128,21 +4065,18 @@ function drawTrack(
         return;
     }
 
-    let opacity =
-        0.035;
 
-    let lineWidthPx =
-        0.30;
+    let opacity = 0.035;
 
-    let colour =
-        "177,187,183";
+    let lineWidthPx = 0.30;
 
-    let glow =
-        0;
+    let colour = "177,187,183";
+
+    let glow = 0;
+
 
     if (
-        style
-        === "featured"
+        style === "featured"
     ) {
 
         opacity =
@@ -4150,16 +4084,17 @@ function drawTrack(
             + visualEnergy
             * 0.07;
 
-        lineWidthPx =
-            0.55;
+
+        lineWidthPx = 0.55;
+
 
         colour =
             "121,225,211";
     }
 
+
     if (
-        style
-        === "story"
+        style === "story"
     ) {
 
         opacity =
@@ -4167,13 +4102,16 @@ function drawTrack(
             + storyFocus
             * 0.35;
 
+
         lineWidthPx =
             0.95
             + storyFocus
             * 0.20;
 
+
         colour =
             "121,225,211";
+
 
         glow =
             3
@@ -4181,56 +4119,52 @@ function drawTrack(
             * 4;
     }
 
+
     if (
-        style
-        === "hover"
+        style === "hover"
     ) {
 
-        opacity =
-            0.64;
+        opacity = 0.64;
 
-        lineWidthPx =
-            0.95;
+        lineWidthPx = 0.95;
 
         colour =
             "121,225,211";
 
-        glow =
-            4;
+        glow = 4;
     }
 
+
     if (
-        style
-        === "selected-footprint"
+        style === "selected-footprint"
     ) {
 
-        opacity =
-            0.16;
+        opacity = 0.16;
 
-        lineWidthPx =
-            0.78;
+        lineWidthPx = 0.78;
 
         colour =
             "121,225,211";
 
-        glow =
-            1;
+        glow = 1;
     }
+
 
     if (
         selectedTrack
-        && style
-        === "background"
+        && style === "background"
     ) {
 
-        opacity =
-            0.008;
+        opacity = 0.008;
     }
+
 
     const screenScale =
         getScreenScale();
 
+
     setWorldCanvasTransform();
+
 
     ctx.strokeStyle =
         `rgba(
@@ -4238,15 +4172,19 @@ function drawTrack(
             ${opacity}
         )`;
 
+
     ctx.lineWidth =
         lineWidthPx
         / screenScale;
 
+
     ctx.lineJoin =
         "round";
 
+
     ctx.lineCap =
         "round";
+
 
     ctx.shadowColor =
         glow > 0
@@ -4255,15 +4193,18 @@ function drawTrack(
 
         : "transparent";
 
+
     ctx.shadowBlur =
         glow;
+
 
     ctx.stroke(
         cached.path
     );
 
-    ctx.shadowBlur =
-        0;
+
+    ctx.shadowBlur = 0;
+
 
     resetCanvasTransform();
 }
@@ -4285,13 +4226,13 @@ function drawMovementHour(
         return;
     }
 
+
     const segments =
         rhythm
             .hourly_segments[
-                String(
-                    hour
-                )
+                String(hour)
             ];
+
 
     if (
         !segments
@@ -4301,13 +4242,16 @@ function drawMovementHour(
         return;
     }
 
+
     const p95 =
         rhythm.visual_p95;
+
 
     const selectedOnly =
         Boolean(
             selectedTrack
         );
+
 
     const maxSegments =
         selectedOnly
@@ -4320,8 +4264,10 @@ function drawMovementHour(
             * 450
         );
 
+
     let candidateCount =
         segments.length;
+
 
     if (
         selectedOnly
@@ -4335,14 +4281,17 @@ function drawMovementHour(
             ).length;
     }
 
+
     const stride =
         Math.max(
             1,
+
             Math.ceil(
                 candidateCount
                 / maxSegments
             )
         );
+
 
     const pulse =
         (
@@ -4358,6 +4307,7 @@ function drawMovementHour(
         )
         / 2;
 
+
     const particleThreshold =
         selectedOnly
 
@@ -4367,10 +4317,12 @@ function drawMovementHour(
             - visualEnergy
             * 0.18;
 
-    let selectedCounter =
-        0;
+
+    let selectedCounter = 0;
+
 
     resetCanvasTransform();
+
 
     for (
         let index = 0;
@@ -4379,9 +4331,8 @@ function drawMovementHour(
     ) {
 
         const segment =
-            segments[
-                index
-            ];
+            segments[index];
+
 
         if (
             selectedOnly
@@ -4395,6 +4346,7 @@ function drawMovementHour(
                 continue;
             }
 
+
             if (
                 selectedCounter
                 % stride
@@ -4405,6 +4357,7 @@ function drawMovementHour(
 
                 continue;
             }
+
 
             selectedCounter++;
 
@@ -4420,6 +4373,7 @@ function drawMovementHour(
             }
         }
 
+
         const start =
             worldToScreen(
 
@@ -4431,6 +4385,7 @@ function drawMovementHour(
                     segment.y1
                 )
             );
+
 
         const end =
             worldToScreen(
@@ -4444,6 +4399,7 @@ function drawMovementHour(
                 )
             );
 
+
         const strength =
             Math.min(
                 segment.movement
@@ -4451,7 +4407,9 @@ function drawMovementHour(
                 1
             );
 
+
         let alpha;
+
 
         if (
             selectedOnly
@@ -4480,6 +4438,7 @@ function drawMovementHour(
                 * hourWeight;
         }
 
+
         ctx.strokeStyle =
             selectedOnly
 
@@ -4487,21 +4446,16 @@ function drawMovementHour(
                 121,
                 225,
                 211,
-                ${Math.min(
-                    alpha,
-                    0.95
-                )}
+                ${Math.min(alpha,0.95)}
             )`
 
             : `rgba(
                 71,
                 205,
                 187,
-                ${Math.min(
-                    alpha,
-                    0.85
-                )}
+                ${Math.min(alpha,0.85)}
             )`;
+
 
         ctx.lineWidth =
             selectedOnly
@@ -4518,19 +4472,24 @@ function drawMovementHour(
                     * 0.42
                 );
 
+
         ctx.beginPath();
+
 
         ctx.moveTo(
             start.x,
             start.y
         );
 
+
         ctx.lineTo(
             end.x,
             end.y
         );
 
+
         ctx.stroke();
+
 
         if (
             strength
@@ -4542,9 +4501,7 @@ function drawMovementHour(
                     visualTimestamp
                     * (
                         selectedOnly
-
                         ? 0.00028
-
                         : 0.00015
                             + visualEnergy
                             * 0.00008
@@ -4555,6 +4512,7 @@ function drawMovementHour(
                 )
                 % 1;
 
+
             const particleX =
                 start.x
                 + (
@@ -4562,6 +4520,7 @@ function drawMovementHour(
                     - start.x
                 )
                 * position;
+
 
             const particleY =
                 start.y
@@ -4571,7 +4530,9 @@ function drawMovementHour(
                 )
                 * position;
 
+
             let particleAlpha;
+
 
             if (
                 selectedOnly
@@ -4600,6 +4561,7 @@ function drawMovementHour(
                     * hourWeight;
             }
 
+
             ctx.fillStyle =
                 `rgba(
                     121,
@@ -4611,7 +4573,9 @@ function drawMovementHour(
                     )}
                 )`;
 
+
             ctx.beginPath();
+
 
             ctx.arc(
 
@@ -4620,11 +4584,9 @@ function drawMovementHour(
                 particleY,
 
                 selectedOnly
-
                 ? 1
                     + strength
                     * 1.35
-
                 : 0.5
                     + strength
                     * (
@@ -4639,6 +4601,7 @@ function drawMovementHour(
                 * 2
             );
 
+
             ctx.fill();
         }
     }
@@ -4652,10 +4615,10 @@ function drawMovementField() {
             currentTime
         );
 
+
     const hourA =
-        Math.floor(
-            time
-        );
+        Math.floor(time);
+
 
     const hourB =
         (
@@ -4664,14 +4627,17 @@ function drawMovementField() {
         )
         % 24;
 
+
     const fraction =
         time
         - hourA;
+
 
     drawMovementHour(
         hourA,
         1 - fraction
     );
+
 
     drawMovementHour(
         hourB,
@@ -4690,6 +4656,7 @@ function drawFeaturedPulse() {
         temporaryStoryTrack
         || featuredTrack;
 
+
     if (
         selectedTrack
         || !track
@@ -4699,10 +4666,12 @@ function drawFeaturedPulse() {
         return;
     }
 
+
     const cached =
         geometry.get(
             track.id
         );
+
 
     if (
         !cached
@@ -4711,11 +4680,13 @@ function drawFeaturedPulse() {
         return;
     }
 
+
     const screen =
         worldToScreen(
             cached.centroid.x,
             cached.centroid.y
         );
+
 
     const pulse =
         (
@@ -4726,6 +4697,7 @@ function drawFeaturedPulse() {
             + 1
         )
         / 2;
+
 
     const radius =
         temporaryStoryTrack
@@ -4740,7 +4712,9 @@ function drawFeaturedPulse() {
             + pulse
             * 5;
 
+
     resetCanvasTransform();
+
 
     ctx.strokeStyle =
         temporaryStoryTrack
@@ -4771,26 +4745,28 @@ function drawFeaturedPulse() {
             }
         )`;
 
-    ctx.lineWidth =
-        1;
+
+    ctx.lineWidth = 1;
+
 
     ctx.beginPath();
+
 
     ctx.arc(
         screen.x,
         screen.y,
         radius,
         0,
-        Math.PI
-        * 2
+        Math.PI * 2
     );
+
 
     ctx.stroke();
 }
 
 
 /* =========================================================
-   DRAW MAIN WORLD
+   DRAW
 ========================================================= */
 
 function draw() {
@@ -4801,6 +4777,7 @@ function draw() {
 
         return;
     }
+
 
     updateCamera();
 
@@ -4825,6 +4802,7 @@ function draw() {
             continue;
         }
 
+
         if (
             hoveredTrack
             && track.id
@@ -4833,6 +4811,7 @@ function draw() {
 
             continue;
         }
+
 
         let style =
             "background";
@@ -4844,8 +4823,7 @@ function draw() {
             === track.id
         ) {
 
-            style =
-                "story";
+            style = "story";
 
         } else if (
             !selectedTrack
@@ -4854,8 +4832,7 @@ function draw() {
             === track.id
         ) {
 
-            style =
-                "featured";
+            style = "featured";
         }
 
 
@@ -4922,27 +4899,30 @@ function findTrackNearPointer(
             y
         );
 
+
     const screenScale =
         getScreenScale();
 
+
     const thresholdPx =
-        camera.scale
-        < 1.25
-
+        camera.scale < 1.25
         ? 8
-
         : 14;
+
 
     const thresholdWorld =
         thresholdPx
         / screenScale;
 
+
     const thresholdSquared =
         thresholdWorld
         * thresholdWorld;
 
+
     let bestTrack =
         null;
+
 
     let bestDistanceSquared =
         Infinity;
@@ -4957,6 +4937,7 @@ function findTrackNearPointer(
             geometry.get(
                 track.id
             );
+
 
         if (
             !cached
@@ -4975,15 +4956,15 @@ function findTrackNearPointer(
                 pointerWorld.x
                 - sample.x;
 
+
             const dy =
                 pointerWorld.y
                 - sample.y;
 
+
             const distanceSquared =
-                dx
-                * dx
-                + dy
-                * dy;
+                dx * dx
+                + dy * dy;
 
 
             if (
@@ -4993,6 +4974,7 @@ function findTrackNearPointer(
 
                 bestDistanceSquared =
                     distanceSquared;
+
 
                 bestTrack =
                     track;
@@ -5026,6 +5008,7 @@ function updateHover() {
 
     if (
         pointer.dragging
+        || timelineDragging
         || !experienceStarted
         || transitionActive
     ) {
@@ -5082,6 +5065,20 @@ function updateHover() {
             "encounter-ready"
         );
 
+
+        if (
+            !firstHoverHintShown
+        ) {
+
+            firstHoverHintShown =
+                true;
+
+
+            showInteractionHint(
+                "<strong>CLICK</strong> this trajectory to open its individual rhythm"
+            );
+        }
+
     } else {
 
         hoverLabel.style.display =
@@ -5133,9 +5130,7 @@ function getCurrentComparison(
                 .individual_hourly_medians[
                     elephantId
                 ][
-                    String(
-                        hour
-                    )
+                    String(hour)
                 ]
         );
 
@@ -5144,9 +5139,7 @@ function getCurrentComparison(
         Number(
             rhythm
                 .hourly_medians[
-                    String(
-                        hour
-                    )
+                    String(hour)
                 ]
         );
 
@@ -5165,21 +5158,19 @@ function getCurrentComparison(
 
         percentage:
             collective > 0
-
             ? (
                 individual
                 - collective
             )
             / collective
             * 100
-
             : 0
     };
 }
 
 
 /* =========================================================
-   MOVEMENT SIGNATURE
+   SIGNATURE
 ========================================================= */
 
 function getMovementSignature(
@@ -5201,28 +5192,19 @@ function getMovementSignature(
     }
 
 
-    let peakHour =
-        null;
+    let peakHour = null;
 
-    let peakValue =
-        -Infinity;
+    let peakValue = -Infinity;
 
+    let quietHour = null;
 
-    let quietHour =
-        null;
+    let quietValue = Infinity;
 
-    let quietValue =
-        Infinity;
+    let divergenceHour = null;
 
+    let divergenceValue = -Infinity;
 
-    let divergenceHour =
-        null;
-
-    let divergenceValue =
-        -Infinity;
-
-    let divergenceDirection =
-        0;
+    let divergenceDirection = 0;
 
 
     for (
@@ -5234,9 +5216,7 @@ function getMovementSignature(
         const individualValue =
             Number(
                 individual[
-                    String(
-                        hour
-                    )
+                    String(hour)
                 ]
             );
 
@@ -5245,9 +5225,7 @@ function getMovementSignature(
             Number(
                 rhythm
                     .hourly_medians[
-                        String(
-                            hour
-                        )
+                        String(hour)
                     ]
             );
 
@@ -5311,8 +5289,10 @@ function getMovementSignature(
                         difference
                     );
 
+
                 divergenceHour =
                     hour;
+
 
                 divergenceDirection =
                     difference;
@@ -5324,24 +5304,21 @@ function getMovementSignature(
     return {
 
         peakHour,
-
         peakValue,
 
         quietHour,
-
         quietValue,
 
         divergenceHour,
-
         divergenceValue,
-
         divergenceDirection
+
     };
 }
 
 
 /* =========================================================
-   INDIVIDUAL NARRATIVE
+   NARRATIVE
 ========================================================= */
 
 function buildIndividualNarrative(
@@ -5361,8 +5338,14 @@ function buildIndividualNarrative(
     ) {
 
         return (
-            "No valid movement step is available "
-            + "for this elephant during the current hourly bin."
+            "<strong>"
+            + String(
+                comparison.hour
+            ).padStart(
+                2,
+                "0"
+            )
+            + ":00</strong> — no valid movement step is available in this hourly bin."
         );
     }
 
@@ -5393,30 +5376,24 @@ function buildIndividualNarrative(
     ) {
 
         return (
-            "At <strong>"
+            "<strong>"
             + hour
-            + "</strong>, this elephant's median movement "
-            + "is nearly identical to the collective median."
+            + "</strong> — moving almost exactly with the herd median."
         );
     }
 
 
     const direction =
         difference > 0
-
         ? "above"
-
         : "below";
 
 
     return (
-        "At <strong>"
+        "<strong>"
         + hour
-        + "</strong>, its median ~30-minute displacement is "
-        + "<strong>"
-        + absoluteDifference.toFixed(
-            3
-        )
+        + "</strong> — moving <strong>"
+        + absoluteDifference.toFixed(3)
         + " km "
         + direction
         + "</strong> the herd median."
@@ -5425,7 +5402,7 @@ function buildIndividualNarrative(
 
 
 /* =========================================================
-   MINI 24H RHYTHM
+   MINI RHYTHM
 ========================================================= */
 
 function drawMiniRhythm(
@@ -5447,34 +5424,30 @@ function drawMiniRhythm(
 
     const dpr =
         Math.min(
-            window.devicePixelRatio
-            || 1,
+            window.devicePixelRatio || 1,
             2
         );
 
 
     const width =
         Math.max(
-            300,
+            280,
             rect.width
         );
 
 
-    const height =
-        92;
+    const height = 82;
 
 
     rhythmMini.width =
         Math.round(
-            width
-            * dpr
+            width * dpr
         );
 
 
     rhythmMini.height =
         Math.round(
-            height
-            * dpr
+            height * dpr
         );
 
 
@@ -5511,12 +5484,9 @@ function drawMiniRhythm(
     }
 
 
-    const individualValues =
-        [];
+    const individualValues = [];
 
-
-    const collectiveValues =
-        [];
+    const collectiveValues = [];
 
 
     for (
@@ -5528,9 +5498,7 @@ function drawMiniRhythm(
         individualValues.push(
             Number(
                 individual[
-                    String(
-                        hour
-                    )
+                    String(hour)
                 ]
             )
         );
@@ -5540,9 +5508,7 @@ function drawMiniRhythm(
             Number(
                 rhythm
                     .hourly_medians[
-                        String(
-                            hour
-                        )
+                        String(hour)
                     ]
             )
         );
@@ -5576,17 +5542,14 @@ function drawMiniRhythm(
 
     const padding = {
 
-        left:
-            5,
+        left: 5,
 
-        right:
-            5,
+        right: 5,
 
-        top:
-            7,
+        top: 7,
 
-        bottom:
-            18
+        bottom: 17
+
     };
 
 
@@ -5629,16 +5592,11 @@ function drawMiniRhythm(
     }
 
 
-    /* ---------------------------------------
-       BASELINES
-    --------------------------------------- */
-
     rhythmCtx.strokeStyle =
         "rgba(121,225,211,0.06)";
 
 
-    rhythmCtx.lineWidth =
-        1;
+    rhythmCtx.lineWidth = 1;
 
 
     for (
@@ -5675,23 +5633,17 @@ function drawMiniRhythm(
     }
 
 
-    /* ---------------------------------------
-       HERD LINE
-    --------------------------------------- */
-
     rhythmCtx.strokeStyle =
         "rgba(121,225,211,0.28)";
 
 
-    rhythmCtx.lineWidth =
-        1;
+    rhythmCtx.lineWidth = 1;
 
 
     rhythmCtx.beginPath();
 
 
-    let herdStarted =
-        false;
+    let herdStarted = false;
 
 
     for (
@@ -5701,9 +5653,7 @@ function drawMiniRhythm(
     ) {
 
         const value =
-            collectiveValues[
-                hour
-            ];
+            collectiveValues[hour];
 
 
         if (
@@ -5712,23 +5662,18 @@ function drawMiniRhythm(
             )
         ) {
 
-            herdStarted =
-                false;
+            herdStarted = false;
 
             continue;
         }
 
 
         const x =
-            xForHour(
-                hour
-            );
+            xForHour(hour);
 
 
         const y =
-            yForValue(
-                value
-            );
+            yForValue(value);
 
 
         if (
@@ -5740,8 +5685,8 @@ function drawMiniRhythm(
                 y
             );
 
-            herdStarted =
-                true;
+
+            herdStarted = true;
 
         } else {
 
@@ -5756,23 +5701,17 @@ function drawMiniRhythm(
     rhythmCtx.stroke();
 
 
-    /* ---------------------------------------
-       INDIVIDUAL LINE
-    --------------------------------------- */
-
     rhythmCtx.strokeStyle =
         "rgba(121,225,211,0.92)";
 
 
-    rhythmCtx.lineWidth =
-        1.4;
+    rhythmCtx.lineWidth = 1.4;
 
 
     rhythmCtx.beginPath();
 
 
-    let individualStarted =
-        false;
+    let individualStarted = false;
 
 
     for (
@@ -5782,9 +5721,7 @@ function drawMiniRhythm(
     ) {
 
         const value =
-            individualValues[
-                hour
-            ];
+            individualValues[hour];
 
 
         if (
@@ -5793,23 +5730,18 @@ function drawMiniRhythm(
             )
         ) {
 
-            individualStarted =
-                false;
+            individualStarted = false;
 
             continue;
         }
 
 
         const x =
-            xForHour(
-                hour
-            );
+            xForHour(hour);
 
 
         const y =
-            yForValue(
-                value
-            );
+            yForValue(value);
 
 
         if (
@@ -5821,8 +5753,8 @@ function drawMiniRhythm(
                 y
             );
 
-            individualStarted =
-                true;
+
+            individualStarted = true;
 
         } else {
 
@@ -5837,13 +5769,12 @@ function drawMiniRhythm(
     rhythmCtx.stroke();
 
 
-    /* ---------------------------------------
-       CURRENT HOUR MARKER
-    --------------------------------------- */
-
     const displayTime =
-        normaliseHour(
-            currentTime
+        Math.min(
+            23,
+            normaliseHour(
+                currentTime
+            )
         );
 
 
@@ -5858,8 +5789,7 @@ function drawMiniRhythm(
         "rgba(121,225,211,0.22)";
 
 
-    rhythmCtx.lineWidth =
-        1;
+    rhythmCtx.lineWidth = 1;
 
 
     rhythmCtx.beginPath();
@@ -5917,8 +5847,7 @@ function drawMiniRhythm(
             ),
             2,
             0,
-            Math.PI
-            * 2
+            Math.PI * 2
         );
 
 
@@ -5946,18 +5875,13 @@ function drawMiniRhythm(
             ),
             2.6,
             0,
-            Math.PI
-            * 2
+            Math.PI * 2
         );
 
 
         rhythmCtx.fill();
     }
 
-
-    /* ---------------------------------------
-       TIME LABELS
-    --------------------------------------- */
 
     rhythmCtx.fillStyle =
         "rgba(116,130,124,0.58)";
@@ -5968,23 +5892,11 @@ function drawMiniRhythm(
 
 
     const labels =
-        [
-            0,
-            6,
-            12,
-            18,
-            23
-        ];
+        [0,6,12,18,23];
 
 
     const labelNames =
-        [
-            "00",
-            "06",
-            "12",
-            "18",
-            "23"
-        ];
+        ["00","06","12","18","23"];
 
 
     labels.forEach(
@@ -6003,9 +5915,7 @@ function drawMiniRhythm(
                 labelNames[
                     index
                 ],
-
                 x - 4,
-
                 height - 4
             );
         }
@@ -6037,7 +5947,6 @@ function updateMovementSignature(
 
     signaturePeak.textContent =
         signature.peakHour !== null
-
         ? String(
             signature.peakHour
         ).padStart(
@@ -6045,7 +5954,6 @@ function updateMovementSignature(
             "0"
         )
         + ":00"
-
         : "—";
 
 
@@ -6053,18 +5961,14 @@ function updateMovementSignature(
         Number.isFinite(
             signature.peakValue
         )
-
-        ? signature.peakValue.toFixed(
-            3
-        )
-        + " KM median"
-
+        ? signature.peakValue
+            .toFixed(3)
+            + " KM median"
         : "highest median movement";
 
 
     signatureQuiet.textContent =
         signature.quietHour !== null
-
         ? String(
             signature.quietHour
         ).padStart(
@@ -6072,13 +5976,11 @@ function updateMovementSignature(
             "0"
         )
         + ":00"
-
         : "—";
 
 
     signatureDivergence.textContent =
         signature.divergenceHour !== null
-
         ? String(
             signature.divergenceHour
         ).padStart(
@@ -6086,7 +5988,6 @@ function updateMovementSignature(
             "0"
         )
         + ":00"
-
         : "—";
 
 
@@ -6099,17 +6000,13 @@ function updateMovementSignature(
         const direction =
             signature.divergenceDirection
             >= 0
-
             ? "above"
-
             : "below";
 
 
         signatureDivergenceSub.textContent =
             signature.divergenceValue
-                .toFixed(
-                    3
-                )
+                .toFixed(3)
             + " KM "
             + direction
             + " herd";
@@ -6132,6 +6029,7 @@ function enterEncounter(
 
     if (
         transitionActive
+        || timelineDragging
     ) {
 
         return;
@@ -6140,6 +6038,13 @@ function enterEncounter(
 
     selectedTrack =
         track;
+
+
+    document.body
+        .classList
+        .add(
+            "individual-mode"
+        );
 
 
     temporaryStoryTrack =
@@ -6187,6 +6092,10 @@ function enterEncounter(
     updateEncounterNarrative();
 
 
+    /*
+        Individual goes LEFT.
+    */
+
     focusCameraOnTrack(
         track,
         1.68
@@ -6201,6 +6110,28 @@ function enterEncounter(
             );
         }
     );
+
+
+    if (
+        !firstEncounterHintShown
+    ) {
+
+        firstEncounterHintShown =
+            true;
+
+
+        setTimeout(
+            () => {
+
+                showInteractionHint(
+                    "FOLLOWING ONE ELEPHANT · <strong>DRAG THE TIMELINE</strong> to inspect its daily rhythm · <strong>ESC / R</strong> to return",
+                    3200
+                );
+
+            },
+            600
+        );
+    }
 }
 
 
@@ -6208,6 +6139,13 @@ function exitEncounter() {
 
     selectedTrack =
         null;
+
+
+    document.body
+        .classList
+        .remove(
+            "individual-mode"
+        );
 
 
     encounterLayer
@@ -6226,7 +6164,7 @@ function exitEncounter() {
 
 
 /* =========================================================
-   UPDATE ENCOUNTER
+   ENCOUNTER UPDATE
 ========================================================= */
 
 function updateEncounterNarrative() {
@@ -6294,13 +6232,9 @@ function updateEncounterNarrative() {
         Number.isFinite(
             comparison.individual
         )
-
         ? comparison.individual
-            .toFixed(
-                3
-            )
+            .toFixed(3)
             + " KM"
-
         : "NO DATA";
 
 
@@ -6308,20 +6242,18 @@ function updateEncounterNarrative() {
         Number.isFinite(
             comparison.collective
         )
-
         ? comparison.collective
-            .toFixed(
-                3
-            )
+            .toFixed(3)
             + " KM"
-
         : "NO DATA";
 
 
-    differenceValue.classList.remove(
-        "positive",
-        "negative"
-    );
+    differenceValue
+        .classList
+        .remove(
+            "positive",
+            "negative"
+        );
 
 
     if (
@@ -6331,19 +6263,15 @@ function updateEncounterNarrative() {
     ) {
 
         const sign =
-            comparison.difference
-            > 0
-
+            comparison.difference > 0
             ? "+"
-
             : "";
 
 
         differenceValue.textContent =
             sign
-            + comparison.difference.toFixed(
-                3
-            )
+            + comparison.difference
+                .toFixed(3)
             + " KM";
 
 
@@ -6381,7 +6309,7 @@ function updateEncounterNarrative() {
 
 
 /* =========================================================
-   POSITION DOSSIER
+   DOSSIER POSITION
 ========================================================= */
 
 function updateEncounterPosition() {
@@ -6394,67 +6322,43 @@ function updateEncounterPosition() {
     }
 
 
-    const cached =
-        geometry.get(
-            selectedTrack.id
-        );
-
-
-    if (
-        !cached
-    ) {
-
-        return;
-    }
-
-
-    const screen =
-        worldToScreen(
-            cached.centroid.x,
-            cached.centroid.y
-        );
-
-
     const cardWidth =
-        390;
+        365;
 
 
     const cardHeight =
-        590;
+        545;
 
+
+    /*
+        The dossier now prefers the RIGHT side
+        of the screen.
+
+        This keeps a stable two-column composition:
+
+        LEFT = elephant
+        RIGHT = information
+    */
 
     let left =
-        screen.x
-        + 80;
+        window.innerWidth
+        * 0.61;
 
 
     let top =
-        screen.y
-        - 260;
-
-
-    if (
-        left
-        + cardWidth
-        > window.innerWidth
-        - 28
-    ) {
-
-        left =
-            screen.x
-            - cardWidth
-            - 80;
-    }
+        window.innerHeight
+        * 0.19;
 
 
     left =
         Math.max(
-            28,
+            window.innerWidth
+            * 0.56,
 
             Math.min(
                 window.innerWidth
                 - cardWidth
-                - 28,
+                - 35,
 
                 left
             )
@@ -6463,12 +6367,12 @@ function updateEncounterPosition() {
 
     top =
         Math.max(
-            76,
+            72,
 
             Math.min(
                 window.innerHeight
                 - cardHeight
-                - 50,
+                - 48,
 
                 top
             )
@@ -6484,6 +6388,289 @@ function updateEncounterPosition() {
         top
         + "px";
 }
+
+
+/* =========================================================
+   TIMELINE
+========================================================= */
+
+function timelinePercentFromTime(
+    time
+) {
+
+    return (
+        (
+            time - 2
+        )
+        / 22
+        * 100
+    );
+}
+
+
+function updateTimelineTimeFromPointer(
+    clientX
+) {
+
+    const rect =
+        timelineBar
+            .getBoundingClientRect();
+
+
+    let fraction =
+        (
+            clientX
+            - rect.left
+        )
+        / rect.width;
+
+
+    fraction =
+        Math.max(
+            0,
+
+            Math.min(
+                1,
+                fraction
+            )
+        );
+
+
+    let rawTime =
+        2
+        + fraction
+        * 22;
+
+
+    rawTime =
+        Math.round(
+            rawTime
+            * 4
+        )
+        / 4;
+
+
+    rawTime =
+        Math.max(
+            2,
+
+            Math.min(
+                23.75,
+                rawTime
+            )
+        );
+
+
+    previousTime =
+        rawTime;
+
+
+    currentTime =
+        rawTime;
+
+
+    syncStoryEventsToCurrentTime();
+
+
+    const chapter =
+        getChapterFromTime();
+
+
+    if (
+        !currentChapter
+        || chapter.index
+        !== currentChapter.index
+    ) {
+
+        enterChapter(
+            chapter,
+            false
+        );
+    }
+
+
+    updateHud();
+}
+
+
+function beginTimelineDrag(
+    event
+) {
+
+    if (
+        !experienceStarted
+    ) {
+
+        return;
+    }
+
+
+    event.preventDefault();
+
+
+    timelineDragging =
+        true;
+
+
+    hasDraggedTimeline =
+        true;
+
+
+    timelineWasPlaying =
+        playing;
+
+
+    playing =
+        false;
+
+
+    clearTimeout(
+        timelineResumeTimeout
+    );
+
+
+    timelineArea
+        .classList
+        .add(
+            "dragging"
+        );
+
+
+    timelineArea
+        .setPointerCapture(
+            event.pointerId
+        );
+
+
+    updateTimelineTimeFromPointer(
+        event.clientX
+    );
+
+
+    showInteractionHint(
+        "SCRUBBING TIME · release to inspect this moment",
+        1500
+    );
+}
+
+
+function moveTimelineDrag(
+    event
+) {
+
+    if (
+        !timelineDragging
+    ) {
+
+        return;
+    }
+
+
+    event.preventDefault();
+
+
+    updateTimelineTimeFromPointer(
+        event.clientX
+    );
+}
+
+
+function endTimelineDrag(
+    event
+) {
+
+    if (
+        !timelineDragging
+    ) {
+
+        return;
+    }
+
+
+    updateTimelineTimeFromPointer(
+        event.clientX
+    );
+
+
+    timelineDragging =
+        false;
+
+
+    timelineArea
+        .classList
+        .remove(
+            "dragging"
+        );
+
+
+    previousAnimationTimestamp =
+        performance.now();
+
+
+    if (
+        timelineWasPlaying
+    ) {
+
+        timelineResumeTimeout =
+            setTimeout(
+                () => {
+
+                    playing =
+                        true;
+
+
+                    previousAnimationTimestamp =
+                        performance.now();
+
+
+                    showInteractionHint(
+                        "AUTOMATIC RHYTHM RESUMED",
+                        1300
+                    );
+
+                },
+                1800
+            );
+    }
+}
+
+
+timelineHitArea
+    .addEventListener(
+        "pointerdown",
+        beginTimelineDrag
+    );
+
+
+timelineArea
+    .addEventListener(
+        "pointermove",
+        moveTimelineDrag
+    );
+
+
+timelineArea
+    .addEventListener(
+        "pointerup",
+        endTimelineDrag
+    );
+
+
+timelineArea
+    .addEventListener(
+        "pointercancel",
+        event => {
+
+            if (
+                timelineDragging
+            ) {
+
+                endTimelineDrag(
+                    event
+                );
+            }
+        }
+    );
 
 
 /* =========================================================
@@ -6516,7 +6703,8 @@ function updateHud() {
     ) {
 
         enterChapter(
-            chapter
+            chapter,
+            !timelineDragging
         );
     }
 
@@ -6530,20 +6718,6 @@ function updateHud() {
     }
 
 
-    let progressTime =
-        currentTime
-        - 2;
-
-
-    if (
-        progressTime < 0
-    ) {
-
-        progressTime +=
-            24;
-    }
-
-
     const percentage =
         Math.max(
             0,
@@ -6551,9 +6725,9 @@ function updateHud() {
             Math.min(
                 100,
 
-                progressTime
-                / 22
-                * 100
+                timelinePercentFromTime(
+                    currentTime
+                )
             )
         );
 
@@ -6568,10 +6742,24 @@ function updateHud() {
         + "%";
 
 
-    pauseBadge.classList.toggle(
-        "show",
-        !playing
-    );
+    timelineTimeBubble.style.left =
+        percentage
+        + "%";
+
+
+    timelineTimeBubble.textContent =
+        formatTime(
+            getRoundedDisplayTime()
+        );
+
+
+    pauseBadge
+        .classList
+        .toggle(
+            "show",
+            !playing
+            && !timelineDragging
+        );
 }
 
 
@@ -6617,10 +6805,8 @@ canvas.addEventListener(
 
             const moved =
                 Math.sqrt(
-                    totalDx
-                    * totalDx
-                    + totalDy
-                    * totalDy
+                    totalDx * totalDx
+                    + totalDy * totalDy
                 );
 
 
@@ -6642,12 +6828,9 @@ canvas.addEventListener(
                 pointer.dragging
             ) {
 
-                camera.offsetX +=
-                    dx;
+                camera.offsetX += dx;
 
-
-                camera.offsetY +=
-                    dy;
+                camera.offsetY += dy;
 
 
                 camera.targetOffsetX =
@@ -6683,18 +6866,17 @@ canvas.addEventListener(
         if (
             !experienceStarted
             || transitionActive
+            || timelineDragging
         ) {
 
             return;
         }
 
 
-        pointer.isDown =
-            true;
+        pointer.isDown = true;
 
 
-        pointer.dragging =
-            false;
+        pointer.dragging = false;
 
 
         pointer.downX =
@@ -6731,6 +6913,7 @@ canvas.addEventListener(
 
             pointer.isDown =
                 false;
+
 
             return;
         }
@@ -6799,6 +6982,7 @@ canvas.addEventListener(
         if (
             !experienceStarted
             || transitionActive
+            || timelineDragging
         ) {
 
             return;
@@ -6814,9 +6998,7 @@ canvas.addEventListener(
 
         const factor =
             event.deltaY < 0
-
             ? 1.11
-
             : 1 / 1.11;
 
 
@@ -6887,14 +7069,13 @@ canvas.addEventListener(
 
     },
     {
-        passive:
-            false
+        passive: false
     }
 );
 
 
 /* =========================================================
-   KEYBOARD
+   KEYS
 ========================================================= */
 
 window.addEventListener(
@@ -6910,21 +7091,36 @@ window.addEventListener(
 
 
         if (
-            event.code
-            === "Space"
+            event.code === "Space"
         ) {
 
             event.preventDefault();
 
 
+            clearTimeout(
+                timelineResumeTimeout
+            );
+
+
             playing =
                 !playing;
+
+
+            showInteractionHint(
+
+                playing
+
+                ? "AUTOMATIC RHYTHM RESUMED"
+
+                : "TIME PAUSED · press <strong>SPACE</strong> again to continue",
+
+                1500
+            );
         }
 
 
         if (
-            event.key
-            === "Escape"
+            event.key === "Escape"
             && selectedTrack
         ) {
 
@@ -6946,6 +7142,12 @@ window.addEventListener(
             } else {
 
                 returnToHomeCamera();
+
+
+                showInteractionHint(
+                    "RETURNED TO GLOBAL VIEW",
+                    1200
+                );
             }
         }
     }
@@ -6960,9 +7162,11 @@ enterButton.addEventListener(
     "click",
     () => {
 
-        opening.classList.add(
-            "hidden"
-        );
+        opening
+            .classList
+            .add(
+                "hidden"
+            );
 
 
         experienceStarted =
@@ -7017,6 +7221,9 @@ enterButton.addEventListener(
 
 
         updateHud();
+
+
+        scheduleOpeningHints();
     }
 );
 
@@ -7062,6 +7269,7 @@ function animate(
     if (
         experienceStarted
         && playing
+        && !timelineDragging
     ) {
 
         previousTime =
@@ -7074,16 +7282,13 @@ function animate(
 
 
         if (
-            currentTime
-            >= 24
+            currentTime >= 24
         ) {
 
-            currentTime =
-                2;
+            currentTime = 2;
 
 
-            previousTime =
-                2;
+            previousTime = 2;
 
 
             previousChapterIndex =
@@ -7097,8 +7302,7 @@ function animate(
                 null;
 
 
-            targetStoryFocus =
-                0;
+            targetStoryFocus = 0;
 
 
             if (
@@ -7249,6 +7453,12 @@ window.addEventListener(
 
             drawMiniRhythm(
                 selectedTrack.id
+            );
+
+
+            focusCameraOnTrack(
+                selectedTrack,
+                1.68
             );
         }
     }
