@@ -1,11 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Living Rhythms — A Day Inside the Herd</title>
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+Living Rhythms — A Day Inside the Herd
+</title>
 
 <style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
 
 * {
     box-sizing: border-box;
@@ -34,6 +47,7 @@ body {
 button {
     font: inherit;
 }
+
 
 /* =========================================================
    WORLD
@@ -66,13 +80,16 @@ button {
     cursor: pointer;
 }
 
+
+/* =========================================================
+   ATMOSPHERE
+========================================================= */
+
 #atmosphere {
     position: absolute;
     inset: 0;
 
     pointer-events: none;
-
-    opacity: 1;
 
     background:
         radial-gradient(
@@ -80,9 +97,6 @@ button {
             rgba(73, 160, 145, 0.06),
             rgba(4, 6, 7, 0) 55%
         );
-
-    transition:
-        opacity 1.8s ease;
 }
 
 #peakGlow {
@@ -101,36 +115,6 @@ button {
         );
 }
 
-#grid {
-    position: absolute;
-    inset: 0;
-
-    pointer-events: none;
-
-    opacity: 0.15;
-
-    background-image:
-        linear-gradient(
-            rgba(121, 225, 211, 0.022) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(121, 225, 211, 0.022) 1px,
-            transparent 1px
-        );
-
-    background-size:
-        56px 56px;
-
-    mask-image:
-        radial-gradient(
-            circle at center,
-            black,
-            transparent 78%
-        );
-}
-
 #vignette {
     position: absolute;
     inset: 0;
@@ -140,11 +124,12 @@ button {
     background:
         radial-gradient(
             ellipse at center,
-            transparent 40%,
-            rgba(0, 0, 0, 0.15) 67%,
+            transparent 42%,
+            rgba(0, 0, 0, 0.14) 68%,
             rgba(0, 0, 0, 0.62) 100%
         );
 }
+
 
 /* =========================================================
    OPENING
@@ -161,7 +146,12 @@ button {
     justify-content: center;
 
     background:
-        rgba(4, 6, 7, 0.84);
+        rgba(
+            4,
+            6,
+            7,
+            0.84
+        );
 
     backdrop-filter:
         blur(6px);
@@ -180,8 +170,10 @@ button {
 .opening-inner {
     width:
         min(
-            660px,
-            calc(100vw - 80px)
+            680px,
+            calc(
+                100vw - 80px
+            )
         );
 
     text-align: center;
@@ -189,7 +181,6 @@ button {
 
 .opening-kicker {
     font-family: monospace;
-
     font-size: 10px;
 
     color: var(--accent);
@@ -217,19 +208,29 @@ button {
         22px auto
         0;
 
-    max-width: 520px;
+    max-width: 540px;
 
     font-family: monospace;
-
     font-size: 11px;
-
     line-height: 1.85;
 
     color: #8b9692;
 }
 
+.opening-data {
+    margin-top: 17px;
+
+    font-family: monospace;
+    font-size: 8px;
+    line-height: 1.7;
+
+    color: #58635f;
+
+    letter-spacing: 0.04em;
+}
+
 #enterButton {
-    margin-top: 34px;
+    margin-top: 31px;
 
     padding:
         11px 22px;
@@ -254,7 +255,6 @@ button {
     color: var(--accent);
 
     font-family: monospace;
-
     font-size: 10px;
 
     letter-spacing: 0.09em;
@@ -279,6 +279,7 @@ button {
         translateY(-2px);
 }
 
+
 /* =========================================================
    HEADER
 ========================================================= */
@@ -296,7 +297,6 @@ button {
 
 #brand {
     font-size: 23px;
-
     font-weight: 500;
 
     letter-spacing: 0.02em;
@@ -306,7 +306,6 @@ button {
     margin-top: 7px;
 
     font-family: monospace;
-
     font-size: 9px;
 
     color: #67716e;
@@ -318,7 +317,6 @@ button {
     margin-top: 25px;
 
     font-family: monospace;
-
     font-size: 9px;
 
     color: var(--accent);
@@ -329,19 +327,18 @@ button {
 #chapterNarrative {
     margin-top: 8px;
 
-    width: 340px;
+    width: 350px;
 
     font-family: monospace;
-
     font-size: 9px;
-
     line-height: 1.7;
 
     color: #7b8682;
 }
 
+
 /* =========================================================
-   TIME
+   TIME HUD
 ========================================================= */
 
 #timeHud {
@@ -359,7 +356,6 @@ button {
 
 #timeText {
     font-family: monospace;
-
     font-size: 25px;
 
     color: #e9efec;
@@ -371,7 +367,6 @@ button {
     margin-top: 5px;
 
     font-family: monospace;
-
     font-size: 8px;
 
     color: var(--accent);
@@ -383,13 +378,77 @@ button {
     margin-top: 9px;
 
     font-family: monospace;
-
     font-size: 7px;
-
     line-height: 1.5;
 
     color: #4f5956;
 }
+
+
+/* =========================================================
+   GEO HUD
+========================================================= */
+
+#geoHud {
+    position: fixed;
+
+    right: 47px;
+    bottom: 82px;
+
+    z-index: 18;
+
+    width: 120px;
+
+    text-align: right;
+
+    pointer-events: none;
+
+    font-family: monospace;
+
+    color: #54605c;
+}
+
+#geoPlace {
+    font-size: 7px;
+    line-height: 1.5;
+
+    letter-spacing: 0.07em;
+}
+
+#northArrow {
+    margin-top: 12px;
+
+    font-size: 9px;
+
+    color: #73807b;
+}
+
+#northLine {
+    width: 1px;
+    height: 25px;
+
+    margin:
+        5px 5px
+        0 auto;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(
+                121,
+                225,
+                211,
+                0.10
+            ),
+            rgba(
+                121,
+                225,
+                211,
+                0.60
+            )
+        );
+}
+
 
 /* =========================================================
    CHAPTER TRANSITION
@@ -397,57 +456,42 @@ button {
 
 #chapterTransition {
     position: fixed;
-    inset: 0;
 
-    z-index: 50;
+    left: 50%;
+    top: 45%;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    z-index: 40;
+
+    transform:
+        translate(
+            -50%,
+            -50%
+        );
 
     pointer-events: none;
 
+    text-align: center;
+
     opacity: 0;
 
-    background:
-        rgba(
-            4,
-            6,
-            7,
-            0
-        );
-
-    backdrop-filter:
-        blur(0px);
-
     transition:
-        opacity 0.65s ease,
-        background 0.9s ease,
-        backdrop-filter 0.9s ease;
+        opacity 0.8s ease,
+        transform 1.2s ease;
 }
 
 #chapterTransition.show {
-    opacity: 1;
+    opacity: 0.82;
 
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(4, 6, 7, 0.42),
-            rgba(4, 6, 7, 0.73)
+    transform:
+        translate(
+            -50%,
+            -55%
         );
-
-    backdrop-filter:
-        blur(2px);
-}
-
-.chapter-transition-inner {
-    text-align: center;
 }
 
 #transitionTime {
     font-family: monospace;
-
-    font-size: 10px;
+    font-size: 8px;
 
     color: var(--accent);
 
@@ -455,29 +499,29 @@ button {
 }
 
 #transitionTitle {
-    margin-top: 10px;
+    margin-top: 8px;
 
     font-size:
         clamp(
-            36px,
-            4.5vw,
-            62px
+            25px,
+            3vw,
+            38px
         );
 
     font-weight: 400;
 
-    letter-spacing: -0.025em;
+    letter-spacing: -0.02em;
 }
 
 #transitionSentence {
-    margin-top: 14px;
+    margin-top: 10px;
 
     font-family: monospace;
+    font-size: 8px;
 
-    font-size: 10px;
-
-    color: #89938f;
+    color: #75807c;
 }
+
 
 /* =========================================================
    STORY EVENT
@@ -487,7 +531,7 @@ button {
     position: fixed;
 
     left: 50%;
-    top: 50%;
+    top: 53%;
 
     width: 460px;
 
@@ -506,8 +550,8 @@ button {
     opacity: 0;
 
     transition:
-        opacity 0.9s ease,
-        transform 1.4s ease;
+        opacity 1s ease,
+        transform 1.5s ease;
 }
 
 #storyEvent.show {
@@ -516,14 +560,13 @@ button {
     transform:
         translate(
             -50%,
-            -55%
+            -54%
         );
 }
 
 #storyEventTime {
     font-family: monospace;
-
-    font-size: 9px;
+    font-size: 8px;
 
     color: var(--accent);
 
@@ -531,10 +574,9 @@ button {
 }
 
 #storyEventTitle {
-    margin-top: 9px;
+    margin-top: 8px;
 
-    font-size: 27px;
-
+    font-size: 25px;
     font-weight: 400;
 }
 
@@ -546,13 +588,12 @@ button {
     max-width: 390px;
 
     font-family: monospace;
-
-    font-size: 9px;
-
+    font-size: 8px;
     line-height: 1.7;
 
-    color: #808b86;
+    color: #7b8581;
 }
+
 
 /* =========================================================
    HOVER
@@ -567,15 +608,17 @@ button {
 
     pointer-events: none;
 
+    width: 230px;
+
     padding:
-        7px 9px;
+        8px 10px;
 
     background:
         rgba(
             4,
             6,
             7,
-            0.88
+            0.90
         );
 
     border-left:
@@ -583,28 +626,42 @@ button {
         var(--accent);
 
     font-family: monospace;
+}
 
-    font-size: 9px;
+#hoverMain {
+    font-size: 10px;
 
     color: var(--accent);
+}
+
+#hoverMeaning {
+    display: block;
+
+    margin-top: 4px;
+
+    font-size: 7px;
+
+    color: #89938f;
 }
 
 #hoverSub {
     display: block;
 
-    margin-top: 3px;
+    margin-top: 5px;
 
     font-size: 7px;
 
-    color: #727d79;
+    color: #59635f;
 }
 
+
 /* =========================================================
-   ENCOUNTER
+   INDIVIDUAL DOSSIER
 ========================================================= */
 
 #encounterLayer {
     position: fixed;
+
     inset: 0;
 
     z-index: 30;
@@ -614,7 +671,7 @@ button {
     opacity: 0;
 
     transition:
-        opacity 0.6s ease;
+        opacity 0.65s ease;
 }
 
 #encounterLayer.active {
@@ -628,17 +685,17 @@ button {
 #encounterStory {
     position: absolute;
 
-    width: 315px;
+    width: 390px;
 
     padding:
-        16px 17px;
+        18px 19px;
 
     background:
         rgba(
             4,
-            6,
             7,
-            0.84
+            7,
+            0.90
         );
 
     border:
@@ -647,37 +704,98 @@ button {
             121,
             225,
             211,
-            0.16
+            0.17
         );
 
     backdrop-filter:
-        blur(6px);
+        blur(8px);
+
+    box-shadow:
+        0 20px 60px
+        rgba(
+            0,
+            0,
+            0,
+            0.24
+        );
 }
 
 #encounterKicker {
     font-family: monospace;
 
-    font-size: 8px;
+    font-size: 7px;
 
     color: var(--accent);
 
-    letter-spacing: 0.09em;
+    letter-spacing: 0.11em;
+}
+
+.encounter-title-row {
+    display: flex;
+
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-top: 5px;
 }
 
 #encounterName {
-    margin-top: 7px;
+    font-size: 31px;
 
-    font-size: 27px;
+    font-weight: 400;
+
+    letter-spacing: -0.02em;
 }
 
-#encounterMoment {
-    margin-top: 4px;
+#encounterStudyTag {
+    padding-bottom: 4px;
+
+    text-align: right;
 
     font-family: monospace;
 
-    font-size: 8px;
+    font-size: 6px;
 
-    color: #68726f;
+    line-height: 1.45;
+
+    color: #59645f;
+}
+
+#encounterMeaning {
+    margin-top: 5px;
+
+    max-width: 330px;
+
+    font-family: monospace;
+
+    font-size: 7px;
+
+    line-height: 1.55;
+
+    color: #7d8984;
+}
+
+#encounterMoment {
+    margin-top: 10px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    font-family: monospace;
+
+    font-size: 7px;
+
+    color: #69736f;
+}
+
+#encounterBin {
+    color: var(--accent);
 }
 
 .encounter-divider {
@@ -691,18 +809,35 @@ button {
             121,
             225,
             211,
-            0.12
+            0.11
         );
 }
 
-#encounterNarrative {
+
+/* =========================================================
+   CURRENT MOVEMENT
+========================================================= */
+
+.section-label {
     font-family: monospace;
 
-    font-size: 9px;
+    font-size: 7px;
 
-    line-height: 1.7;
+    color: #64706b;
 
-    color: #c0c8c4;
+    letter-spacing: 0.08em;
+}
+
+#encounterNarrative {
+    margin-top: 7px;
+
+    font-family: monospace;
+
+    font-size: 8px;
+
+    line-height: 1.65;
+
+    color: #bbc5c0;
 }
 
 #encounterNarrative strong {
@@ -712,12 +847,15 @@ button {
 }
 
 #encounterComparison {
-    margin-top: 14px;
+    margin-top: 12px;
 
     display: grid;
 
     grid-template-columns:
-        1fr 1fr;
+        repeat(
+            3,
+            1fr
+        );
 
     gap: 8px;
 }
@@ -738,9 +876,11 @@ button {
 .comparison-label {
     font-family: monospace;
 
-    font-size: 7px;
+    font-size: 6px;
 
-    color: #5e6965;
+    line-height: 1.45;
+
+    color: #59645f;
 }
 
 .comparison-number {
@@ -748,25 +888,234 @@ button {
 
     font-family: monospace;
 
-    font-size: 11px;
+    font-size: 10px;
 
     color: #dfe6e2;
 }
 
-#encounterExit {
-    margin-top: 14px;
+#differenceValue.positive {
+    color: var(--accent);
+}
+
+#differenceValue.negative {
+    color: #aeb7b3;
+}
+
+
+/* =========================================================
+   MINI RHYTHM
+========================================================= */
+
+#rhythmSection {
+    margin-top: 16px;
+
+    padding-top: 12px;
+
+    border-top:
+        1px solid
+        rgba(
+            121,
+            225,
+            211,
+            0.10
+        );
+}
+
+.rhythm-heading-row {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+}
+
+.rhythm-legend {
+    display: flex;
+
+    gap: 12px;
 
     font-family: monospace;
 
-    font-size: 7px;
+    font-size: 6px;
+
+    color: #56615d;
+}
+
+.rhythm-key {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+}
+
+.rhythm-line {
+    display: inline-block;
+
+    width: 12px;
+    height: 1px;
+
+    background:
+        var(--accent);
+}
+
+.rhythm-line.herd {
+    opacity: 0.32;
+}
+
+#rhythmMini {
+    display: block;
+
+    width: 100%;
+    height: 92px;
+
+    margin-top: 8px;
+}
+
+
+/* =========================================================
+   SIGNATURE
+========================================================= */
+
+#signatureSection {
+    margin-top: 13px;
+
+    padding-top: 11px;
+
+    border-top:
+        1px solid
+        rgba(
+            121,
+            225,
+            211,
+            0.09
+        );
+}
+
+#signatureGrid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            3,
+            1fr
+        );
+
+    gap: 8px;
+
+    margin-top: 8px;
+}
+
+.signature-cell {
+    min-height: 42px;
+
+    padding:
+        7px 7px;
+
+    border:
+        1px solid
+        rgba(
+            121,
+            225,
+            211,
+            0.07
+        );
+
+    background:
+        rgba(
+            121,
+            225,
+            211,
+            0.015
+        );
+}
+
+.signature-label {
+    font-family: monospace;
+
+    font-size: 6px;
+
+    line-height: 1.4;
+
+    color: #56615d;
+}
+
+.signature-value {
+    margin-top: 5px;
+
+    font-family: monospace;
+
+    font-size: 9px;
+
+    color: #cbd3cf;
+}
+
+.signature-sub {
+    margin-top: 2px;
+
+    font-family: monospace;
+
+    font-size: 6px;
+
+    color: #56615d;
+}
+
+
+/* =========================================================
+   FIELD LEGEND
+========================================================= */
+
+#fieldSection {
+    margin-top: 13px;
+
+    padding-top: 11px;
+
+    border-top:
+        1px solid
+        rgba(
+            121,
+            225,
+            211,
+            0.09
+        );
+}
+
+#encounterLegend {
+    margin-top: 7px;
+
+    font-family: monospace;
+
+    font-size: 6px;
+
+    line-height: 1.75;
+
+    color: #65706c;
+}
+
+.legend-bright {
+    color: var(--accent);
+}
+
+.legend-faint {
+    color: #8b9691;
+}
+
+#encounterExit {
+    margin-top: 9px;
+
+    font-family: monospace;
+
+    font-size: 6px;
 
     line-height: 1.5;
 
-    color: #58625f;
+    color: #4d5753;
 }
 
+
 /* =========================================================
-   BOTTOM
+   BOTTOM HUD
 ========================================================= */
 
 #bottomHud {
@@ -774,6 +1123,7 @@ button {
 
     left: 48px;
     right: 47px;
+
     bottom: 27px;
 
     z-index: 20;
@@ -898,6 +1248,7 @@ button {
     color: #58625f;
 }
 
+
 /* =========================================================
    PAUSE
 ========================================================= */
@@ -929,9 +1280,16 @@ button {
 }
 
 </style>
+
 </head>
 
+
 <body>
+
+
+<!-- ======================================================
+     WORLD
+====================================================== -->
 
 <div id="world">
 
@@ -941,35 +1299,57 @@ button {
 
     <div id="peakGlow"></div>
 
-    <div id="grid"></div>
-
     <div id="vignette"></div>
 
 </div>
 
+
+<!-- ======================================================
+     OPENING
+====================================================== -->
 
 <div id="opening">
 
     <div class="opening-inner">
 
         <div class="opening-kicker">
+
             14 ELEPHANTS · KRUGER · 2007—2009
+
         </div>
 
         <div class="opening-title">
+
             Living Rhythms
+
         </div>
 
         <div class="opening-subtitle">
-            A day inside a landscape built from movement.<br>
-            Follow the collective rhythm,
+
+            Explore how fourteen elephants
+            move through a shared daily rhythm.
+
+            Follow the collective field,
             encounter an individual,
-            and discover how one path can move
-            differently inside the herd.
+            and watch its movement pattern
+            change across the day.
+
+        </div>
+
+        <div class="opening-data">
+
+            TWO YEARS OF GPS MOVEMENT
+            REORGANISED BY LOCAL HOUR.<br>
+
+            THIS IS AN AGGREGATED 24-HOUR RHYTHM,
+            NOT ONE RECORDED DAY.
+
         </div>
 
         <button id="enterButton">
+
             ENTER THE HERD
+
         </button>
 
     </div>
@@ -977,167 +1357,522 @@ button {
 </div>
 
 
+<!-- ======================================================
+     HEADER
+====================================================== -->
+
 <div id="header">
 
     <div id="brand">
+
         LIVING RHYTHMS
+
     </div>
 
     <div id="study">
+
         GPS MOVEMENT / 14 ELEPHANTS / KRUGER
+
     </div>
 
     <div id="chapterLabel">
+
         CHAPTER 01 / QUIET HOURS
+
     </div>
 
     <div id="chapterNarrative">
-        Movement is at its lowest during the early hours.
+
+        Collective movement is lowest
+        during the early hours.
+
     </div>
 
 </div>
 
+
+<!-- ======================================================
+     TIME
+====================================================== -->
 
 <div id="timeHud">
 
     <div id="timeText">
+
         02:00
+
     </div>
 
     <div id="timePhase">
+
         QUIET HOURS
+
     </div>
 
     <div id="dataNote">
-        MOVEMENT STATISTICS USE HOURLY BINS.<br>
-        INTERMEDIATE TIME IS VISUAL PACING.
+
+        STATISTICS REMAIN HOURLY.<br>
+        VISUAL TRANSITIONS ARE INTERPOLATED.
+
     </div>
 
 </div>
 
+
+<!-- ======================================================
+     GEO CONTEXT
+====================================================== -->
+
+<div id="geoHud">
+
+    <div id="geoPlace">
+
+        KRUGER NATIONAL PARK<br>
+        SOUTH AFRICA
+
+    </div>
+
+    <div id="northArrow">
+
+        N
+
+    </div>
+
+    <div id="northLine"></div>
+
+</div>
+
+
+<!-- ======================================================
+     CHAPTER TRANSITION
+====================================================== -->
 
 <div id="chapterTransition">
 
-    <div class="chapter-transition-inner">
+    <div>
 
         <div id="transitionTime">
+
             02:00
+
         </div>
 
         <div id="transitionTitle">
+
             Quiet Hours
+
         </div>
 
         <div id="transitionSentence">
-            The field contracts into smaller traces.
+
+            The field contracts
+            into smaller traces.
+
         </div>
 
     </div>
 
 </div>
 
+
+<!-- ======================================================
+     STORY EVENT
+====================================================== -->
 
 <div id="storyEvent">
 
     <div id="storyEventTime">
+
         03:00
+
     </div>
 
     <div id="storyEventTitle">
+
         LOWEST TRACE
+
     </div>
 
     <div id="storyEventText">
-        Collective movement reaches one of its quietest periods.
+
+        Collective movement reaches
+        one of its quietest periods.
+
     </div>
 
 </div>
 
+
+<!-- ======================================================
+     HOVER
+====================================================== -->
 
 <div id="hoverLabel">
 
     <span id="hoverMain">
+
         AM105
+
+    </span>
+
+    <span id="hoverMeaning">
+
+        ONE ELEPHANT · HISTORICAL MOVEMENT FOOTPRINT
+
     </span>
 
     <span id="hoverSub">
-        CLICK TO FOLLOW THIS PATH
+
+        CLICK TO OPEN INDIVIDUAL RHYTHM
+
     </span>
 
 </div>
 
+
+<!-- ======================================================
+     INDIVIDUAL DOSSIER
+====================================================== -->
 
 <div id="encounterLayer">
 
     <div id="encounterStory">
 
         <div id="encounterKicker">
-            INDIVIDUAL ENCOUNTER
+
+            INDIVIDUAL MOVEMENT DOSSIER
+
         </div>
 
-        <div id="encounterName">
-            AM105
+
+        <div class="encounter-title-row">
+
+            <div id="encounterName">
+
+                AM105
+
+            </div>
+
+            <div id="encounterStudyTag">
+
+                TRACKED INDIVIDUAL<br>
+                GPS MOVEMENT STUDY
+
+            </div>
+
         </div>
+
+
+        <div id="encounterMeaning">
+
+            One movement history inside the
+            two-year collective landscape.
+
+        </div>
+
 
         <div id="encounterMoment">
-            06:00 / MORNING RISE
+
+            <span id="encounterMomentText">
+
+                06:00 / MORNING RISE
+
+            </span>
+
+            <span id="encounterBin">
+
+                BIN 06:00–07:00
+
+            </span>
+
         </div>
+
 
         <div class="encounter-divider"></div>
 
-        <div id="encounterNarrative">
-            This individual is moving differently.
+
+        <!-- CURRENT MOVEMENT -->
+
+        <div class="section-label">
+
+            CURRENT MOVEMENT
+
         </div>
+
+        <div id="encounterNarrative">
+
+            This individual is moving differently.
+
+        </div>
+
 
         <div id="encounterComparison">
 
             <div class="comparison-cell">
 
                 <div class="comparison-label">
-                    INDIVIDUAL
+
+                    INDIVIDUAL<br>
+                    MEDIAN STEP
+
                 </div>
 
                 <div
                     id="individualValue"
                     class="comparison-number"
                 >
+
                     —
+
                 </div>
 
             </div>
 
+
             <div class="comparison-cell">
 
                 <div class="comparison-label">
-                    HERD MEDIAN
+
+                    HERD<br>
+                    MEDIAN STEP
+
                 </div>
 
                 <div
                     id="collectiveValue"
                     class="comparison-number"
                 >
+
                     —
+
+                </div>
+
+            </div>
+
+
+            <div class="comparison-cell">
+
+                <div class="comparison-label">
+
+                    DIFFERENCE<br>
+                    FROM HERD
+
+                </div>
+
+                <div
+                    id="differenceValue"
+                    class="comparison-number"
+                >
+
+                    —
+
                 </div>
 
             </div>
 
         </div>
 
-        <div id="encounterExit">
-            VALUES REPRESENT THE CURRENT HOURLY BIN.<br>
-            PRESS ESC OR CLICK EMPTY SPACE TO RETURN.
+
+        <!-- 24H RHYTHM -->
+
+        <div id="rhythmSection">
+
+            <div class="rhythm-heading-row">
+
+                <div class="section-label">
+
+                    24H RHYTHM
+
+                </div>
+
+                <div class="rhythm-legend">
+
+                    <span class="rhythm-key">
+
+                        <span class="rhythm-line"></span>
+
+                        INDIVIDUAL
+
+                    </span>
+
+                    <span class="rhythm-key">
+
+                        <span class="rhythm-line herd"></span>
+
+                        HERD
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <canvas id="rhythmMini"></canvas>
+
         </div>
+
+
+        <!-- MOVEMENT SIGNATURE -->
+
+        <div id="signatureSection">
+
+            <div class="section-label">
+
+                MOVEMENT SIGNATURE
+
+            </div>
+
+            <div id="signatureGrid">
+
+
+                <div class="signature-cell">
+
+                    <div class="signature-label">
+
+                        PEAK HOUR
+
+                    </div>
+
+                    <div
+                        id="signaturePeak"
+                        class="signature-value"
+                    >
+
+                        —
+
+                    </div>
+
+                    <div
+                        id="signaturePeakSub"
+                        class="signature-sub"
+                    >
+
+                        highest median movement
+
+                    </div>
+
+                </div>
+
+
+                <div class="signature-cell">
+
+                    <div class="signature-label">
+
+                        QUIETEST HOUR
+
+                    </div>
+
+                    <div
+                        id="signatureQuiet"
+                        class="signature-value"
+                    >
+
+                        —
+
+                    </div>
+
+                    <div class="signature-sub">
+
+                        lowest median movement
+
+                    </div>
+
+                </div>
+
+
+                <div class="signature-cell">
+
+                    <div class="signature-label">
+
+                        LARGEST DIVERGENCE
+
+                    </div>
+
+                    <div
+                        id="signatureDivergence"
+                        class="signature-value"
+                    >
+
+                        —
+
+                    </div>
+
+                    <div
+                        id="signatureDivergenceSub"
+                        class="signature-sub"
+                    >
+
+                        strongest difference from herd
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- SPATIAL LEGEND -->
+
+        <div id="fieldSection">
+
+            <div class="section-label">
+
+                CURRENT HOURLY FIELD
+
+            </div>
+
+            <div id="encounterLegend">
+
+                <span class="legend-bright">
+
+                    BRIGHT MOVING SEGMENTS
+
+                </span>
+
+                = movement observations from this elephant
+                within the current hourly bin.<br>
+
+                <span class="legend-faint">
+
+                    FAINT CONTINUOUS LINE
+
+                </span>
+
+                = its historical movement footprint
+                across the study period.
+
+            </div>
+
+            <div id="encounterExit">
+
+                TIME CONTINUES WHILE FOLLOWING THIS ELEPHANT.<br>
+                ESC / R / CLICK EMPTY SPACE TO RETURN.
+
+            </div>
+
+        </div>
+
 
     </div>
 
 </div>
 
 
+<!-- ======================================================
+     BOTTOM
+====================================================== -->
+
 <div id="bottomHud">
 
     <div id="modeText">
+
         COLLECTIVE FIELD
+
     </div>
+
 
     <div>
 
@@ -1149,25 +1884,41 @@ button {
 
         </div>
 
+
         <div id="chapterTicks">
 
-            <div class="chapter-tick" data-index="0">
+            <div
+                class="chapter-tick"
+                data-index="0"
+            >
                 QUIET
             </div>
 
-            <div class="chapter-tick" data-index="1">
+            <div
+                class="chapter-tick"
+                data-index="1"
+            >
                 MORNING
             </div>
 
-            <div class="chapter-tick" data-index="2">
+            <div
+                class="chapter-tick"
+                data-index="2"
+            >
                 MIDDAY
             </div>
 
-            <div class="chapter-tick" data-index="3">
+            <div
+                class="chapter-tick"
+                data-index="3"
+            >
                 PEAK
             </div>
 
-            <div class="chapter-tick" data-index="4">
+            <div
+                class="chapter-tick"
+                data-index="4"
+            >
                 NIGHT
             </div>
 
@@ -1175,16 +1926,21 @@ button {
 
     </div>
 
+
     <div id="controlHint">
+
         SCROLL TO MOVE CLOSER · DRAG TO TRAVEL<br>
         CLICK A PATH TO FOLLOW · SPACE TO PAUSE · R TO RETURN
+
     </div>
 
 </div>
 
 
 <div id="pauseBadge">
+
     TIME PAUSED
+
 </div>
 
 
@@ -1207,6 +1963,7 @@ const ctx =
         }
     );
 
+
 const opening =
     document.getElementById(
         "opening"
@@ -1216,6 +1973,7 @@ const enterButton =
     document.getElementById(
         "enterButton"
     );
+
 
 const atmosphere =
     document.getElementById(
@@ -1227,6 +1985,7 @@ const peakGlow =
         "peakGlow"
     );
 
+
 const chapterLabel =
     document.getElementById(
         "chapterLabel"
@@ -1236,6 +1995,7 @@ const chapterNarrative =
     document.getElementById(
         "chapterNarrative"
     );
+
 
 const chapterTransition =
     document.getElementById(
@@ -1257,6 +2017,7 @@ const transitionSentence =
         "transitionSentence"
     );
 
+
 const storyEvent =
     document.getElementById(
         "storyEvent"
@@ -1277,6 +2038,7 @@ const storyEventText =
         "storyEventText"
     );
 
+
 const timeText =
     document.getElementById(
         "timeText"
@@ -1287,6 +2049,7 @@ const timePhase =
         "timePhase"
     );
 
+
 const hoverLabel =
     document.getElementById(
         "hoverLabel"
@@ -1296,6 +2059,7 @@ const hoverMain =
     document.getElementById(
         "hoverMain"
     );
+
 
 const encounterLayer =
     document.getElementById(
@@ -1312,15 +2076,21 @@ const encounterName =
         "encounterName"
     );
 
-const encounterMoment =
+const encounterMomentText =
     document.getElementById(
-        "encounterMoment"
+        "encounterMomentText"
+    );
+
+const encounterBin =
+    document.getElementById(
+        "encounterBin"
     );
 
 const encounterNarrative =
     document.getElementById(
         "encounterNarrative"
     );
+
 
 const individualValue =
     document.getElementById(
@@ -1331,6 +2101,49 @@ const collectiveValue =
     document.getElementById(
         "collectiveValue"
     );
+
+const differenceValue =
+    document.getElementById(
+        "differenceValue"
+    );
+
+
+const rhythmMini =
+    document.getElementById(
+        "rhythmMini"
+    );
+
+const rhythmCtx =
+    rhythmMini.getContext(
+        "2d"
+    );
+
+
+const signaturePeak =
+    document.getElementById(
+        "signaturePeak"
+    );
+
+const signaturePeakSub =
+    document.getElementById(
+        "signaturePeakSub"
+    );
+
+const signatureQuiet =
+    document.getElementById(
+        "signatureQuiet"
+    );
+
+const signatureDivergence =
+    document.getElementById(
+        "signatureDivergence"
+    );
+
+const signatureDivergenceSub =
+    document.getElementById(
+        "signatureDivergenceSub"
+    );
+
 
 const modeText =
     document.getElementById(
@@ -1351,6 +2164,7 @@ const pauseBadge =
     document.getElementById(
         "pauseBadge"
     );
+
 
 const chapterTicks =
     [
@@ -1402,7 +2216,7 @@ let canvasDpr =
 
 
 /* =========================================================
-   EXPERIENCE STATE
+   EXPERIENCE
 ========================================================= */
 
 let experienceStarted =
@@ -1432,7 +2246,35 @@ let chapterTransitionTimeout =
 let storyEventTimeout =
     null;
 
-let userCameraOverrideUntil =
+
+/* =========================================================
+   GLOBAL HOME CAMERA
+========================================================= */
+
+const homeCamera = {
+
+    scale:
+        1.12,
+
+    offsetX:
+        0,
+
+    offsetY:
+        0
+};
+
+
+/* =========================================================
+   TIME
+========================================================= */
+
+const HOURS_PER_SECOND =
+    22 / 100;
+
+let previousAnimationTimestamp =
+    null;
+
+let visualTimestamp =
     0;
 
 
@@ -1454,45 +2296,28 @@ let targetStoryFocus =
 
 
 /* =========================================================
-   TIME
-========================================================= */
-
-const TIME_STEP =
-    0.25;
-
-const STEP_DURATION =
-    680;
-
-let lastStepTimestamp =
-    0;
-
-let visualTimestamp =
-    0;
-
-
-/* =========================================================
    CAMERA
 ========================================================= */
 
 const camera = {
 
     scale:
-        1,
+        homeCamera.scale,
 
     offsetX:
-        0,
+        homeCamera.offsetX,
 
     offsetY:
-        0,
+        homeCamera.offsetY,
 
     targetScale:
-        1,
+        homeCamera.scale,
 
     targetOffsetX:
-        0,
+        homeCamera.offsetX,
 
     targetOffsetY:
-        0
+        homeCamera.offsetY
 };
 
 
@@ -1559,10 +2384,7 @@ const chapters = [
             "The field contracts into smaller traces.",
 
         narrative:
-            "During the early hours, collective movement falls to its lowest levels. The landscape becomes quieter and more compact.",
-
-        cameraScale:
-            1.08
+            "During the early hours, collective movement falls to its lowest levels. The landscape becomes quieter and more compact."
     },
 
     {
@@ -1587,10 +2409,7 @@ const chapters = [
             "Movement begins to expand across the field.",
 
         narrative:
-            "From the early morning onward, collective movement rises quickly. Separate trajectories become increasingly active.",
-
-        cameraScale:
-            1.28
+            "From the early morning onward, collective movement rises quickly. Separate trajectories become increasingly active."
     },
 
     {
@@ -1615,10 +2434,7 @@ const chapters = [
             "The collective rhythm becomes steadier.",
 
         narrative:
-            "Through the middle of the day, movement remains relatively stable. The herd shares a broader rhythm while individual paths still differ.",
-
-        cameraScale:
-            1.38
+            "Through the middle of the day, movement remains relatively stable. The herd shares a broader rhythm while individual paths still differ."
     },
 
     {
@@ -1643,10 +2459,7 @@ const chapters = [
             "The collective field builds toward its strongest movement.",
 
         narrative:
-            "Late afternoon contains the strongest collective movement in the daily pattern, with the highest median occurring around 16:00.",
-
-        cameraScale:
-            1.24
+            "Late afternoon contains the strongest collective movement in the daily pattern, with the highest median occurring around 16:00."
     },
 
     {
@@ -1671,10 +2484,7 @@ const chapters = [
             "The collective pulse gradually recedes.",
 
         narrative:
-            "During the evening and late hours, movement gradually declines. Individual traces settle back into a quieter collective field.",
-
-        cameraScale:
-            1.14
+            "During the evening and late hours, movement gradually declines. Individual traces settle back into a quieter collective field."
     }
 ];
 
@@ -1684,8 +2494,6 @@ const chapters = [
 ========================================================= */
 
 const storyEvents = [
-
-    /* QUIET */
 
     {
         id:
@@ -1701,15 +2509,15 @@ const storyEvents = [
             "LOWEST TRACE",
 
         text:
-            "Collective movement reaches one of its quietest periods. Only small traces remain visible across the field.",
+            "Collective movement reaches one of its quietest periods.",
 
         duration:
-            2600
+            2300
     },
 
     {
         id:
-            "quiet-first-shift",
+            "quiet-shift",
 
         time:
             4.25,
@@ -1721,33 +2529,30 @@ const storyEvents = [
             "FIRST SHIFT",
 
         text:
-            "The quiet field begins to loosen. Movement starts rising before the morning transition.",
+            "The quiet field begins to loosen before the morning rise.",
 
         duration:
-            2500
+            2200
     },
-
-
-    /* MORNING */
 
     {
         id:
-            "morning-rising",
+            "morning-rise",
 
         time:
-            5.25,
+            5.50,
 
         label:
-            "05:15",
+            "05:30",
 
         title:
             "RISING FIELD",
 
         text:
-            "The collective rhythm begins a rapid rise. More movement appears across separate trajectories.",
+            "Collective movement begins a rapid morning increase.",
 
         duration:
-            2500
+            2300
     },
 
     {
@@ -1755,62 +2560,39 @@ const storyEvents = [
             "morning-spread",
 
         time:
-            6.50,
+            7.00,
 
         label:
-            "06:30",
+            "07:00",
 
         title:
             "MORNING SPREAD",
 
         text:
-            "Activity now extends across more of the landscape. The field feels increasingly connected.",
+            "Movement is now distributed across more trajectories.",
 
         duration:
-            2500
+            2300
     },
-
-    {
-        id:
-            "morning-shared",
-
-        time:
-            8.25,
-
-        label:
-            "08:15",
-
-        title:
-            "SHARED MOTION",
-
-        text:
-            "The morning rise begins to settle into a broader collective pace.",
-
-        duration:
-            2400
-    },
-
-
-    /* MIDDAY */
 
     {
         id:
             "midday-steady",
 
         time:
-            10.50,
+            11.00,
 
         label:
-            "10:30",
+            "11:00",
 
         title:
             "STEADY RHYTHM",
 
         text:
-            "Collective movement is no longer climbing sharply. The field enters a more stable phase.",
+            "The collective pattern enters a more stable midday phase.",
 
         duration:
-            2600
+            2400
     },
 
     {
@@ -1827,23 +2609,20 @@ const storyEvents = [
             "INDIVIDUAL VARIATION",
 
         text:
-            "Even inside a stable collective rhythm, individual trajectories continue to differ.",
+            "Even within a stable collective rhythm, one individual pattern remains distinct.",
 
         duration:
-            3000,
+            2800,
 
         highlightIndividual:
             true,
 
         featuredRange:
-            [12, 15],
-
-        cameraScale:
-            1.52
+            [
+                12,
+                15
+            ]
     },
-
-
-    /* AFTERNOON */
 
     {
         id:
@@ -1859,10 +2638,10 @@ const storyEvents = [
             "FIELD ACCELERATES",
 
         text:
-            "The collective rhythm begins climbing again. The field builds toward the strongest part of the day.",
+            "Collective movement begins climbing toward the strongest period of the day.",
 
         duration:
-            2600
+            2400
     },
 
     {
@@ -1882,7 +2661,7 @@ const storyEvents = [
             "Around this period, collective median movement reaches its daily maximum.",
 
         duration:
-            3100
+            2700
     },
 
     {
@@ -1899,43 +2678,20 @@ const storyEvents = [
             "INDIVIDUAL CONTRAST",
 
         text:
-            "Even during the strongest collective period, one trajectory can still move differently from the wider herd.",
+            "Inside the strongest collective period, one elephant still moves differently from the wider herd.",
 
         duration:
-            3200,
+            2900,
 
         highlightIndividual:
             true,
 
         featuredRange:
-            [16, 19],
-
-        cameraScale:
-            1.50
+            [
+                16,
+                19
+            ]
     },
-
-    {
-        id:
-            "peak-easing",
-
-        time:
-            18.25,
-
-        label:
-            "18:15",
-
-        title:
-            "EASING FIELD",
-
-        text:
-            "The collective high begins to release. Movement remains active, but the field is already beginning to soften.",
-
-        duration:
-            2600
-    },
-
-
-    /* NIGHT */
 
     {
         id:
@@ -1951,30 +2707,10 @@ const storyEvents = [
             "RETURNING QUIET",
 
         text:
-            "Collective movement continues to decline. The spatial field becomes less dense and less urgent.",
+            "Collective movement continues to decline through the evening.",
 
         duration:
-            2600
-    },
-
-    {
-        id:
-            "night-late",
-
-        time:
-            22.00,
-
-        label:
-            "22:00",
-
-        title:
-            "LATE TRACES",
-
-        text:
-            "A smaller number of active traces remain visible inside the larger landscape.",
-
-        duration:
-            2600
+            2400
     },
 
     {
@@ -1982,19 +2718,19 @@ const storyEvents = [
             "night-close",
 
         time:
-            23.50,
+            23.25,
 
         label:
-            "23:30",
+            "23:15",
 
         title:
             "CLOSE OF DAY",
 
         text:
-            "The daily rhythm settles back toward the quiet field from which it began.",
+            "The daily rhythm approaches the quieter field from which it began.",
 
         duration:
-            3200
+            2800
     }
 
 ];
@@ -2420,6 +3156,26 @@ function getHour() {
 }
 
 
+function getRoundedDisplayTime() {
+
+    const time =
+        normaliseHour(
+            currentTime
+        );
+
+    const quarter =
+        Math.round(
+            time
+            * 4
+        )
+        / 4;
+
+    return normaliseHour(
+        quarter
+    );
+}
+
+
 function formatTime(
     time
 ) {
@@ -2462,17 +3218,10 @@ function formatTime(
 
 
 /* =========================================================
-   DATA-DRIVEN VISUAL ENERGY
+   COLLECTIVE ENERGY
 ========================================================= */
 
 function getInterpolatedCollectiveMedian() {
-
-    if (
-        !rhythm
-    ) {
-
-        return 0;
-    }
 
     const time =
         normaliseHour(
@@ -2549,14 +3298,6 @@ function updateVisualEnergy() {
     const median =
         getInterpolatedCollectiveMedian();
 
-    /*
-        0.22247 km is approximately the maximum
-        collective hourly median in the prepared dataset.
-
-        This affects only visual interpolation.
-        Statistical values shown to users remain hourly.
-    */
-
     const normalised =
         Math.max(
             0,
@@ -2578,14 +3319,14 @@ function updateVisualEnergy() {
             targetVisualEnergy
             - visualEnergy
         )
-        * 0.018;
+        * 0.025;
 
     storyFocus +=
         (
             targetStoryFocus
             - storyFocus
         )
-        * 0.025;
+        * 0.03;
 
     peakGlow.style.opacity =
         String(
@@ -2596,15 +3337,15 @@ function updateVisualEnergy() {
                     visualEnergy
                     - 0.72
                 )
-                * 0.9
+                * 0.75
             )
         );
 
     atmosphere.style.opacity =
         String(
-            0.55
+            0.58
             + visualEnergy
-            * 0.45
+            * 0.42
         );
 }
 
@@ -2660,14 +3401,6 @@ function findFeaturedTrack(
     endHour
 ) {
 
-    if (
-        !rhythm
-        || !rhythm.individual_hourly_medians
-    ) {
-
-        return null;
-    }
-
     let bestTrack =
         null;
 
@@ -2710,14 +3443,14 @@ function findFeaturedTrack(
                     % 24
                 );
 
-            const individualMovement =
+            const individualValue =
                 Number(
                     individual[
                         key
                     ]
                 );
 
-            const collectiveMovement =
+            const collectiveValue =
                 Number(
                     rhythm
                         .hourly_medians[
@@ -2727,10 +3460,11 @@ function findFeaturedTrack(
 
             if (
                 !Number.isFinite(
-                    individualMovement
+                    individualValue
                 )
+
                 || !Number.isFinite(
-                    collectiveMovement
+                    collectiveValue
                 )
             ) {
 
@@ -2739,8 +3473,8 @@ function findFeaturedTrack(
 
             score +=
                 Math.abs(
-                    individualMovement
-                    - collectiveMovement
+                    individualValue
+                    - collectiveValue
                 );
 
             count++;
@@ -2768,26 +3502,6 @@ function findFeaturedTrack(
     }
 
     return bestTrack;
-}
-
-
-function findChapterFeaturedTrack(
-    chapter
-) {
-
-    return findFeaturedTrack(
-
-        Math.floor(
-            chapter.start
-        ),
-
-        Math.min(
-            24,
-            Math.ceil(
-                chapter.end
-            )
-        )
-    );
 }
 
 
@@ -2824,64 +3538,37 @@ function focusCameraOnTrack(
 
     camera.targetOffsetX =
         window.innerWidth
-        * 0.55
+        * 0.53
         - base.centerX
         - cached.centroid.x
         * scale;
 
     camera.targetOffsetY =
         window.innerHeight
-        * 0.51
+        * 0.50
         - base.centerY
         + cached.centroid.y
         * scale;
 }
 
 
-function setChapterCamera(
-    chapter
-) {
+function returnToHomeCamera() {
 
-    if (
-        Date.now()
-        < userCameraOverrideUntil
-    ) {
+    camera.targetScale =
+        homeCamera.scale;
 
-        return;
-    }
+    camera.targetOffsetX =
+        homeCamera.offsetX;
 
-    featuredTrack =
-        findChapterFeaturedTrack(
-            chapter
-        );
-
-    if (
-        featuredTrack
-    ) {
-
-        focusCameraOnTrack(
-            featuredTrack,
-            chapter.cameraScale
-        );
-
-    } else {
-
-        camera.targetScale =
-            chapter.cameraScale;
-
-        camera.targetOffsetX =
-            0;
-
-        camera.targetOffsetY =
-            0;
-    }
+    camera.targetOffsetY =
+        homeCamera.offsetY;
 }
 
 
 function updateCamera() {
 
     const smoothing =
-        0.020;
+        0.018;
 
     camera.scale +=
         (
@@ -2984,15 +3671,6 @@ function enterChapter(
         chapterTransitionTimeout
     );
 
-    if (
-        !selectedTrack
-    ) {
-
-        setChapterCamera(
-            chapter
-        );
-    }
-
     chapterTransitionTimeout =
         setTimeout(
             () => {
@@ -3013,7 +3691,7 @@ function enterChapter(
                     );
 
             },
-            1750
+            1250
         );
 }
 
@@ -3049,36 +3727,14 @@ function showStoryEvent(
         event.highlightIndividual
     ) {
 
-        const range =
-            event.featuredRange;
-
         temporaryStoryTrack =
             findFeaturedTrack(
-                range[0],
-                range[1]
+                event.featuredRange[0],
+                event.featuredRange[1]
             );
 
         targetStoryFocus =
             1;
-
-        if (
-            temporaryStoryTrack
-            && !selectedTrack
-        ) {
-
-            focusCameraOnTrack(
-
-                temporaryStoryTrack,
-
-                event.cameraScale
-                || 1.48
-            );
-        }
-
-    } else {
-
-        targetStoryFocus =
-            0;
     }
 
     storyEventTimeout =
@@ -3104,18 +3760,8 @@ function showStoryEvent(
                             temporaryStoryTrack =
                                 null;
 
-                            if (
-                                currentChapter
-                                && !selectedTrack
-                            ) {
-
-                                setChapterCamera(
-                                    currentChapter
-                                );
-                            }
-
                         },
-                        900
+                        850
                     );
                 }
 
@@ -3165,7 +3811,7 @@ function checkStoryEvents() {
                         );
 
                     },
-                    750
+                    500
                 );
 
             } else {
@@ -3202,7 +3848,267 @@ function drawBackground() {
 
 
 /* =========================================================
-   TRACKS
+   GEO GRID
+========================================================= */
+
+function drawGeoGrid() {
+
+    resetCanvasTransform();
+
+    ctx.save();
+
+    ctx.lineWidth =
+        0.55;
+
+    ctx.strokeStyle =
+        "rgba(121,225,211,0.045)";
+
+    ctx.fillStyle =
+        "rgba(135,155,148,0.32)";
+
+    ctx.font =
+        "7px monospace";
+
+    const divisions =
+        4;
+
+    for (
+        let index = 0;
+        index <= divisions;
+        index++
+    ) {
+
+        const fraction =
+            index
+            / divisions;
+
+        const longitude =
+            bounds.min_lon
+            + (
+                bounds.max_lon
+                - bounds.min_lon
+            )
+            * fraction;
+
+        const top =
+            worldToScreen(
+
+                longitudeToWorld(
+                    longitude
+                ),
+
+                latitudeToWorld(
+                    bounds.max_lat
+                )
+            );
+
+        const bottom =
+            worldToScreen(
+
+                longitudeToWorld(
+                    longitude
+                ),
+
+                latitudeToWorld(
+                    bounds.min_lat
+                )
+            );
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            top.x,
+            top.y
+        );
+
+        ctx.lineTo(
+            bottom.x,
+            bottom.y
+        );
+
+        ctx.stroke();
+
+        if (
+            top.x > 40
+            && top.x < window.innerWidth - 40
+        ) {
+
+            ctx.fillText(
+                longitude.toFixed(2)
+                + "°E",
+
+                top.x + 4,
+
+                Math.max(
+                    18,
+                    top.y + 11
+                )
+            );
+        }
+    }
+
+    for (
+        let index = 0;
+        index <= divisions;
+        index++
+    ) {
+
+        const fraction =
+            index
+            / divisions;
+
+        const latitude =
+            bounds.min_lat
+            + (
+                bounds.max_lat
+                - bounds.min_lat
+            )
+            * fraction;
+
+        const left =
+            worldToScreen(
+
+                longitudeToWorld(
+                    bounds.min_lon
+                ),
+
+                latitudeToWorld(
+                    latitude
+                )
+            );
+
+        const right =
+            worldToScreen(
+
+                longitudeToWorld(
+                    bounds.max_lon
+                ),
+
+                latitudeToWorld(
+                    latitude
+                )
+            );
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            left.x,
+            left.y
+        );
+
+        ctx.lineTo(
+            right.x,
+            right.y
+        );
+
+        ctx.stroke();
+
+        if (
+            left.y > 30
+            && left.y < window.innerHeight - 40
+        ) {
+
+            ctx.fillText(
+                Math.abs(
+                    latitude
+                ).toFixed(
+                    2
+                )
+                + "°S",
+
+                Math.max(
+                    8,
+                    left.x + 5
+                ),
+
+                left.y - 5
+            );
+        }
+    }
+
+    drawScaleBar();
+
+    ctx.restore();
+}
+
+
+function drawScaleBar() {
+
+    const kilometres =
+        5;
+
+    const degreeDistance =
+        kilometres
+        / 111.32;
+
+    const pixels =
+        degreeDistance
+        * getScreenScale();
+
+    const x =
+        48;
+
+    const y =
+        window.innerHeight
+        - 82;
+
+    ctx.strokeStyle =
+        "rgba(121,225,211,0.40)";
+
+    ctx.fillStyle =
+        "rgba(130,150,143,0.48)";
+
+    ctx.lineWidth =
+        1;
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        x,
+        y
+    );
+
+    ctx.lineTo(
+        x + pixels,
+        y
+    );
+
+    ctx.moveTo(
+        x,
+        y - 3
+    );
+
+    ctx.lineTo(
+        x,
+        y + 3
+    );
+
+    ctx.moveTo(
+        x + pixels,
+        y - 3
+    );
+
+    ctx.lineTo(
+        x + pixels,
+        y + 3
+    );
+
+    ctx.stroke();
+
+    ctx.font =
+        "7px monospace";
+
+    ctx.fillText(
+        "5 KM",
+
+        x,
+        y - 7
+    );
+}
+
+
+/* =========================================================
+   TRACK DRAWING
 ========================================================= */
 
 function drawTrack(
@@ -3223,10 +4129,10 @@ function drawTrack(
     }
 
     let opacity =
-        0.040;
+        0.035;
 
     let lineWidthPx =
-        0.32;
+        0.30;
 
     let colour =
         "177,187,183";
@@ -3240,12 +4146,12 @@ function drawTrack(
     ) {
 
         opacity =
-            0.11
+            0.09
             + visualEnergy
-            * 0.08;
+            * 0.07;
 
         lineWidthPx =
-            0.58;
+            0.55;
 
         colour =
             "121,225,211";
@@ -3257,22 +4163,22 @@ function drawTrack(
     ) {
 
         opacity =
-            0.62
+            0.45
             + storyFocus
-            * 0.30;
+            * 0.35;
 
         lineWidthPx =
-            1.15
+            0.95
             + storyFocus
-            * 0.15;
+            * 0.20;
 
         colour =
             "121,225,211";
 
         glow =
-            4
+            3
             + storyFocus
-            * 5;
+            * 4;
     }
 
     if (
@@ -3281,34 +4187,34 @@ function drawTrack(
     ) {
 
         opacity =
-            0.78;
+            0.64;
 
         lineWidthPx =
-            1.10;
+            0.95;
 
         colour =
             "121,225,211";
 
         glow =
-            5;
+            4;
     }
 
     if (
         style
-        === "selected"
+        === "selected-footprint"
     ) {
 
         opacity =
-            0.95;
+            0.16;
 
         lineWidthPx =
-            1.42;
+            0.78;
 
         colour =
             "121,225,211";
 
         glow =
-            7;
+            1;
     }
 
     if (
@@ -3318,7 +4224,7 @@ function drawTrack(
     ) {
 
         opacity =
-            0.011;
+            0.008;
     }
 
     const screenScale =
@@ -3344,7 +4250,9 @@ function drawTrack(
 
     ctx.shadowColor =
         glow > 0
-        ? "rgba(121,225,211,0.52)"
+
+        ? "rgba(121,225,211,0.50)"
+
         : "transparent";
 
     ctx.shadowBlur =
@@ -3365,17 +4273,17 @@ function drawTrack(
    MOVEMENT FIELD
 ========================================================= */
 
-function drawMovementField() {
+function drawMovementHour(
+    hour,
+    hourWeight
+) {
 
     if (
-        !rhythm
+        hourWeight <= 0.001
     ) {
 
         return;
     }
-
-    const hour =
-        getHour();
 
     const segments =
         rhythm
@@ -3393,39 +4301,57 @@ function drawMovementField() {
         return;
     }
 
-    /*
-        Density now changes smoothly with visualEnergy.
+    const p95 =
+        rhythm.visual_p95;
 
-        No sudden event multiplier is used.
-    */
+    const selectedOnly =
+        Boolean(
+            selectedTrack
+        );
 
     const maxSegments =
-        Math.round(
-            620
+        selectedOnly
+
+        ? 1200
+
+        : Math.round(
+            560
             + visualEnergy
-            * 520
+            * 450
         );
+
+    let candidateCount =
+        segments.length;
+
+    if (
+        selectedOnly
+    ) {
+
+        candidateCount =
+            segments.filter(
+                segment =>
+                    segment.id
+                    === selectedTrack.id
+            ).length;
+    }
 
     const stride =
         Math.max(
             1,
             Math.ceil(
-                segments.length
+                candidateCount
                 / maxSegments
             )
         );
-
-    const p95 =
-        rhythm.visual_p95;
 
     const pulse =
         (
             Math.sin(
                 visualTimestamp
                 * (
-                    0.0019
+                    0.0018
                     + visualEnergy
-                    * 0.0012
+                    * 0.0011
                 )
             )
             + 1
@@ -3433,16 +4359,23 @@ function drawMovementField() {
         / 2;
 
     const particleThreshold =
-        0.72
-        - visualEnergy
-        * 0.20;
+        selectedOnly
+
+        ? 0.35
+
+        : 0.72
+            - visualEnergy
+            * 0.18;
+
+    let selectedCounter =
+        0;
 
     resetCanvasTransform();
 
     for (
         let index = 0;
         index < segments.length;
-        index += stride
+        index++
     ) {
 
         const segment =
@@ -3451,12 +4384,40 @@ function drawMovementField() {
             ];
 
         if (
-            selectedTrack
-            && segment.id
-            !== selectedTrack.id
+            selectedOnly
         ) {
 
-            continue;
+            if (
+                segment.id
+                !== selectedTrack.id
+            ) {
+
+                continue;
+            }
+
+            if (
+                selectedCounter
+                % stride
+                !== 0
+            ) {
+
+                selectedCounter++;
+
+                continue;
+            }
+
+            selectedCounter++;
+
+        } else {
+
+            if (
+                index
+                % stride
+                !== 0
+            ) {
+
+                continue;
+            }
         }
 
         const start =
@@ -3490,45 +4451,72 @@ function drawMovementField() {
                 1
             );
 
-        let alpha =
-            0.045
-            + strength
-            * (
-                0.22
-                + visualEnergy
-                * 0.26
-            );
+        let alpha;
 
         if (
-            temporaryStoryTrack
-            && segment.id
-            === temporaryStoryTrack.id
+            selectedOnly
         ) {
 
-            alpha +=
-                0.20
-                * storyFocus;
+            alpha =
+                (
+                    0.18
+                    + strength
+                    * 0.62
+                )
+                * hourWeight;
+
+        } else {
+
+            alpha =
+                (
+                    0.04
+                    + strength
+                    * (
+                        0.20
+                        + visualEnergy
+                        * 0.25
+                    )
+                )
+                * hourWeight;
         }
 
         ctx.strokeStyle =
-            `rgba(
+            selectedOnly
+
+            ? `rgba(
+                121,
+                225,
+                211,
+                ${Math.min(
+                    alpha,
+                    0.95
+                )}
+            )`
+
+            : `rgba(
                 71,
                 205,
                 187,
                 ${Math.min(
                     alpha,
-                    0.88
+                    0.85
                 )}
             )`;
 
         ctx.lineWidth =
-            0.30
-            + strength
-            * (
-                0.65
-                + visualEnergy
-                * 0.46
-            );
+            selectedOnly
+
+            ? 0.65
+                + strength
+                * 1.35
+
+            : 0.28
+                + strength
+                * (
+                    0.62
+                    + visualEnergy
+                    * 0.42
+                );
 
         ctx.beginPath();
 
@@ -3553,13 +4541,17 @@ function drawMovementField() {
                 (
                     visualTimestamp
                     * (
-                        0.00015
-                        + visualEnergy
-                        * 0.00009
+                        selectedOnly
+
+                        ? 0.00028
+
+                        : 0.00015
+                            + visualEnergy
+                            * 0.00008
                     )
 
                     + index
-                    * 0.067
+                    * 0.061
                 )
                 % 1;
 
@@ -3579,26 +4571,33 @@ function drawMovementField() {
                 )
                 * position;
 
-            let particleAlpha =
-                (
-                    0.06
-                    + pulse
-                    * 0.22
-                )
-                * (
-                    0.45
-                    + visualEnergy
-                );
+            let particleAlpha;
 
             if (
-                temporaryStoryTrack
-                && segment.id
-                === temporaryStoryTrack.id
+                selectedOnly
             ) {
 
-                particleAlpha +=
-                    0.22
-                    * storyFocus;
+                particleAlpha =
+                    (
+                        0.28
+                        + pulse
+                        * 0.48
+                    )
+                    * hourWeight;
+
+            } else {
+
+                particleAlpha =
+                    (
+                        0.05
+                        + pulse
+                        * 0.20
+                    )
+                    * (
+                        0.45
+                        + visualEnergy
+                    )
+                    * hourWeight;
             }
 
             ctx.fillStyle =
@@ -3608,7 +4607,7 @@ function drawMovementField() {
                     211,
                     ${Math.min(
                         particleAlpha,
-                        0.88
+                        0.95
                     )}
                 )`;
 
@@ -3620,13 +4619,19 @@ function drawMovementField() {
 
                 particleY,
 
-                0.55
-                + strength
-                * (
-                    0.8
-                    + visualEnergy
-                    * 0.42
-                ),
+                selectedOnly
+
+                ? 1
+                    + strength
+                    * 1.35
+
+                : 0.5
+                    + strength
+                    * (
+                        0.75
+                        + visualEnergy
+                        * 0.38
+                    ),
 
                 0,
 
@@ -3637,6 +4642,41 @@ function drawMovementField() {
             ctx.fill();
         }
     }
+}
+
+
+function drawMovementField() {
+
+    const time =
+        normaliseHour(
+            currentTime
+        );
+
+    const hourA =
+        Math.floor(
+            time
+        );
+
+    const hourB =
+        (
+            hourA
+            + 1
+        )
+        % 24;
+
+    const fraction =
+        time
+        - hourA;
+
+    drawMovementHour(
+        hourA,
+        1 - fraction
+    );
+
+    drawMovementHour(
+        hourB,
+        fraction
+    );
 }
 
 
@@ -3689,14 +4729,16 @@ function drawFeaturedPulse() {
 
     const radius =
         temporaryStoryTrack
-        ? 14
+
+        ? 13
             + storyFocus
             * 10
             + pulse
-            * 7
-        : 10
+            * 6
+
+        : 9
             + pulse
-            * 6;
+            * 5;
 
     resetCanvasTransform();
 
@@ -3708,12 +4750,12 @@ function drawFeaturedPulse() {
             225,
             211,
             ${
-                0.05
+                0.04
                 + storyFocus
                 * (
-                    0.15
+                    0.14
                     + pulse
-                    * 0.16
+                    * 0.13
                 )
             }
         )`
@@ -3723,9 +4765,9 @@ function drawFeaturedPulse() {
             225,
             211,
             ${
-                0.03
+                0.025
                 + pulse
-                * 0.07
+                * 0.055
             }
         )`;
 
@@ -3748,7 +4790,7 @@ function drawFeaturedPulse() {
 
 
 /* =========================================================
-   DRAW
+   DRAW MAIN WORLD
 ========================================================= */
 
 function draw() {
@@ -3765,6 +4807,9 @@ function draw() {
     updateVisualEnergy();
 
     drawBackground();
+
+    drawGeoGrid();
+
 
     for (
         const track
@@ -3792,6 +4837,7 @@ function draw() {
         let style =
             "background";
 
+
         if (
             temporaryStoryTrack
             && temporaryStoryTrack.id
@@ -3812,15 +4858,29 @@ function draw() {
                 "featured";
         }
 
+
         drawTrack(
             track,
             style
         );
     }
 
+
+    if (
+        selectedTrack
+    ) {
+
+        drawTrack(
+            selectedTrack,
+            "selected-footprint"
+        );
+    }
+
+
     drawMovementField();
 
     drawFeaturedPulse();
+
 
     if (
         hoveredTrack
@@ -3837,14 +4897,10 @@ function draw() {
         );
     }
 
+
     if (
         selectedTrack
     ) {
-
-        drawTrack(
-            selectedTrack,
-            "selected"
-        );
 
         updateEncounterPosition();
     }
@@ -3872,7 +4928,9 @@ function findTrackNearPointer(
     const thresholdPx =
         camera.scale
         < 1.25
+
         ? 8
+
         : 14;
 
     const thresholdWorld =
@@ -3888,6 +4946,7 @@ function findTrackNearPointer(
 
     let bestDistanceSquared =
         Infinity;
+
 
     for (
         const track
@@ -3906,6 +4965,7 @@ function findTrackNearPointer(
             continue;
         }
 
+
         for (
             const sample
             of cached.samples
@@ -3920,8 +4980,11 @@ function findTrackNearPointer(
                 - sample.y;
 
             const distanceSquared =
-                dx * dx
-                + dy * dy;
+                dx
+                * dx
+                + dy
+                * dy;
+
 
             if (
                 distanceSquared
@@ -3937,6 +5000,7 @@ function findTrackNearPointer(
         }
     }
 
+
     if (
         bestDistanceSquared
         <= thresholdSquared
@@ -3944,6 +5008,7 @@ function findTrackNearPointer(
 
         return bestTrack;
     }
+
 
     return null;
 }
@@ -3958,6 +5023,7 @@ function updateHover() {
     hoverFrameRequested =
         false;
 
+
     if (
         pointer.dragging
         || !experienceStarted
@@ -3967,14 +5033,17 @@ function updateHover() {
         return;
     }
 
+
     const track =
         findTrackNearPointer(
             pointer.x,
             pointer.y
         );
 
+
     hoveredTrack =
         track;
+
 
     if (
         track
@@ -3988,12 +5057,14 @@ function updateHover() {
         hoverMain.textContent =
             track.id;
 
+
         hoverLabel.style.left =
             (
                 pointer.x
                 + 15
             )
             + "px";
+
 
         hoverLabel.style.top =
             (
@@ -4002,8 +5073,10 @@ function updateHover() {
             )
             + "px";
 
+
         hoverLabel.style.display =
             "block";
+
 
         canvas.classList.add(
             "encounter-ready"
@@ -4013,6 +5086,7 @@ function updateHover() {
 
         hoverLabel.style.display =
             "none";
+
 
         canvas.classList.remove(
             "encounter-ready"
@@ -4030,8 +5104,10 @@ function requestHoverUpdate() {
         return;
     }
 
+
     hoverFrameRequested =
         true;
+
 
     requestAnimationFrame(
         updateHover
@@ -4040,7 +5116,7 @@ function requestHoverUpdate() {
 
 
 /* =========================================================
-   INDIVIDUAL COMPARISON
+   INDIVIDUAL DATA
 ========================================================= */
 
 function getCurrentComparison(
@@ -4049,6 +5125,7 @@ function getCurrentComparison(
 
     const hour =
         getHour();
+
 
     const individual =
         Number(
@@ -4062,6 +5139,7 @@ function getCurrentComparison(
                 ]
         );
 
+
     const collective =
         Number(
             rhythm
@@ -4071,6 +5149,7 @@ function getCurrentComparison(
                     )
                 ]
         );
+
 
     return {
 
@@ -4086,16 +5165,184 @@ function getCurrentComparison(
 
         percentage:
             collective > 0
+
             ? (
                 individual
                 - collective
             )
             / collective
             * 100
+
             : 0
     };
 }
 
+
+/* =========================================================
+   MOVEMENT SIGNATURE
+========================================================= */
+
+function getMovementSignature(
+    elephantId
+) {
+
+    const individual =
+        rhythm
+            .individual_hourly_medians[
+                elephantId
+            ];
+
+
+    if (
+        !individual
+    ) {
+
+        return null;
+    }
+
+
+    let peakHour =
+        null;
+
+    let peakValue =
+        -Infinity;
+
+
+    let quietHour =
+        null;
+
+    let quietValue =
+        Infinity;
+
+
+    let divergenceHour =
+        null;
+
+    let divergenceValue =
+        -Infinity;
+
+    let divergenceDirection =
+        0;
+
+
+    for (
+        let hour = 0;
+        hour < 24;
+        hour++
+    ) {
+
+        const individualValue =
+            Number(
+                individual[
+                    String(
+                        hour
+                    )
+                ]
+            );
+
+
+        const collectiveValue =
+            Number(
+                rhythm
+                    .hourly_medians[
+                        String(
+                            hour
+                        )
+                    ]
+            );
+
+
+        if (
+            !Number.isFinite(
+                individualValue
+            )
+        ) {
+
+            continue;
+        }
+
+
+        if (
+            individualValue
+            > peakValue
+        ) {
+
+            peakValue =
+                individualValue;
+
+            peakHour =
+                hour;
+        }
+
+
+        if (
+            individualValue
+            < quietValue
+        ) {
+
+            quietValue =
+                individualValue;
+
+            quietHour =
+                hour;
+        }
+
+
+        if (
+            Number.isFinite(
+                collectiveValue
+            )
+        ) {
+
+            const difference =
+                individualValue
+                - collectiveValue;
+
+
+            if (
+                Math.abs(
+                    difference
+                )
+                > divergenceValue
+            ) {
+
+                divergenceValue =
+                    Math.abs(
+                        difference
+                    );
+
+                divergenceHour =
+                    hour;
+
+                divergenceDirection =
+                    difference;
+            }
+        }
+    }
+
+
+    return {
+
+        peakHour,
+
+        peakValue,
+
+        quietHour,
+
+        quietValue,
+
+        divergenceHour,
+
+        divergenceValue,
+
+        divergenceDirection
+    };
+}
+
+
+/* =========================================================
+   INDIVIDUAL NARRATIVE
+========================================================= */
 
 function buildIndividualNarrative(
     elephantId
@@ -4106,6 +5353,7 @@ function buildIndividualNarrative(
             elephantId
         );
 
+
     if (
         !Number.isFinite(
             comparison.individual
@@ -4114,9 +5362,10 @@ function buildIndividualNarrative(
 
         return (
             "No valid movement step is available "
-            + "for this individual during this hourly bin."
+            + "for this elephant during the current hourly bin."
         );
     }
+
 
     const hour =
         String(
@@ -4127,55 +5376,749 @@ function buildIndividualNarrative(
         )
         + ":00";
 
+
     const difference =
         comparison.difference;
+
 
     const absoluteDifference =
         Math.abs(
             difference
         );
 
+
     if (
-        Math.abs(
-            difference
-        )
+        absoluteDifference
         < 0.001
     ) {
 
         return (
             "At <strong>"
             + hour
-            + "</strong>, this individual's median movement "
-            + "is almost identical to the collective median."
+            + "</strong>, this elephant's median movement "
+            + "is nearly identical to the collective median."
         );
     }
 
+
     const direction =
         difference > 0
-        ? "higher"
-        : "lower";
+
+        ? "above"
+
+        : "below";
+
 
     return (
         "At <strong>"
         + hour
-        + "</strong>, this individual's median movement is "
+        + "</strong>, its median ~30-minute displacement is "
         + "<strong>"
         + absoluteDifference.toFixed(
             3
         )
         + " km "
         + direction
-        + "</strong> than the herd median "
-        + "("
-        + Math.abs(
-            comparison.percentage
-        ).toFixed(
-            0
-        )
-        + "% "
-        + direction
-        + ")."
+        + "</strong> the herd median."
     );
+}
+
+
+/* =========================================================
+   MINI 24H RHYTHM
+========================================================= */
+
+function drawMiniRhythm(
+    elephantId
+) {
+
+    if (
+        !selectedTrack
+    ) {
+
+        return;
+    }
+
+
+    const rect =
+        rhythmMini
+            .getBoundingClientRect();
+
+
+    const dpr =
+        Math.min(
+            window.devicePixelRatio
+            || 1,
+            2
+        );
+
+
+    const width =
+        Math.max(
+            300,
+            rect.width
+        );
+
+
+    const height =
+        92;
+
+
+    rhythmMini.width =
+        Math.round(
+            width
+            * dpr
+        );
+
+
+    rhythmMini.height =
+        Math.round(
+            height
+            * dpr
+        );
+
+
+    rhythmCtx.setTransform(
+        dpr,
+        0,
+        0,
+        dpr,
+        0,
+        0
+    );
+
+
+    rhythmCtx.clearRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+
+    const individual =
+        rhythm
+            .individual_hourly_medians[
+                elephantId
+            ];
+
+
+    if (
+        !individual
+    ) {
+
+        return;
+    }
+
+
+    const individualValues =
+        [];
+
+
+    const collectiveValues =
+        [];
+
+
+    for (
+        let hour = 0;
+        hour < 24;
+        hour++
+    ) {
+
+        individualValues.push(
+            Number(
+                individual[
+                    String(
+                        hour
+                    )
+                ]
+            )
+        );
+
+
+        collectiveValues.push(
+            Number(
+                rhythm
+                    .hourly_medians[
+                        String(
+                            hour
+                        )
+                    ]
+            )
+        );
+    }
+
+
+    const validValues =
+        [
+            ...individualValues,
+            ...collectiveValues
+        ]
+        .filter(
+            Number.isFinite
+        );
+
+
+    if (
+        !validValues.length
+    ) {
+
+        return;
+    }
+
+
+    const maxValue =
+        Math.max(
+            ...validValues
+        )
+        * 1.10;
+
+
+    const padding = {
+
+        left:
+            5,
+
+        right:
+            5,
+
+        top:
+            7,
+
+        bottom:
+            18
+    };
+
+
+    const chartWidth =
+        width
+        - padding.left
+        - padding.right;
+
+
+    const chartHeight =
+        height
+        - padding.top
+        - padding.bottom;
+
+
+    function xForHour(
+        hour
+    ) {
+
+        return (
+            padding.left
+            + hour
+            / 23
+            * chartWidth
+        );
+    }
+
+
+    function yForValue(
+        value
+    ) {
+
+        return (
+            padding.top
+            + chartHeight
+            - value
+            / maxValue
+            * chartHeight
+        );
+    }
+
+
+    /* ---------------------------------------
+       BASELINES
+    --------------------------------------- */
+
+    rhythmCtx.strokeStyle =
+        "rgba(121,225,211,0.06)";
+
+
+    rhythmCtx.lineWidth =
+        1;
+
+
+    for (
+        const fraction
+        of [
+            0.33,
+            0.66
+        ]
+    ) {
+
+        const y =
+            padding.top
+            + chartHeight
+            * fraction;
+
+
+        rhythmCtx.beginPath();
+
+
+        rhythmCtx.moveTo(
+            padding.left,
+            y
+        );
+
+
+        rhythmCtx.lineTo(
+            width
+            - padding.right,
+            y
+        );
+
+
+        rhythmCtx.stroke();
+    }
+
+
+    /* ---------------------------------------
+       HERD LINE
+    --------------------------------------- */
+
+    rhythmCtx.strokeStyle =
+        "rgba(121,225,211,0.28)";
+
+
+    rhythmCtx.lineWidth =
+        1;
+
+
+    rhythmCtx.beginPath();
+
+
+    let herdStarted =
+        false;
+
+
+    for (
+        let hour = 0;
+        hour < 24;
+        hour++
+    ) {
+
+        const value =
+            collectiveValues[
+                hour
+            ];
+
+
+        if (
+            !Number.isFinite(
+                value
+            )
+        ) {
+
+            herdStarted =
+                false;
+
+            continue;
+        }
+
+
+        const x =
+            xForHour(
+                hour
+            );
+
+
+        const y =
+            yForValue(
+                value
+            );
+
+
+        if (
+            !herdStarted
+        ) {
+
+            rhythmCtx.moveTo(
+                x,
+                y
+            );
+
+            herdStarted =
+                true;
+
+        } else {
+
+            rhythmCtx.lineTo(
+                x,
+                y
+            );
+        }
+    }
+
+
+    rhythmCtx.stroke();
+
+
+    /* ---------------------------------------
+       INDIVIDUAL LINE
+    --------------------------------------- */
+
+    rhythmCtx.strokeStyle =
+        "rgba(121,225,211,0.92)";
+
+
+    rhythmCtx.lineWidth =
+        1.4;
+
+
+    rhythmCtx.beginPath();
+
+
+    let individualStarted =
+        false;
+
+
+    for (
+        let hour = 0;
+        hour < 24;
+        hour++
+    ) {
+
+        const value =
+            individualValues[
+                hour
+            ];
+
+
+        if (
+            !Number.isFinite(
+                value
+            )
+        ) {
+
+            individualStarted =
+                false;
+
+            continue;
+        }
+
+
+        const x =
+            xForHour(
+                hour
+            );
+
+
+        const y =
+            yForValue(
+                value
+            );
+
+
+        if (
+            !individualStarted
+        ) {
+
+            rhythmCtx.moveTo(
+                x,
+                y
+            );
+
+            individualStarted =
+                true;
+
+        } else {
+
+            rhythmCtx.lineTo(
+                x,
+                y
+            );
+        }
+    }
+
+
+    rhythmCtx.stroke();
+
+
+    /* ---------------------------------------
+       CURRENT HOUR MARKER
+    --------------------------------------- */
+
+    const displayTime =
+        normaliseHour(
+            currentTime
+        );
+
+
+    const currentX =
+        padding.left
+        + displayTime
+        / 23
+        * chartWidth;
+
+
+    rhythmCtx.strokeStyle =
+        "rgba(121,225,211,0.22)";
+
+
+    rhythmCtx.lineWidth =
+        1;
+
+
+    rhythmCtx.beginPath();
+
+
+    rhythmCtx.moveTo(
+        currentX,
+        padding.top
+    );
+
+
+    rhythmCtx.lineTo(
+        currentX,
+        padding.top
+        + chartHeight
+    );
+
+
+    rhythmCtx.stroke();
+
+
+    const currentHour =
+        getHour();
+
+
+    const individualCurrent =
+        individualValues[
+            currentHour
+        ];
+
+
+    const herdCurrent =
+        collectiveValues[
+            currentHour
+        ];
+
+
+    if (
+        Number.isFinite(
+            herdCurrent
+        )
+    ) {
+
+        rhythmCtx.fillStyle =
+            "rgba(121,225,211,0.38)";
+
+
+        rhythmCtx.beginPath();
+
+
+        rhythmCtx.arc(
+            currentX,
+            yForValue(
+                herdCurrent
+            ),
+            2,
+            0,
+            Math.PI
+            * 2
+        );
+
+
+        rhythmCtx.fill();
+    }
+
+
+    if (
+        Number.isFinite(
+            individualCurrent
+        )
+    ) {
+
+        rhythmCtx.fillStyle =
+            "rgba(121,225,211,1)";
+
+
+        rhythmCtx.beginPath();
+
+
+        rhythmCtx.arc(
+            currentX,
+            yForValue(
+                individualCurrent
+            ),
+            2.6,
+            0,
+            Math.PI
+            * 2
+        );
+
+
+        rhythmCtx.fill();
+    }
+
+
+    /* ---------------------------------------
+       TIME LABELS
+    --------------------------------------- */
+
+    rhythmCtx.fillStyle =
+        "rgba(116,130,124,0.58)";
+
+
+    rhythmCtx.font =
+        "6px monospace";
+
+
+    const labels =
+        [
+            0,
+            6,
+            12,
+            18,
+            23
+        ];
+
+
+    const labelNames =
+        [
+            "00",
+            "06",
+            "12",
+            "18",
+            "23"
+        ];
+
+
+    labels.forEach(
+        (
+            hour,
+            index
+        ) => {
+
+            const x =
+                xForHour(
+                    hour
+                );
+
+
+            rhythmCtx.fillText(
+                labelNames[
+                    index
+                ],
+
+                x - 4,
+
+                height - 4
+            );
+        }
+    );
+}
+
+
+/* =========================================================
+   UPDATE SIGNATURE
+========================================================= */
+
+function updateMovementSignature(
+    elephantId
+) {
+
+    const signature =
+        getMovementSignature(
+            elephantId
+        );
+
+
+    if (
+        !signature
+    ) {
+
+        return;
+    }
+
+
+    signaturePeak.textContent =
+        signature.peakHour !== null
+
+        ? String(
+            signature.peakHour
+        ).padStart(
+            2,
+            "0"
+        )
+        + ":00"
+
+        : "—";
+
+
+    signaturePeakSub.textContent =
+        Number.isFinite(
+            signature.peakValue
+        )
+
+        ? signature.peakValue.toFixed(
+            3
+        )
+        + " KM median"
+
+        : "highest median movement";
+
+
+    signatureQuiet.textContent =
+        signature.quietHour !== null
+
+        ? String(
+            signature.quietHour
+        ).padStart(
+            2,
+            "0"
+        )
+        + ":00"
+
+        : "—";
+
+
+    signatureDivergence.textContent =
+        signature.divergenceHour !== null
+
+        ? String(
+            signature.divergenceHour
+        ).padStart(
+            2,
+            "0"
+        )
+        + ":00"
+
+        : "—";
+
+
+    if (
+        Number.isFinite(
+            signature.divergenceValue
+        )
+    ) {
+
+        const direction =
+            signature.divergenceDirection
+            >= 0
+
+            ? "above"
+
+            : "below";
+
+
+        signatureDivergenceSub.textContent =
+            signature.divergenceValue
+                .toFixed(
+                    3
+                )
+            + " KM "
+            + direction
+            + " herd";
+
+    } else {
+
+        signatureDivergenceSub.textContent =
+            "strongest difference from herd";
+    }
 }
 
 
@@ -4194,33 +6137,40 @@ function enterEncounter(
         return;
     }
 
+
     selectedTrack =
         track;
+
 
     temporaryStoryTrack =
         null;
 
+
     targetStoryFocus =
         0;
+
 
     hoveredTrack =
         null;
 
+
     hoverLabel.style.display =
         "none";
+
 
     canvas.classList.remove(
         "encounter-ready"
     );
 
+
     modeText.textContent =
         "FOLLOWING / "
         + track.id;
 
+
     encounterName.textContent =
         track.id;
 
-    updateEncounterNarrative();
 
     encounterLayer
         .classList
@@ -4228,14 +6178,28 @@ function enterEncounter(
             "active"
         );
 
+
+    updateMovementSignature(
+        track.id
+    );
+
+
+    updateEncounterNarrative();
+
+
     focusCameraOnTrack(
-
         track,
+        1.68
+    );
 
-        Math.max(
-            1.70,
-            camera.scale
-        )
+
+    requestAnimationFrame(
+        () => {
+
+            drawMiniRhythm(
+                track.id
+            );
+        }
     );
 }
 
@@ -4245,28 +6209,25 @@ function exitEncounter() {
     selectedTrack =
         null;
 
+
     encounterLayer
         .classList
         .remove(
             "active"
         );
 
+
     modeText.textContent =
         "COLLECTIVE FIELD";
 
-    userCameraOverrideUntil =
-        0;
 
-    if (
-        currentChapter
-    ) {
-
-        setChapterCamera(
-            currentChapter
-        );
-    }
+    returnToHomeCamera();
 }
 
+
+/* =========================================================
+   UPDATE ENCOUNTER
+========================================================= */
 
 function updateEncounterNarrative() {
 
@@ -4278,46 +6239,150 @@ function updateEncounterNarrative() {
         return;
     }
 
+
     const comparison =
         getCurrentComparison(
             selectedTrack.id
         );
 
-    encounterMoment.textContent =
+
+    const currentHour =
+        comparison.hour;
+
+
+    const nextHour =
+        (
+            currentHour
+            + 1
+        )
+        % 24;
+
+
+    encounterMomentText.textContent =
         formatTime(
-            currentTime
+            getRoundedDisplayTime()
         )
         + " / "
         + currentChapter.phase;
+
+
+    encounterBin.textContent =
+        "BIN "
+        + String(
+            currentHour
+        ).padStart(
+            2,
+            "0"
+        )
+        + ":00–"
+        + String(
+            nextHour
+        ).padStart(
+            2,
+            "0"
+        )
+        + ":00";
+
 
     encounterNarrative.innerHTML =
         buildIndividualNarrative(
             selectedTrack.id
         );
 
+
     individualValue.textContent =
         Number.isFinite(
             comparison.individual
         )
+
         ? comparison.individual
             .toFixed(
                 3
             )
             + " KM"
+
         : "NO DATA";
+
 
     collectiveValue.textContent =
         Number.isFinite(
             comparison.collective
         )
+
         ? comparison.collective
             .toFixed(
                 3
             )
             + " KM"
+
         : "NO DATA";
+
+
+    differenceValue.classList.remove(
+        "positive",
+        "negative"
+    );
+
+
+    if (
+        Number.isFinite(
+            comparison.difference
+        )
+    ) {
+
+        const sign =
+            comparison.difference
+            > 0
+
+            ? "+"
+
+            : "";
+
+
+        differenceValue.textContent =
+            sign
+            + comparison.difference.toFixed(
+                3
+            )
+            + " KM";
+
+
+        if (
+            comparison.difference
+            >= 0
+        ) {
+
+            differenceValue
+                .classList
+                .add(
+                    "positive"
+                );
+
+        } else {
+
+            differenceValue
+                .classList
+                .add(
+                    "negative"
+                );
+        }
+
+    } else {
+
+        differenceValue.textContent =
+            "NO DATA";
+    }
+
+
+    drawMiniRhythm(
+        selectedTrack.id
+    );
 }
 
+
+/* =========================================================
+   POSITION DOSSIER
+========================================================= */
 
 function updateEncounterPosition() {
 
@@ -4328,10 +6393,12 @@ function updateEncounterPosition() {
         return;
     }
 
+
     const cached =
         geometry.get(
             selectedTrack.id
         );
+
 
     if (
         !cached
@@ -4340,68 +6407,78 @@ function updateEncounterPosition() {
         return;
     }
 
+
     const screen =
         worldToScreen(
             cached.centroid.x,
             cached.centroid.y
         );
 
+
     const cardWidth =
-        315;
+        390;
+
 
     const cardHeight =
-        250;
+        590;
+
 
     let left =
         screen.x
-        + 75;
+        + 80;
+
 
     let top =
         screen.y
-        - 120;
+        - 260;
+
 
     if (
         left
         + cardWidth
         > window.innerWidth
-        - 30
+        - 28
     ) {
 
         left =
             screen.x
             - cardWidth
-            - 75;
+            - 80;
     }
+
 
     left =
         Math.max(
-            30,
+            28,
 
             Math.min(
                 window.innerWidth
                 - cardWidth
-                - 30,
+                - 28,
 
                 left
             )
         );
 
+
     top =
         Math.max(
-            115,
+            76,
 
             Math.min(
                 window.innerHeight
                 - cardHeight
-                - 70,
+                - 50,
 
                 top
             )
         );
 
+
     encounterStory.style.left =
         left
         + "px";
+
 
     encounterStory.style.top =
         top
@@ -4422,13 +6499,16 @@ function updateHud() {
         return;
     }
 
+
     timeText.textContent =
         formatTime(
-            currentTime
+            getRoundedDisplayTime()
         );
+
 
     const chapter =
         getChapterFromTime();
+
 
     if (
         chapter.index
@@ -4440,6 +6520,7 @@ function updateHud() {
         );
     }
 
+
     if (
         selectedTrack
         && !transitionActive
@@ -4448,20 +6529,44 @@ function updateHud() {
         updateEncounterNarrative();
     }
 
+
+    let progressTime =
+        currentTime
+        - 2;
+
+
+    if (
+        progressTime < 0
+    ) {
+
+        progressTime +=
+            24;
+    }
+
+
     const percentage =
-        normaliseHour(
-            currentTime
-        )
-        / 24
-        * 100;
+        Math.max(
+            0,
+
+            Math.min(
+                100,
+
+                progressTime
+                / 22
+                * 100
+            )
+        );
+
 
     timelineProgress.style.width =
         percentage
         + "%";
 
+
     timelineMarker.style.left =
         percentage
         + "%";
+
 
     pauseBadge.classList.toggle(
         "show",
@@ -4481,8 +6586,10 @@ canvas.addEventListener(
         pointer.x =
             event.clientX;
 
+
         pointer.y =
             event.clientY;
+
 
         if (
             pointer.isDown
@@ -4492,17 +6599,21 @@ canvas.addEventListener(
                 event.clientX
                 - pointer.previousX;
 
+
             const dy =
                 event.clientY
                 - pointer.previousY;
+
 
             const totalDx =
                 event.clientX
                 - pointer.downX;
 
+
             const totalDy =
                 event.clientY
                 - pointer.downY;
+
 
             const moved =
                 Math.sqrt(
@@ -4512,6 +6623,7 @@ canvas.addEventListener(
                     * totalDy
                 );
 
+
             if (
                 moved > 4
             ) {
@@ -4519,10 +6631,12 @@ canvas.addEventListener(
                 pointer.dragging =
                     true;
 
+
                 canvas.classList.add(
                     "dragging"
                 );
             }
+
 
             if (
                 pointer.dragging
@@ -4531,28 +6645,31 @@ canvas.addEventListener(
                 camera.offsetX +=
                     dx;
 
+
                 camera.offsetY +=
                     dy;
+
 
                 camera.targetOffsetX =
                     camera.offsetX;
 
+
                 camera.targetOffsetY =
                     camera.offsetY;
-
-                userCameraOverrideUntil =
-                    Date.now()
-                    + 7000;
             }
+
 
             pointer.previousX =
                 event.clientX;
 
+
             pointer.previousY =
                 event.clientY;
 
+
             return;
         }
+
 
         requestHoverUpdate();
     }
@@ -4571,23 +6688,30 @@ canvas.addEventListener(
             return;
         }
 
+
         pointer.isDown =
             true;
+
 
         pointer.dragging =
             false;
 
+
         pointer.downX =
             event.clientX;
+
 
         pointer.downY =
             event.clientY;
 
+
         pointer.previousX =
             event.clientX;
 
+
         pointer.previousY =
             event.clientY;
+
 
         canvas.setPointerCapture(
             event.pointerId
@@ -4611,12 +6735,15 @@ canvas.addEventListener(
             return;
         }
 
+
         pointer.isDown =
             false;
+
 
         canvas.classList.remove(
             "dragging"
         );
+
 
         if (
             pointer.dragging
@@ -4625,16 +6752,20 @@ canvas.addEventListener(
             pointer.dragging =
                 false;
 
+
             requestHoverUpdate();
+
 
             return;
         }
+
 
         const clickedTrack =
             findTrackNearPointer(
                 event.clientX,
                 event.clientY
             );
+
 
         if (
             clickedTrack
@@ -4650,6 +6781,7 @@ canvas.addEventListener(
 
             exitEncounter();
         }
+
 
         requestHoverUpdate();
     }
@@ -4672,15 +6804,21 @@ canvas.addEventListener(
             return;
         }
 
+
         event.preventDefault();
+
 
         const oldScale =
             camera.scale;
 
+
         const factor =
             event.deltaY < 0
-            ? 1.12
-            : 1 / 1.12;
+
+            ? 1.11
+
+            : 1 / 1.11;
+
 
         const newScale =
             Math.max(
@@ -4693,25 +6831,31 @@ canvas.addEventListener(
                 )
             );
 
+
         const base =
             getBaseTransform();
+
 
         const relativeX =
             event.clientX
             - base.centerX
             - camera.offsetX;
 
+
         const relativeY =
             event.clientY
             - base.centerY
             - camera.offsetY;
 
+
         const ratio =
             newScale
             / oldScale;
 
+
         camera.scale =
             newScale;
+
 
         camera.offsetX -=
             relativeX
@@ -4719,36 +6863,38 @@ canvas.addEventListener(
                 ratio - 1
             );
 
+
         camera.offsetY -=
             relativeY
             * (
                 ratio - 1
             );
 
+
         camera.targetScale =
             camera.scale;
+
 
         camera.targetOffsetX =
             camera.offsetX;
 
+
         camera.targetOffsetY =
             camera.offsetY;
 
-        userCameraOverrideUntil =
-            Date.now()
-            + 7000;
 
         requestHoverUpdate();
 
     },
     {
-        passive: false
+        passive:
+            false
     }
 );
 
 
 /* =========================================================
-   KEYS
+   KEYBOARD
 ========================================================= */
 
 window.addEventListener(
@@ -4762,6 +6908,7 @@ window.addEventListener(
             return;
         }
 
+
         if (
             event.code
             === "Space"
@@ -4769,19 +6916,21 @@ window.addEventListener(
 
             event.preventDefault();
 
+
             playing =
                 !playing;
         }
+
 
         if (
             event.key
             === "Escape"
             && selectedTrack
-            && !transitionActive
         ) {
 
             exitEncounter();
         }
+
 
         if (
             event.key.toLowerCase()
@@ -4794,16 +6943,9 @@ window.addEventListener(
 
                 exitEncounter();
 
-            } else if (
-                currentChapter
-            ) {
+            } else {
 
-                userCameraOverrideUntil =
-                    0;
-
-                setChapterCamera(
-                    currentChapter
-                );
+                returnToHomeCamera();
             }
         }
     }
@@ -4822,25 +6964,57 @@ enterButton.addEventListener(
             "hidden"
         );
 
+
         experienceStarted =
             true;
+
 
         playing =
             true;
 
+
         currentTime =
             2;
+
 
         previousTime =
             2;
 
+
         previousChapterIndex =
             -1;
 
+
         firedStoryEvents.clear();
 
-        lastStepTimestamp =
-            performance.now();
+
+        previousAnimationTimestamp =
+            null;
+
+
+        camera.scale =
+            homeCamera.scale;
+
+
+        camera.offsetX =
+            homeCamera.offsetX;
+
+
+        camera.offsetY =
+            homeCamera.offsetY;
+
+
+        camera.targetScale =
+            homeCamera.scale;
+
+
+        camera.targetOffsetX =
+            homeCamera.offsetX;
+
+
+        camera.targetOffsetY =
+            homeCamera.offsetY;
+
 
         updateHud();
     }
@@ -4858,21 +7032,46 @@ function animate(
     visualTimestamp =
         timestamp;
 
+
+    if (
+        previousAnimationTimestamp
+        === null
+    ) {
+
+        previousAnimationTimestamp =
+            timestamp;
+    }
+
+
+    const deltaSeconds =
+        Math.min(
+            0.05,
+
+            (
+                timestamp
+                - previousAnimationTimestamp
+            )
+            / 1000
+        );
+
+
+    previousAnimationTimestamp =
+        timestamp;
+
+
     if (
         experienceStarted
         && playing
-        && (
-            timestamp
-            - lastStepTimestamp
-            >= STEP_DURATION
-        )
     ) {
 
         previousTime =
             currentTime;
 
+
         currentTime +=
-            TIME_STEP;
+            HOURS_PER_SECOND
+            * deltaSeconds;
+
 
         if (
             currentTime
@@ -4882,26 +7081,38 @@ function animate(
             currentTime =
                 2;
 
+
             previousTime =
                 2;
+
 
             previousChapterIndex =
                 -1;
 
+
             firedStoryEvents.clear();
+
 
             temporaryStoryTrack =
                 null;
 
+
             targetStoryFocus =
                 0;
+
+
+            if (
+                !selectedTrack
+            ) {
+
+                returnToHomeCamera();
+            }
         }
 
-        checkStoryEvents();
 
-        lastStepTimestamp =
-            timestamp;
+        checkStoryEvents();
     }
+
 
     if (
         experienceStarted
@@ -4910,7 +7121,9 @@ function animate(
         updateHud();
     }
 
+
     draw();
+
 
     requestAnimationFrame(
         animate
@@ -4931,6 +7144,7 @@ async function loadData() {
                 "out/interactive_tracks.json"
             );
 
+
         if (
             !response.ok
         ) {
@@ -4940,26 +7154,35 @@ async function loadData() {
             );
         }
 
+
         data =
             await response.json();
+
 
         tracks =
             data.individuals;
 
+
         bounds =
             data.bounds;
+
 
         rhythm =
             data.rhythm;
 
+
         resizeCanvas();
+
 
         buildGeometryCache();
 
+
         featuredTrack =
-            findChapterFeaturedTrack(
-                chapters[0]
+            findFeaturedTrack(
+                2,
+                24
             );
+
 
         requestAnimationFrame(
             animate
@@ -4973,12 +7196,16 @@ async function loadData() {
             error
         );
 
+
         resizeCanvas();
+
 
         resetCanvasTransform();
 
+
         ctx.fillStyle =
             "#040607";
+
 
         ctx.fillRect(
             0,
@@ -4987,11 +7214,14 @@ async function loadData() {
             window.innerHeight
         );
 
+
         ctx.fillStyle =
             "#e8eeeb";
 
+
         ctx.font =
             "15px monospace";
+
 
         ctx.fillText(
             "COULD NOT LOAD MOVEMENT DATA",
@@ -5008,7 +7238,20 @@ async function loadData() {
 
 window.addEventListener(
     "resize",
-    resizeCanvas
+    () => {
+
+        resizeCanvas();
+
+
+        if (
+            selectedTrack
+        ) {
+
+            drawMiniRhythm(
+                selectedTrack.id
+            );
+        }
+    }
 );
 
 
@@ -5017,4 +7260,5 @@ loadData();
 </script>
 
 </body>
+
 </html>
